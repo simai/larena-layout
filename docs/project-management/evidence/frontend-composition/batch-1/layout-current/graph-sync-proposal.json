@@ -1,0 +1,16 @@
+{
+  "schema": "larena.graph_sync_proposal.v1",
+  "package": "larena/layout",
+  "launch_record_ref": "specs/implementation-planning/launch-records/layout-batch-1-contract-skeletons-current.json",
+  "canonical_update_allowed": false,
+  "must_not_apply_automatically": true,
+  "status": "no_canonical_graph_change_requested",
+  "summary": "The batch implemented the planned interface-first contract skeleton. No canonical graph or package spec changes are requested.",
+  "accepted_updates": [],
+  "deferred_items": [
+    "Define descriptor storage and migration strategy before persistence.",
+    "Define layout editor UX and draft patch protocol before editor UI.",
+    "Define cache invalidation and asset-plan integration before resolved-plan runtime.",
+    "Define SitePack layout profile examples before import/export runtime."
+  ]
+}

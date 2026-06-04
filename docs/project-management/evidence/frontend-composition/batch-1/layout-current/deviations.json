@@ -1,0 +1,6 @@
+{
+  "schema": "larena.evidence_deviations.v1",
+  "package": "larena/layout",
+  "launch_record_ref": "specs/implementation-planning/launch-records/layout-batch-1-contract-skeletons-current.json",
+  "deviations": []
+}

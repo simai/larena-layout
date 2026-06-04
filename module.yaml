@@ -1,0 +1,22 @@
+package: larena/layout
+title: Larena Layout
+status: repository_prepared
+cluster: frontend-composition
+batch: batch-0-clean-pre-codegen-baseline
+features:
+  - layout.block_widget_composition
+  - layout.data_source_binding
+  - layout.draft_publish_versioning
+  - layout.layout_binding_inheritance
+  - layout.layout_descriptor
+  - layout.layout_editor_contract
+  - layout.layout_profiles
+  - layout.page_descriptor
+  - layout.resolved_layout_plan
+  - layout.section_composition
+  - layout.sitepack_layout_portability
+runtime:
+  php: "^8.3"
+  laravel: "^13.0"
+evidence:
+  path: docs/project-management/evidence/frontend-composition/batch-0/layout-clean-baseline/

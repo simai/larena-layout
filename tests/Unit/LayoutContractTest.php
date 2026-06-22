@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Larena\Layout\Contracts\DataSourceBinding;
+use Larena\Layout\Contracts\AdminSettingsDrivenLayoutPlan;
 use Larena\Layout\Contracts\LayoutBinding;
 use Larena\Layout\Contracts\LayoutDescriptor;
 use Larena\Layout\Contracts\LayoutDraft;
@@ -41,3 +42,26 @@ assert($source->isValid());
 
 $manifest = new SitePackLayoutManifest('layout.v1', ['site.default'], ['core.assets.public']);
 assert($manifest->isPortable());
+
+$settingsDrivenPlan = AdminSettingsDrivenLayoutPlan::fromSettingsReadModel(
+    [
+        'owner_package' => 'larena/setting',
+        'status' => 'available',
+        'field_count' => 5,
+        'settings_write_allowed' => false,
+        'database_write_allowed' => false,
+    ],
+    'larena.internal.package-owned-admin-frontend-read-only-route',
+    '/larena/internal/package-owned-admin-frontend/read-only-route',
+);
+
+assert($settingsDrivenPlan->isValid());
+assert($settingsDrivenPlan->page->pageKey === 'admin.settings_driven_read_only_route');
+assert($settingsDrivenPlan->layout->layoutKey === 'admin.settings_driven_shell');
+assert($settingsDrivenPlan->cacheKeyPayload['layout_source'] === 'settings_read_model');
+assert($settingsDrivenPlan->cacheKeyPayload['settings_owner_package'] === 'larena/setting');
+assert($settingsDrivenPlan->cacheKeyPayload['settings_available'] === true);
+assert($settingsDrivenPlan->cacheKeyPayload['write_actions_allowed'] === false);
+assert($settingsDrivenPlan->cacheKeyPayload['database_write_allowed'] === false);
+assert($settingsDrivenPlan->page->sections[2]->sectionKey === 'settings_content');
+assert($settingsDrivenPlan->page->sections[2]->params['settings_field_count'] === 5);

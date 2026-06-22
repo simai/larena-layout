@@ -60,6 +60,7 @@ if ($codingStarted) {
         $errors[] = 'coding_started requires the current layout batch 1 launch record.';
     }
     $requiredContractFiles = [
+        'src/Contracts/AdminSettingsDrivenLayoutPlan.php',
         'src/Contracts/BlockWidgetCall.php',
         'src/Contracts/DataSourceBinding.php',
         'src/Contracts/LayoutBinding.php',

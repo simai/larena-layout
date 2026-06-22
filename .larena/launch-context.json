@@ -43,6 +43,7 @@
     "scripts/lint.php",
     "scripts/test-placeholder.php",
     "scripts/validate-larena-package.php",
+    "src/Contracts/AdminSettingsDrivenLayoutPlan.php",
     "src/Contracts/BlockWidgetCall.php",
     "src/Contracts/DataSourceBinding.php",
     "src/Contracts/LayoutBinding.php",

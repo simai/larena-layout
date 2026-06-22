@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Larena\Layout\Contracts\DataSourceBinding;
+use Larena\Layout\Contracts\AdminSettingsDrivenLayoutPlan;
 use Larena\Layout\Contracts\LayoutBinding;
 use Larena\Layout\Contracts\LayoutDescriptor;
 use Larena\Layout\Contracts\LayoutDraft;
@@ -40,3 +41,21 @@ assert(!$unscopedDataSource->isValid());
 
 $phpManifest = new SitePackLayoutManifest('layout.v1', ['site.default'], [], true);
 assert(!$phpManifest->isPortable());
+
+$missingSettingsPlan = AdminSettingsDrivenLayoutPlan::fromSettingsReadModel(
+    [
+        'owner_package' => 'larena/setting',
+        'status' => 'unavailable_optional_package_boundary',
+        'field_count' => 0,
+        'settings_write_allowed' => false,
+        'database_write_allowed' => false,
+    ],
+    'larena.internal.package-owned-admin-frontend-read-only-route',
+    '/larena/internal/package-owned-admin-frontend/read-only-route',
+);
+
+assert($missingSettingsPlan->isValid());
+assert($missingSettingsPlan->cacheKeyPayload['settings_available'] === false);
+assert($missingSettingsPlan->cacheKeyPayload['settings_field_count'] === 0);
+assert($missingSettingsPlan->page->sections[2]->params['settings_available'] === false);
+assert($missingSettingsPlan->page->sections[2]->params['write_actions_allowed'] === false);

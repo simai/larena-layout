@@ -16,7 +16,8 @@
     "layout.resolved_layout_plan",
     "layout.layout_editor_contract",
     "layout.draft_publish_versioning",
-    "layout.sitepack_layout_portability"
+    "layout.sitepack_layout_portability",
+    "layout.in_memory_runtime.frontend_conveyor_demo"
   ],
   "allowed_files": [
     ".env.example",
@@ -57,11 +58,13 @@
     "src/Contracts/ResolvedLayoutPlan.php",
     "src/Contracts/SectionCall.php",
     "src/Contracts/SitePackLayoutManifest.php",
+    "src/Runtime/InMemoryLayoutRuntime.php",
     "src/Enums/LayoutBindingScope.php",
     "src/Enums/LayoutProfileCode.php",
     "src/Enums/LayoutVersionStatus.php",
     "tests/Unit/LayoutContractTest.php",
-    "tests/Unit/LayoutFailsClosedTest.php"
+    "tests/Unit/LayoutFailsClosedTest.php",
+    "tests/Unit/InMemoryLayoutRuntimeTest.php"
   ],
   "forbidden_files": [
     "config/*",

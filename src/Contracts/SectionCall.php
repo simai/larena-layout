@@ -13,12 +13,14 @@ final readonly class SectionCall
         public string $sectionKey,
         public string $regionKey,
         public array $params = [],
+        public ?string $instanceId = null,
     ) {
     }
 
     public function isValid(): bool
     {
         return LayoutDescriptor::isStableKey($this->sectionKey)
-            && LayoutDescriptor::isStableKey($this->regionKey);
+            && LayoutDescriptor::isStableKey($this->regionKey)
+            && ($this->instanceId === null || LayoutDescriptor::isStableKey($this->instanceId));
     }
 }

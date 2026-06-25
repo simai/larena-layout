@@ -17,7 +17,8 @@
     "layout.layout_editor_contract",
     "layout.draft_publish_versioning",
     "layout.sitepack_layout_portability",
-    "layout.in_memory_runtime.frontend_conveyor_demo"
+    "layout.in_memory_runtime.frontend_conveyor_demo",
+    "layout.in_memory_page_builder_runtime.audit_ready"
   ],
   "allowed_files": [
     ".env.example",
@@ -45,7 +46,10 @@
     "scripts/test-placeholder.php",
     "scripts/validate-larena-package.php",
     "src/Contracts/AdminSettingsDrivenLayoutPlan.php",
+    "src/Contracts/AtomicBlockPlacement.php",
     "src/Contracts/BlockWidgetCall.php",
+    "src/Contracts/ComposedSection.php",
+    "src/Contracts/ContentModel.php",
     "src/Contracts/DataSourceBinding.php",
     "src/Contracts/LayoutBinding.php",
     "src/Contracts/LayoutDescriptor.php",
@@ -54,17 +58,25 @@
     "src/Contracts/LayoutRegion.php",
     "src/Contracts/LayoutRuntime.php",
     "src/Contracts/LayoutVersion.php",
+    "src/Contracts/PageBuilderPreview.php",
     "src/Contracts/PageDescriptor.php",
     "src/Contracts/ResolvedLayoutPlan.php",
     "src/Contracts/SectionCall.php",
+    "src/Contracts/SectionDefinition.php",
+    "src/Contracts/SectionInstance.php",
     "src/Contracts/SitePackLayoutManifest.php",
+    "src/Runtime/AtomicBlockRenderer.php",
     "src/Runtime/InMemoryLayoutRuntime.php",
+    "src/Runtime/InMemoryDataRuntime.php",
+    "src/Runtime/InMemoryPageBuilderRuntime.php",
+    "src/Runtime/SectionComposer.php",
     "src/Enums/LayoutBindingScope.php",
     "src/Enums/LayoutProfileCode.php",
     "src/Enums/LayoutVersionStatus.php",
     "tests/Unit/LayoutContractTest.php",
     "tests/Unit/LayoutFailsClosedTest.php",
-    "tests/Unit/InMemoryLayoutRuntimeTest.php"
+    "tests/Unit/InMemoryLayoutRuntimeTest.php",
+    "tests/Unit/InMemoryPageBuilderRuntimeTest.php"
   ],
   "forbidden_files": [
     "config/*",

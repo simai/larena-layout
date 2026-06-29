@@ -9,12 +9,20 @@ final readonly class LayoutDescriptor
     /**
      * @param list<LayoutRegion> $regions
      * @param list<string> $assetRequirements
+     * @param array<string, mixed> $pageWrap
+     * @param array<string, mixed> $contentWrap
+     * @param array<string, mixed> $serviceAreas
+     * @param array<string, mixed> $breakpointPlacements
      */
     public function __construct(
         public string $layoutKey,
         public LayoutProfile $profile,
         public array $regions,
         public array $assetRequirements = [],
+        public array $pageWrap = [],
+        public array $contentWrap = [],
+        public array $serviceAreas = [],
+        public array $breakpointPlacements = [],
     ) {
     }
 

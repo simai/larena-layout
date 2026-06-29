@@ -8,6 +8,7 @@ final readonly class PageDescriptor
 {
     /**
      * @param list<SectionCall> $sections
+     * @param array<string, mixed> $regionContent
      */
     public function __construct(
         public string $pageKey,
@@ -15,6 +16,8 @@ final readonly class PageDescriptor
         public LayoutBinding $layoutBinding,
         public LayoutProfile $profile,
         public array $sections = [],
+        public string $title = '',
+        public array $regionContent = [],
     ) {
     }
 

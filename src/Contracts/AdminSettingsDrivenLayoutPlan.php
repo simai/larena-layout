@@ -44,8 +44,27 @@ final class AdminSettingsDrivenLayoutPlan
                 'ui.admin_shell.tokens',
                 'setting.admin_form.read_model',
             ],
+            ['token' => 'layout.page', 'variant' => 'admin_shell'],
+            ['token' => 'layout.content', 'variant' => 'workspace'],
+            [
+                'before_content' => ['region' => 'topbar', 'source' => 'service.before_content'],
+                'after_content' => ['region' => 'notifications', 'source' => 'service.after_content'],
+            ],
+            [
+                'desktop' => ['primary_region' => 'workspace', 'flow' => 'shell_grid'],
+                'tablet' => ['primary_region' => 'workspace', 'flow' => 'shell_stack'],
+                'mobile' => ['primary_region' => 'workspace', 'flow' => 'shell_stack'],
+            ],
         );
 
+        $regionContent = [
+            'topbar' => ['title' => 'Admin topbar', 'source' => 'content.topbar'],
+            'sidebar' => ['title' => 'Admin navigation', 'source' => 'content.sidebar'],
+            'workspace' => ['title' => 'Settings workspace', 'source' => 'content.workspace'],
+            'drawer' => ['title' => 'Context drawer', 'source' => 'content.drawer'],
+            'modal' => ['title' => 'Modal layer', 'source' => 'content.modal'],
+            'notifications' => ['title' => 'Notifications', 'source' => 'content.notifications'],
+        ];
         $page = new PageDescriptor(
             'admin.settings_driven_read_only_route',
             $routeKey,
@@ -82,7 +101,42 @@ final class AdminSettingsDrivenLayoutPlan
                     'database_write_allowed' => false,
                 ]),
             ],
+            'Package-Owned Admin Frontend Read-Only Route',
+            $regionContent,
         );
+        $pageJson = [
+            'owner_package' => 'larena/layout',
+            'route_key' => $routeKey,
+            'title' => $page->title,
+            'layout_key' => $layout->layoutKey,
+            'region_content' => $page->regionContent,
+            'sections' => array_map(static fn (SectionCall $section): array => [
+                'section_key' => $section->sectionKey,
+                'region_key' => $section->regionKey,
+                'instance_id' => $section->instanceId,
+                'params' => $section->params,
+            ], $page->sections),
+        ];
+        $layoutSettings = [
+            'owner_package' => 'larena/layout',
+            'layout_key' => $layout->layoutKey,
+            'page_wrap' => $layout->pageWrap,
+            'content_wrap' => $layout->contentWrap,
+            'service_areas' => $layout->serviceAreas,
+            'breakpoint_placements' => $layout->breakpointPlacements,
+        ];
+        $renderBlueprint = [
+            'owner_package' => 'larena/layout',
+            'source' => 'page_json_plus_layout_settings',
+            'route_key' => $routeKey,
+            'title' => $page->title,
+            'layout_key' => $layout->layoutKey,
+            'page_wrap' => $layout->pageWrap,
+            'content_wrap' => $layout->contentWrap,
+            'service_areas' => $layout->serviceAreas,
+            'breakpoint_placements' => $layout->breakpointPlacements,
+            'region_content' => $page->regionContent,
+        ];
 
         return new ResolvedLayoutPlan(
             $page,
@@ -90,6 +144,8 @@ final class AdminSettingsDrivenLayoutPlan
             [
                 'route:larena/admin',
                 'layout:larena/layout',
+                'page-json:admin.settings_driven_read_only_route',
+                'layout-settings:admin.settings_driven_shell',
                 'settings:' . $settingsOwner,
                 'ui:larena/ui',
                 'asset_activation:larena/core:core.assets',
@@ -102,9 +158,15 @@ final class AdminSettingsDrivenLayoutPlan
                 'settings_status' => $settingsStatus,
                 'settings_field_count' => $fieldCount,
                 'settings_available' => $settingsAvailable,
+                'page_json_hash' => hash('sha256', json_encode($pageJson, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)),
+                'layout_settings_hash' => hash('sha256', json_encode($layoutSettings, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)),
                 'write_actions_allowed' => false,
                 'database_write_allowed' => false,
             ],
+            false,
+            $pageJson,
+            $layoutSettings,
+            $renderBlueprint,
         );
     }
 }

@@ -76,7 +76,8 @@
     "tests/Unit/LayoutContractTest.php",
     "tests/Unit/LayoutFailsClosedTest.php",
     "tests/Unit/InMemoryLayoutRuntimeTest.php",
-    "tests/Unit/InMemoryPageBuilderRuntimeTest.php"
+    "tests/Unit/InMemoryPageBuilderRuntimeTest.php",
+    "scripts/run-unit-tests.php"
   ],
   "forbidden_files": [
     "config/*",

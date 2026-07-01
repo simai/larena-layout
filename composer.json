@@ -26,13 +26,13 @@
     "phpstan/phpstan": "^2.0"
   },
   "scripts": {
-    "test": "php -d zend.assertions=1 -d assert.exception=1 scripts/run-unit-tests.php",
-    "test:unit": "php -d zend.assertions=1 -d assert.exception=1 scripts/run-unit-tests.php",
-    "lint": "php scripts/lint.php",
-    "analyse": "php scripts/analyse.php",
-    "validate:larena": "php scripts/validate-larena-package.php",
-    "evidence:check": "php scripts/check-evidence.php",
-    "scope:check": "php tools/larena-scope-check.php",
+    "test": "@php -d zend.assertions=1 -d assert.exception=1 scripts/run-unit-tests.php",
+    "test:unit": "@php -d zend.assertions=1 -d assert.exception=1 scripts/run-unit-tests.php",
+    "lint": "@php scripts/lint.php",
+    "analyse": "@php scripts/analyse.php",
+    "validate:larena": "@php scripts/validate-larena-package.php",
+    "evidence:check": "@php scripts/check-evidence.php",
+    "scope:check": "@php tools/larena-scope-check.php",
     "quality:gate": [
       "@validate:larena",
       "@lint",

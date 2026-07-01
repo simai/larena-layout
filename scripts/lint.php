@@ -16,7 +16,7 @@ foreach (['src', 'scripts', 'tests', 'tools'] as $path) {
 }
 sort($files);
 foreach ($files as $file) {
-    passthru('php -l ' . escapeshellarg($file), $exitCode);
+    passthru(escapeshellarg(PHP_BINARY) . ' -l ' . escapeshellarg($file), $exitCode);
     if ($exitCode !== 0) {
         exit($exitCode);
     }

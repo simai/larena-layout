@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../tests/bootstrap.php';
 
 $tests = [
     __DIR__ . '/../tests/Unit/LayoutContractTest.php',

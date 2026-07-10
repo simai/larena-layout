@@ -1,6 +1,6 @@
 package: larena/layout
 title: Larena Layout
-status: repository_prepared
+status: developer_vertical_slice
 cluster: frontend-composition
 batch: batch-0-clean-pre-codegen-baseline
 features:

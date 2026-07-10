@@ -1,0 +1,1 @@
+{"schema":"larena.evidence.file_map.v1","contracts":["src/Contracts/PageBlockFieldDefinition.php","src/Contracts/PageBlockDefinition.php","src/Contracts/PageBlockInstance.php","src/Contracts/PageComposition.php"],"runtime":["src/Runtime/PageBlockCatalog.php","src/Runtime/PageCompositionNormalizer.php"],"tests":["tests/Unit/PageCompositionRuntimeTest.php"]}

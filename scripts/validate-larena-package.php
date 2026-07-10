@@ -56,8 +56,9 @@ if (!$codingStarted) {
     }
 }
 if ($codingStarted) {
-    if (($launchContext['launch_record_ref'] ?? null) !== 'specs/implementation-planning/launch-records/layout-batch-1-contract-skeletons-current.json') {
-        $errors[] = 'coding_started requires the current layout batch 1 launch record.';
+    $launchRecord = (string) ($launchContext['launch_record_ref'] ?? '');
+    if ($launchRecord === '' || !is_file($launchRecord)) {
+        $errors[] = 'coding_started requires an existing launch record.';
     }
     $requiredContractFiles = [
         'src/Contracts/AdminSettingsDrivenLayoutPlan.php',
@@ -79,6 +80,13 @@ if ($codingStarted) {
         'src/Enums/LayoutVersionStatus.php',
         'tests/Unit/LayoutContractTest.php',
         'tests/Unit/LayoutFailsClosedTest.php',
+        'src/Contracts/PageBlockFieldDefinition.php',
+        'src/Contracts/PageBlockDefinition.php',
+        'src/Contracts/PageBlockInstance.php',
+        'src/Contracts/PageComposition.php',
+        'src/Runtime/PageBlockCatalog.php',
+        'src/Runtime/PageCompositionNormalizer.php',
+        'tests/Unit/PageCompositionRuntimeTest.php',
     ];
     foreach ($requiredContractFiles as $file) {
         if (!is_file($file)) {

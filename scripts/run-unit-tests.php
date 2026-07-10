@@ -9,6 +9,7 @@ $tests = [
     __DIR__ . '/../tests/Unit/LayoutFailsClosedTest.php',
     __DIR__ . '/../tests/Unit/InMemoryLayoutRuntimeTest.php',
     __DIR__ . '/../tests/Unit/InMemoryPageBuilderRuntimeTest.php',
+    __DIR__ . '/../tests/Unit/PageCompositionRuntimeTest.php',
 ];
 
 foreach ($tests as $test) {

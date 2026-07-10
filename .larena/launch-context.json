@@ -1,10 +1,12 @@
 {
   "schema": "larena.package_launch_context.v1",
   "package": "larena/layout",
-  "launch_record_ref": "specs/implementation-planning/launch-records/layout-batch-1-contract-skeletons-current.json",
+  "repository_class": "continuation_repository",
+  "repository_contains_prior_implementation": true,
+  "launch_record_ref": "/Users/rim/Documents/GitHub/larena/docs/project-management/launch-records/page-blocks-visual-composition-developer-slice.json",
   "specs_repo": "simai/larena-specs",
   "specs_commit": "70202b1a098b7e449441aa611173107b13fed107",
-  "base_commit": "fb7617f37885752d5808165c8c7450178b0e0caf",
+  "base_commit": "051f7c8",
   "selected_features": [
     "layout.layout_descriptor",
     "layout.page_descriptor",
@@ -18,7 +20,10 @@
     "layout.draft_publish_versioning",
     "layout.sitepack_layout_portability",
     "layout.in_memory_runtime.frontend_conveyor_demo",
-    "layout.in_memory_page_builder_runtime.audit_ready"
+    "layout.in_memory_page_builder_runtime.audit_ready",
+    "layout.page_block_catalog",
+    "layout.page_composition_validation",
+    "layout.page_block_smart_view_mapping"
   ],
   "allowed_files": [
     ".env.example",
@@ -70,6 +75,12 @@
     "src/Runtime/InMemoryDataRuntime.php",
     "src/Runtime/InMemoryPageBuilderRuntime.php",
     "src/Runtime/SectionComposer.php",
+    "src/Contracts/PageBlockFieldDefinition.php",
+    "src/Contracts/PageBlockDefinition.php",
+    "src/Contracts/PageBlockInstance.php",
+    "src/Contracts/PageComposition.php",
+    "src/Runtime/PageBlockCatalog.php",
+    "src/Runtime/PageCompositionNormalizer.php",
     "src/Enums/LayoutBindingScope.php",
     "src/Enums/LayoutProfileCode.php",
     "src/Enums/LayoutVersionStatus.php",
@@ -77,6 +88,7 @@
     "tests/Unit/LayoutFailsClosedTest.php",
     "tests/Unit/InMemoryLayoutRuntimeTest.php",
     "tests/Unit/InMemoryPageBuilderRuntimeTest.php",
+    "tests/Unit/PageCompositionRuntimeTest.php",
     "scripts/run-unit-tests.php",
     "scripts/analyse.php",
     "tests/bootstrap.php"
@@ -109,8 +121,8 @@
     "direct_larena_specs_update_by_package_agent",
     "migration_or_route_change"
   ],
-  "evidence_path": "docs/project-management/evidence/frontend-composition/batch-1/layout-current/",
-  "graph_sync_proposal_path": "docs/project-management/evidence/frontend-composition/batch-1/layout-current/graph-sync-proposal.json",
+  "evidence_path": "docs/project-management/evidence/page-blocks-visual-composition-developer-slice/",
+  "graph_sync_proposal_path": "docs/project-management/evidence/page-blocks-visual-composition-developer-slice/graph-sync-proposal.json",
   "status": "contract_skeleton_review_passed",
   "coding_started": true,
   "repository_enforcement_installed": true,

@@ -15,6 +15,9 @@ features:
   - layout.resolved_layout_plan
   - layout.section_composition
   - layout.sitepack_layout_portability
+  - layout.page_block_catalog
+  - layout.page_composition_validation
+  - layout.page_block_smart_view_mapping
 runtime:
   php: "^8.3"
   laravel: "^13.0"

@@ -1,0 +1,1 @@
+{"schema":"larena.graph_sync_proposal.v1","package":"larena/layout","status":"proposal_only","capabilities":["layout.page_block_catalog","layout.page_composition_validation","layout.page_block_smart_view_mapping"],"canonical_update_allowed":false,"must_not_apply_automatically":true}

@@ -61,6 +61,10 @@ if ($codingStarted) {
         $errors[] = 'coding_started requires an existing launch record.';
     }
     $requiredContractFiles = [
+        'src/Contracts/AdminCollectionLayoutPlan.php',
+        'src/Contracts/AdminFormLayoutPlan.php',
+        'src/Contracts/AdminLayoutRecipe.php',
+        'src/Contracts/AdminLayoutRegion.php',
         'src/Contracts/AdminSettingsDrivenLayoutPlan.php',
         'src/Contracts/BlockWidgetCall.php',
         'src/Contracts/DataSourceBinding.php',
@@ -86,6 +90,8 @@ if ($codingStarted) {
         'src/Contracts/PageComposition.php',
         'src/Runtime/PageBlockCatalog.php',
         'src/Runtime/PageCompositionNormalizer.php',
+        'src/Runtime/AdminLayoutRecipeRegistry.php',
+        'tests/Unit/AdminLayoutRecipeTest.php',
         'tests/Unit/PageCompositionRuntimeTest.php',
     ];
     foreach ($requiredContractFiles as $file) {

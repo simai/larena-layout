@@ -1,9 +1,12 @@
 package: larena/layout
 title: Larena Layout
-status: developer_vertical_slice
+status: typed_admin_recipe_contract
 cluster: frontend-composition
-batch: batch-0-clean-pre-codegen-baseline
+batch: larena-smart-ui-foundation-v1-layout-recipes
 features:
+  - layout.admin_layout_recipe_contract
+  - layout.admin_collection_recipe
+  - layout.admin_form_recipe
   - layout.block_widget_composition
   - layout.data_source_binding
   - layout.draft_publish_versioning
@@ -22,4 +25,7 @@ runtime:
   php: "^8.3"
   laravel: "^13.0"
 evidence:
-  path: docs/project-management/evidence/frontend-composition/batch-0/layout-clean-baseline/
+  path: docs/project-management/evidence/larena-smart-ui-foundation-v1/
+  previous_paths:
+    - docs/project-management/evidence/frontend-composition/batch-0/layout-clean-baseline/
+    - docs/project-management/evidence/frontend-composition/batch-1/layout-current/

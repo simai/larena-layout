@@ -1,0 +1,18 @@
+{
+  "schema": "larena.graph_sync_proposal.v1",
+  "canonical_update_allowed": false,
+  "status": "proposal_pending_review",
+  "proposals": [
+    {
+      "type": "capability_evidence",
+      "package": "larena/layout",
+      "capabilities": [
+        "layout.admin_layout_recipe_contract",
+        "layout.admin_collection_recipe",
+        "layout.admin_form_recipe"
+      ],
+      "evidence": "Typed contracts and package tests implement fail-closed Admin region composition without renderer or data ownership.",
+      "apply": "owner_review_required"
+    }
+  ]
+}

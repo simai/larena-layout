@@ -3,10 +3,10 @@
   "package": "larena/layout",
   "repository_class": "continuation_repository",
   "repository_contains_prior_implementation": true,
-  "launch_record_ref": "/Users/rim/Documents/GitHub/larena/docs/project-management/launch-records/admin-ui-runtime-dataview-pages-users.json",
+  "launch_record_ref": "/Users/rim/Documents/GitHub/larena/docs/project-management/launch-records/larena-smart-ui-foundation-v1.json",
   "specs_repo": "simai/larena-specs",
-  "specs_commit": "70202b1a098b7e449441aa611173107b13fed107",
-  "base_commit": "051f7c8",
+  "specs_commit": "665f7d8bf5abcd13f06b852f0702e31582b8708e",
+  "base_commit": "c2f0056a4e4c27ca59b1db751d832830603c8427",
   "selected_features": [
     "layout.layout_descriptor",
     "layout.page_descriptor",
@@ -23,7 +23,10 @@
     "layout.in_memory_page_builder_runtime.audit_ready",
     "layout.page_block_catalog",
     "layout.page_composition_validation",
-    "layout.page_block_smart_view_mapping"
+    "layout.page_block_smart_view_mapping",
+    "layout.admin_layout_recipe_contract",
+    "layout.admin_collection_recipe",
+    "layout.admin_form_recipe"
   ],
   "allowed_files": [
     ".env.example",
@@ -52,6 +55,9 @@
     "scripts/validate-larena-package.php",
     "src/Contracts/AdminSettingsDrivenLayoutPlan.php",
     "src/Contracts/AdminCollectionLayoutPlan.php",
+    "src/Contracts/AdminFormLayoutPlan.php",
+    "src/Contracts/AdminLayoutRecipe.php",
+    "src/Contracts/AdminLayoutRegion.php",
     "src/Contracts/AtomicBlockPlacement.php",
     "src/Contracts/BlockWidgetCall.php",
     "src/Contracts/ComposedSection.php",
@@ -82,6 +88,7 @@
     "src/Contracts/PageComposition.php",
     "src/Runtime/PageBlockCatalog.php",
     "src/Runtime/PageCompositionNormalizer.php",
+    "src/Runtime/AdminLayoutRecipeRegistry.php",
     "src/Enums/LayoutBindingScope.php",
     "src/Enums/LayoutProfileCode.php",
     "src/Enums/LayoutVersionStatus.php",
@@ -90,6 +97,7 @@
     "tests/Unit/InMemoryLayoutRuntimeTest.php",
     "tests/Unit/InMemoryPageBuilderRuntimeTest.php",
     "tests/Unit/PageCompositionRuntimeTest.php",
+    "tests/Unit/AdminLayoutRecipeTest.php",
     "scripts/run-unit-tests.php",
     "scripts/analyse.php",
     "tests/bootstrap.php"
@@ -122,14 +130,16 @@
     "direct_larena_specs_update_by_package_agent",
     "migration_or_route_change"
   ],
-  "evidence_path": "docs/project-management/evidence/page-blocks-visual-composition-developer-slice/",
-  "graph_sync_proposal_path": "docs/project-management/evidence/page-blocks-visual-composition-developer-slice/graph-sync-proposal.json",
-  "status": "contract_skeleton_review_passed",
+  "evidence_path": "docs/project-management/evidence/larena-smart-ui-foundation-v1/",
+  "graph_sync_proposal_path": "docs/project-management/evidence/larena-smart-ui-foundation-v1/graph-sync-proposal.json",
+  "status": "coding_started",
+  "coding_allowed": true,
   "coding_started": true,
   "repository_enforcement_installed": true,
-  "review_completed": true,
-  "next_transition": "merge_to_main",
+  "review_completed": false,
+  "next_transition": "tests_recorded",
   "repository_reset_pre_codegen": true,
   "repository_created_locally": true,
-  "remote_push_status": "not_attempted_current_batch_github_cli_not_authenticated"
+  "remote_push_status": "not_attempted_current_batch",
+  "coding_branch": "codex/frontend-smart-ui-foundation"
 }

@@ -1,0 +1,17 @@
+{
+  "schema": "larena.evidence_file_map.v1",
+  "status": "implemented",
+  "files": {
+    ".larena/launch-context.json": "Goal-scoped launch, allowed files and evidence path.",
+    "src/Contracts/AdminLayoutRegion.php": "Typed region identity and cardinality contract.",
+    "src/Contracts/AdminLayoutRecipe.php": "Typed Admin recipe, assignment validation and deterministic projection.",
+    "src/Contracts/AdminCollectionLayoutPlan.php": "Backward-compatible collection plan generated from admin.collection.",
+    "src/Contracts/AdminFormLayoutPlan.php": "Form plan generated from admin.form.",
+    "src/Runtime/AdminLayoutRecipeRegistry.php": "Fail-closed default recipe registry.",
+    "tests/Unit/AdminLayoutRecipeTest.php": "Positive, compatibility and negative recipe evidence.",
+    "scripts/run-unit-tests.php": "Package suite includes Admin recipe tests.",
+    "scripts/validate-larena-package.php": "Recipe files are required by package validation.",
+    "README.md": "Developer contract and ownership boundary.",
+    "module.yaml": "Feature and evidence metadata."
+  }
+}

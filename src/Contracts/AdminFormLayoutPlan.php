@@ -6,7 +6,7 @@ namespace Larena\Layout\Contracts;
 
 use Larena\Layout\Enums\LayoutProfileCode;
 
-final readonly class AdminCollectionLayoutPlan
+final readonly class AdminFormLayoutPlan
 {
     /** @param list<LayoutRegion> $regions */
     public function __construct(public array $regions)
@@ -28,14 +28,14 @@ final readonly class AdminCollectionLayoutPlan
     public static function recipe(): AdminLayoutRecipe
     {
         return new AdminLayoutRecipe(
-            'admin.collection',
+            'admin.form',
             '1.0.0',
-            LayoutProfileCode::ListPage,
+            LayoutProfileCode::FormPage,
             [
                 new AdminLayoutRegion('heading', 1, 1),
-                new AdminLayoutRegion('toolbar', 0, 1),
-                new AdminLayoutRegion('content', 1, 1),
-                new AdminLayoutRegion('pagination', 0, 1),
+                new AdminLayoutRegion('notifications', 0, 4),
+                new AdminLayoutRegion('fields', 1, 64),
+                new AdminLayoutRegion('actions', 1, 4),
             ],
             true,
             true,
@@ -45,7 +45,8 @@ final readonly class AdminCollectionLayoutPlan
     public function isValid(): bool
     {
         $keys = array_map(static fn (LayoutRegion $region): string => $region->key, $this->regions);
+
         return count($keys) === count(array_unique($keys))
-            && $keys === ['heading', 'toolbar', 'content', 'pagination'];
+            && $keys === ['heading', 'notifications', 'fields', 'actions'];
     }
 }

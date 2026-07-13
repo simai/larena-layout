@@ -17,12 +17,28 @@ final readonly class AdminCollectionLayoutPlan
      */
     public static function frameworkUtilityClasses(): array
     {
+        return array_merge(...array_values(self::frameworkUtilityRegions()));
+    }
+
+    /**
+     * Utility placement is part of the recipe contract: collection utilities
+     * compose the outer layout, while overflow belongs to the content region
+     * that actually owns horizontal scrolling.
+     *
+     * @return array<string, array<string, list<string>>>
+     */
+    public static function frameworkUtilityRegions(): array
+    {
         return [
-            'utility.display' => ['flex'],
-            'utility.flex-direction' => ['flex-col'],
-            'utility.gap' => ['gap-1'],
-            'utility.overflow' => ['overflow-x-auto'],
-            'utility.width' => ['w-full'],
+            'collection' => [
+                'utility.display' => ['flex'],
+                'utility.flex-direction' => ['flex-col'],
+                'utility.gap' => ['gap-1'],
+            ],
+            'content' => [
+                'utility.overflow' => ['overflow-x-auto'],
+                'utility.width' => ['w-full'],
+            ],
         ];
     }
 

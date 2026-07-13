@@ -35,6 +35,17 @@ assert(AdminCollectionLayoutPlan::frameworkUtilityClasses() === [
     'utility.overflow' => ['overflow-x-auto'],
     'utility.width' => ['w-full'],
 ]);
+assert(AdminCollectionLayoutPlan::frameworkUtilityRegions() === [
+    'collection' => [
+        'utility.display' => ['flex'],
+        'utility.flex-direction' => ['flex-col'],
+        'utility.gap' => ['gap-1'],
+    ],
+    'content' => [
+        'utility.overflow' => ['overflow-x-auto'],
+        'utility.width' => ['w-full'],
+    ],
+]);
 assert($collection->validate());
 assert($collection->profile === LayoutProfileCode::ListPage);
 assert(array_map(static fn (AdminLayoutRegion $region): string => $region->key, $collection->regions) === [

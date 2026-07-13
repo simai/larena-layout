@@ -3,7 +3,9 @@
 The typed Admin recipe contract defines package-owned `admin.collection` and
 `admin.form` composition without taking ownership of UI components, rendering,
 records or effects. `admin.collection` preserves the existing heading, toolbar,
-content and pagination layout used by Pages and Users. `admin.form` adds bounded
+content and pagination layout used by Pages and Users and exposes the exact
+Simai Framework utility families/classes required by its content wrapper.
+`admin.form` adds bounded
 heading, notifications, fields and actions regions.
 
 Layout validates recipe identity, profile, named regions, invocation identity

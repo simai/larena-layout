@@ -28,6 +28,13 @@ $registry = AdminLayoutRecipeRegistry::withDefaults();
 assert(array_keys($registry->recipes()) === ['admin.collection', 'admin.form']);
 
 $collection = $registry->recipe('admin.collection');
+assert(AdminCollectionLayoutPlan::frameworkUtilityClasses() === [
+    'utility.display' => ['flex'],
+    'utility.flex-direction' => ['flex-col'],
+    'utility.gap' => ['gap-1'],
+    'utility.overflow' => ['overflow-x-auto'],
+    'utility.width' => ['w-full'],
+]);
 assert($collection->validate());
 assert($collection->profile === LayoutProfileCode::ListPage);
 assert(array_map(static fn (AdminLayoutRegion $region): string => $region->key, $collection->regions) === [

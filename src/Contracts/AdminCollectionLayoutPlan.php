@@ -8,6 +8,24 @@ use Larena\Layout\Enums\LayoutProfileCode;
 
 final readonly class AdminCollectionLayoutPlan
 {
+    /**
+     * Canonical Simai Framework utility families and classes used by the
+     * collection content region. Consumers must resolve these family IDs from
+     * the Framework Contract Registry before emitting the classes.
+     *
+     * @return array<string, list<string>>
+     */
+    public static function frameworkUtilityClasses(): array
+    {
+        return [
+            'utility.display' => ['flex'],
+            'utility.flex-direction' => ['flex-col'],
+            'utility.gap' => ['gap-1'],
+            'utility.overflow' => ['overflow-x-auto'],
+            'utility.width' => ['w-full'],
+        ];
+    }
+
     /** @param list<LayoutRegion> $regions */
     public function __construct(public array $regions)
     {

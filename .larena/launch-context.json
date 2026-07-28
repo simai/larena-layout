@@ -27,11 +27,10 @@
     "layout.admin_layout_recipe_contract",
     "layout.admin_collection_recipe",
     "layout.admin_form_recipe"
-    ,"layout.page_composition_v2"
+    ,"layout.page_composition"
     ,"layout.page_section_instance"
     ,"layout.typed_content_binding"
     ,"layout.logical_asset_reference"
-    ,"layout.page_composition_v1_compatibility"
   ],
   "allowed_files": [
     ".env.example",

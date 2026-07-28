@@ -19,13 +19,8 @@ final readonly class PageCompositionNormalizer
     {
     }
 
-    /**
-     * Compatibility entry point for the retired v1 flat block list.
-     * New callers must use normalizeDocument().
-     *
-     * @param array<int, mixed> $input
-     */
-    public function normalize(array $input): PageComposition
+    /** @param array<int, mixed> $input */
+    public function normalizeEditorBlocks(array $input): PageComposition
     {
         return $this->composition('docara.default', [[
             'section_id' => 'docara.main',
@@ -41,14 +36,7 @@ final readonly class PageCompositionNormalizer
     /** @param array<string, mixed> $document */
     public function normalizeDocument(array $document): PageComposition
     {
-        $schema = $document['schema'] ?? null;
-        if ($schema === PageComposition::SCHEMA_V1) {
-            if (!is_array($document['blocks'] ?? null)) {
-                throw new InvalidArgumentException('layout_page_composition_v1_blocks_invalid');
-            }
-            return $this->normalize($document['blocks']);
-        }
-        if ($schema !== PageComposition::SCHEMA_V2
+        if (($document['schema'] ?? null) !== PageComposition::SCHEMA
             || !is_array($document['sections'] ?? null)) {
             throw new InvalidArgumentException('layout_page_composition_schema_invalid');
         }
@@ -61,7 +49,7 @@ final readonly class PageCompositionNormalizer
     }
 
     /** @param array<int, mixed> $rawSections */
-    private function composition(string $layoutId, array $rawSections, bool $legacyBlocks): PageComposition
+    private function composition(string $layoutId, array $rawSections, bool $editorInput): PageComposition
     {
         if (!\Larena\Layout\Contracts\LayoutDescriptor::isStableKey($layoutId)) {
             throw new InvalidArgumentException('layout_page_composition_layout_id_invalid');
@@ -87,7 +75,7 @@ final readonly class PageCompositionNormalizer
             if (!is_array($rawBlocks)) {
                 throw new InvalidArgumentException('layout_page_section_blocks_invalid:' . $sectionIndex);
             }
-            $blocks = $this->blocks($rawBlocks, $blockIds, $legacyBlocks);
+            $blocks = $this->blocks($rawBlocks, $blockIds, $editorInput);
             $parameters = is_array($rawSection['parameters'] ?? null) ? $rawSection['parameters'] : [];
             $this->assertSafeValue($parameters, 'section.parameters');
             $sections[] = new PageSectionInstance(
@@ -114,7 +102,7 @@ final readonly class PageCompositionNormalizer
      * @param list<string> $documentBlockIds
      * @return list<PageBlockInstance>
      */
-    private function blocks(array $input, array &$documentBlockIds, bool $legacy): array
+    private function blocks(array $input, array &$documentBlockIds, bool $editorInput): array
     {
         if (count($input) > 30) {
             throw new InvalidArgumentException('layout_page_composition_too_many_blocks');
@@ -130,24 +118,24 @@ final readonly class PageCompositionNormalizer
                 throw new InvalidArgumentException('layout_page_block_invalid_or_duplicate_instance:' . $index);
             }
             $documentBlockIds[] = $instanceId;
-            $blockId = trim((string) ($raw[$legacy ? 'type' : 'block_id'] ?? ''));
+            $blockId = trim((string) ($raw[$editorInput ? 'type' : 'block_id'] ?? ''));
             $definition = $this->catalog->require($blockId);
-            $bindings = $legacy ? [] : $this->contentBindings($raw['content_bindings'] ?? []);
-            $assets = $legacy
+            $bindings = $editorInput ? [] : $this->contentBindings($raw['content_bindings'] ?? []);
+            $assets = $editorInput
                 ? []
                 : $this->assetRefs($raw['asset_refs'] ?? []);
-            $rawParameters = $raw[$legacy ? 'settings' : 'parameters'] ?? null;
+            $rawParameters = $raw[$editorInput ? 'settings' : 'parameters'] ?? null;
             $settings = $this->settings(
                 $definition,
                 is_array($rawParameters) ? $rawParameters : [],
-                $legacy,
+                $editorInput,
                 array_map(static fn (PageContentBinding $binding): string => $binding->bindingId, $bindings),
                 array_map(static fn (PageAssetReference $asset): string => $asset->role, $assets),
             );
-            if ($legacy) {
-                $assets = $this->legacyAssets($definition, $settings);
+            if ($editorInput) {
+                $assets = $this->editorAssets($definition, $settings);
             }
-            $smartView = $legacy ? $definition->smartView : trim((string) ($raw['smart_view'] ?? ''));
+            $smartView = $editorInput ? $definition->smartView : trim((string) ($raw['smart_view'] ?? ''));
             if ($smartView !== $definition->smartView) {
                 throw new InvalidArgumentException('layout_page_block_smart_view_mismatch:' . $instanceId);
             }
@@ -176,7 +164,7 @@ final readonly class PageCompositionNormalizer
     private function settings(
         PageBlockDefinition $definition,
         array $raw,
-        bool $legacy,
+        bool $editorInput,
         array $boundFields,
         array $assetRoles,
     ): array
@@ -185,7 +173,7 @@ final readonly class PageCompositionNormalizer
             static fn (PageBlockFieldDefinition $field): string => $field->key,
             array_values(array_filter(
                 $definition->fields,
-                static fn (PageBlockFieldDefinition $field): bool => $legacy || $field->storage === 'parameter',
+                static fn (PageBlockFieldDefinition $field): bool => $editorInput || $field->storage === 'parameter',
             )),
         );
         foreach (array_keys($raw) as $key) {
@@ -196,7 +184,7 @@ final readonly class PageCompositionNormalizer
 
         $settings = [];
         foreach ($definition->fields as $field) {
-            if (!$legacy && $field->storage !== 'parameter') {
+            if (!$editorInput && $field->storage !== 'parameter') {
                 $satisfied = $field->storage === 'content'
                     ? in_array($field->key, $boundFields, true)
                     : in_array($field->key, $assetRoles, true);
@@ -286,7 +274,7 @@ final readonly class PageCompositionNormalizer
     }
 
     /** @param array<string,mixed> $settings @return list<PageAssetReference> */
-    private function legacyAssets(PageBlockDefinition $definition, array $settings): array
+    private function editorAssets(PageBlockDefinition $definition, array $settings): array
     {
         $assets = [];
         foreach ($definition->fields as $field) {

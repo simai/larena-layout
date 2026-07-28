@@ -12,19 +12,19 @@ assert(array_map(static fn ($definition): string => $definition->key, $catalog->
 assert(count($catalog->editorSchema()) === 5);
 
 $normalizer = new PageCompositionNormalizer($catalog);
-$composition = $normalizer->normalize([
+$composition = $normalizer->normalizeEditorBlocks([
     ['instance_id' => 'block_cta_01', 'type' => 'cta', 'enabled' => '1', 'sort' => 500, 'settings' => ['title' => 'Act', 'body' => '', 'label' => 'Open', 'url' => '/open', 'style' => 'primary']],
     ['instance_id' => 'block_text_01', 'type' => 'text', 'enabled' => true, 'sort' => 100, 'settings' => ['heading' => 'Intro', 'body' => 'Body', 'alignment' => 'left']],
 ]);
 assert($composition->isValid());
 assert($composition->blocks[0]->type === 'text');
 assert($composition->blocks[1]->smartView === 'docara.cta');
-assert($composition->toArray()['schema'] === 'larena.layout.page_composition.v2');
+assert($composition->toArray()['schema'] === 'larena.layout.page_composition');
 assert($composition->layoutId === 'docara.default');
 assert($composition->sections[0]->sectionId === 'docara.main');
 
-$v2 = $normalizer->normalizeDocument([
-    'schema' => 'larena.layout.page_composition.v2',
+$document = $normalizer->normalizeDocument([
+    'schema' => 'larena.layout.page_composition',
     'layout_id' => 'docara.article',
     'sections' => [[
         'section_id' => 'docara.content',
@@ -63,23 +63,10 @@ $v2 = $normalizer->normalizeDocument([
         ]],
     ]],
 ]);
-assert($v2->isValid());
-assert($v2->toArray() === $normalizer->normalizeDocument($v2->toArray())->toArray());
-assert($v2->blocks[0]->contentBindings[0]->expectedRevision === 3);
-assert($v2->blocks[0]->assetRefs[0]->logicalRef === '550e8400-e29b-41d4-a716-446655440000');
-
-$convertedV1 = $normalizer->normalizeDocument([
-    'schema' => 'larena.layout.page_composition.v1',
-    'blocks' => [[
-        'instance_id' => 'block_text_v1',
-        'type' => 'text',
-        'enabled' => true,
-        'sort' => 100,
-        'settings' => ['heading' => 'Legacy', 'body' => 'Preserved text', 'alignment' => 'left'],
-    ]],
-]);
-assert($convertedV1->schema === 'larena.layout.page_composition.v2');
-assert($convertedV1->blocks[0]->settings['body'] === 'Preserved text');
+assert($document->isValid());
+assert($document->toArray() === $normalizer->normalizeDocument($document->toArray())->toArray());
+assert($document->blocks[0]->contentBindings[0]->expectedRevision === 3);
+assert($document->blocks[0]->assetRefs[0]->logicalRef === '550e8400-e29b-41d4-a716-446655440000');
 
 foreach ([
     [['instance_id' => 'block_1', 'type' => 'unknown', 'enabled' => true, 'settings' => []]],
@@ -91,18 +78,18 @@ foreach ([
     ],
 ] as $invalid) {
     try {
-        $normalizer->normalize($invalid);
+        $normalizer->normalizeEditorBlocks($invalid);
         throw new RuntimeException('Invalid composition was accepted.');
     } catch (InvalidArgumentException) {
     }
 }
 
 foreach ([
-    ['schema' => 'larena.layout.page_composition.v2', 'layout_id' => 'docara.article', 'sections' => [[
+    ['schema' => 'larena.layout.page_composition', 'layout_id' => 'docara.article', 'sections' => [[
         'section_id' => 'docara.content', 'instance_id' => 'section_content', 'region_id' => 'main', 'enabled' => true,
         'parameters' => ['html' => '<b>stored output</b>'], 'blocks' => [],
     ]]],
-    ['schema' => 'larena.layout.page_composition.v2', 'layout_id' => 'docara.article', 'sections' => [[
+    ['schema' => 'larena.layout.page_composition', 'layout_id' => 'docara.article', 'sections' => [[
         'section_id' => 'docara.content', 'instance_id' => 'section_content', 'region_id' => 'main', 'enabled' => true,
         'parameters' => [], 'blocks' => [[
             'block_id' => 'text', 'instance_id' => 'block_text_unsafe', 'enabled' => true, 'sort' => 100,
@@ -115,7 +102,7 @@ foreach ([
 ] as $invalidDocument) {
     try {
         $normalizer->normalizeDocument($invalidDocument);
-        throw new RuntimeException('Unsafe v2 document was accepted.');
+        throw new RuntimeException('Unsafe page composition was accepted.');
     } catch (InvalidArgumentException) {
     }
 }

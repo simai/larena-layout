@@ -6,8 +6,7 @@ namespace Larena\Layout\Contracts;
 
 final readonly class PageComposition
 {
-    public const SCHEMA_V1 = 'larena.layout.page_composition.v1';
-    public const SCHEMA_V2 = 'larena.layout.page_composition.v2';
+    public const SCHEMA = 'larena.layout.page_composition';
 
     /** @var list<PageBlockInstance> */
     public array $blocks;
@@ -16,7 +15,7 @@ final readonly class PageComposition
     public function __construct(
         public string $layoutId = 'docara.default',
         public array $sections = [],
-        public string $schema = self::SCHEMA_V2,
+        public string $schema = self::SCHEMA,
     ) {
         $blocks = [];
         foreach ($sections as $section) {
@@ -29,7 +28,7 @@ final readonly class PageComposition
 
     public function isValid(): bool
     {
-        if ($this->schema !== self::SCHEMA_V2
+        if ($this->schema !== self::SCHEMA
             || !LayoutDescriptor::isStableKey($this->layoutId)
             || count($this->sections) > 20
             || count($this->blocks) > 30) {

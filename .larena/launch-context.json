@@ -27,6 +27,11 @@
     "layout.admin_layout_recipe_contract",
     "layout.admin_collection_recipe",
     "layout.admin_form_recipe"
+    ,"layout.page_composition_v2"
+    ,"layout.page_section_instance"
+    ,"layout.typed_content_binding"
+    ,"layout.logical_asset_reference"
+    ,"layout.page_composition_v1_compatibility"
   ],
   "allowed_files": [
     ".env.example",
@@ -85,7 +90,10 @@
     "src/Contracts/PageBlockFieldDefinition.php",
     "src/Contracts/PageBlockDefinition.php",
     "src/Contracts/PageBlockInstance.php",
+    "src/Contracts/PageAssetReference.php",
     "src/Contracts/PageComposition.php",
+    "src/Contracts/PageContentBinding.php",
+    "src/Contracts/PageSectionInstance.php",
     "src/Runtime/PageBlockCatalog.php",
     "src/Runtime/PageCompositionNormalizer.php",
     "src/Runtime/AdminLayoutRecipeRegistry.php",
@@ -141,5 +149,5 @@
   "repository_reset_pre_codegen": true,
   "repository_created_locally": true,
   "remote_push_status": "not_attempted_current_batch",
-  "coding_branch": "codex/frontend-smart-ui-foundation"
+  "coding_branch": "main"
 }

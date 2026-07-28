@@ -6,31 +6,61 @@ namespace Larena\Layout\Contracts;
 
 final readonly class PageComposition
 {
-    /** @param list<PageBlockInstance> $blocks */
-    public function __construct(public array $blocks, public string $schema = 'larena.layout.page_composition.v1')
-    {
+    public const SCHEMA_V1 = 'larena.layout.page_composition.v1';
+    public const SCHEMA_V2 = 'larena.layout.page_composition.v2';
+
+    /** @var list<PageBlockInstance> */
+    public array $blocks;
+
+    /** @param list<PageSectionInstance> $sections */
+    public function __construct(
+        public string $layoutId = 'docara.default',
+        public array $sections = [],
+        public string $schema = self::SCHEMA_V2,
+    ) {
+        $blocks = [];
+        foreach ($sections as $section) {
+            foreach ($section->blocks as $block) {
+                $blocks[] = $block;
+            }
+        }
+        $this->blocks = $blocks;
     }
 
     public function isValid(): bool
     {
-        if ($this->schema !== 'larena.layout.page_composition.v1' || count($this->blocks) > 30) {
+        if ($this->schema !== self::SCHEMA_V2
+            || !LayoutDescriptor::isStableKey($this->layoutId)
+            || count($this->sections) > 20
+            || count($this->blocks) > 30) {
             return false;
         }
 
-        $ids = [];
-        foreach ($this->blocks as $block) {
-            if (!$block->isValid() || in_array($block->instanceId, $ids, true)) {
+        $sectionIds = [];
+        $blockIds = [];
+        foreach ($this->sections as $section) {
+            if (!$section->isValid() || in_array($section->instanceId, $sectionIds, true)) {
                 return false;
             }
-            $ids[] = $block->instanceId;
+            $sectionIds[] = $section->instanceId;
+            foreach ($section->blocks as $block) {
+                if (in_array($block->instanceId, $blockIds, true)) {
+                    return false;
+                }
+                $blockIds[] = $block->instanceId;
+            }
         }
 
         return true;
     }
 
-    /** @return array{schema:string,blocks:list<array<string,mixed>>} */
+    /** @return array{schema:string,layout_id:string,sections:list<array<string,mixed>>} */
     public function toArray(): array
     {
-        return ['schema' => $this->schema, 'blocks' => array_map(static fn (PageBlockInstance $block): array => $block->toArray(), $this->blocks)];
+        return [
+            'schema' => $this->schema,
+            'layout_id' => $this->layoutId,
+            'sections' => array_map(static fn (PageSectionInstance $section): array => $section->toArray(), $this->sections),
+        ];
     }
 }

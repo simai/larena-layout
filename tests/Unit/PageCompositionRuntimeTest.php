@@ -19,7 +19,60 @@ $composition = $normalizer->normalize([
 assert($composition->isValid());
 assert($composition->blocks[0]->type === 'text');
 assert($composition->blocks[1]->smartView === 'docara.cta');
-assert($composition->toArray()['schema'] === 'larena.layout.page_composition.v1');
+assert($composition->toArray()['schema'] === 'larena.layout.page_composition.v2');
+assert($composition->layoutId === 'docara.default');
+assert($composition->sections[0]->sectionId === 'docara.main');
+
+$v2 = $normalizer->normalizeDocument([
+    'schema' => 'larena.layout.page_composition.v2',
+    'layout_id' => 'docara.article',
+    'sections' => [[
+        'section_id' => 'docara.content',
+        'instance_id' => 'section_content',
+        'region_id' => 'main',
+        'sort' => 100,
+        'enabled' => true,
+        'parameters' => ['width' => 'wide'],
+        'blocks' => [[
+            'block_id' => 'image',
+            'instance_id' => 'block_image_01',
+            'enabled' => true,
+            'sort' => 100,
+            'parameters' => ['file_ref' => '550e8400-e29b-41d4-a716-446655440000', 'alt' => 'Safe image', 'caption' => ''],
+            'smart_view' => 'docara.image',
+            'content_bindings' => [[
+                'binding_id' => 'image.caption',
+                'content_type' => 'docara.page_block',
+                'content_ref' => 'content-image-01',
+                'field' => 'caption',
+                'value_type' => 'string',
+                'expected_revision' => 3,
+            ]],
+            'asset_refs' => [[
+                'asset_id' => 'image',
+                'logical_ref' => '550e8400-e29b-41d4-a716-446655440000',
+                'role' => 'file_ref',
+            ]],
+        ]],
+    ]],
+]);
+assert($v2->isValid());
+assert($v2->toArray() === $normalizer->normalizeDocument($v2->toArray())->toArray());
+assert($v2->blocks[0]->contentBindings[0]->expectedRevision === 3);
+assert($v2->blocks[0]->assetRefs[0]->logicalRef === '550e8400-e29b-41d4-a716-446655440000');
+
+$convertedV1 = $normalizer->normalizeDocument([
+    'schema' => 'larena.layout.page_composition.v1',
+    'blocks' => [[
+        'instance_id' => 'block_text_v1',
+        'type' => 'text',
+        'enabled' => true,
+        'sort' => 100,
+        'settings' => ['heading' => 'Legacy', 'body' => 'Preserved text', 'alignment' => 'left'],
+    ]],
+]);
+assert($convertedV1->schema === 'larena.layout.page_composition.v2');
+assert($convertedV1->blocks[0]->settings['body'] === 'Preserved text');
 
 foreach ([
     [['instance_id' => 'block_1', 'type' => 'unknown', 'enabled' => true, 'settings' => []]],
@@ -33,6 +86,27 @@ foreach ([
     try {
         $normalizer->normalize($invalid);
         throw new RuntimeException('Invalid composition was accepted.');
+    } catch (InvalidArgumentException) {
+    }
+}
+
+foreach ([
+    ['schema' => 'larena.layout.page_composition.v2', 'layout_id' => 'docara.article', 'sections' => [[
+        'section_id' => 'docara.content', 'instance_id' => 'section_content', 'region_id' => 'main', 'enabled' => true,
+        'parameters' => ['html' => '<b>stored output</b>'], 'blocks' => [],
+    ]]],
+    ['schema' => 'larena.layout.page_composition.v2', 'layout_id' => 'docara.article', 'sections' => [[
+        'section_id' => 'docara.content', 'instance_id' => 'section_content', 'region_id' => 'main', 'enabled' => true,
+        'parameters' => [], 'blocks' => [[
+            'block_id' => 'text', 'instance_id' => 'block_text_unsafe', 'enabled' => true, 'sort' => 100,
+            'parameters' => ['heading' => '', 'body' => '<script>alert(1)</script>', 'alignment' => 'left'],
+            'smart_view' => 'docara.text', 'content_bindings' => [], 'asset_refs' => [],
+        ]],
+    ]]],
+] as $invalidDocument) {
+    try {
+        $normalizer->normalizeDocument($invalidDocument);
+        throw new RuntimeException('Unsafe v2 document was accepted.');
     } catch (InvalidArgumentException) {
     }
 }

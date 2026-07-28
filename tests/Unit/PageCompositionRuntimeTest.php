@@ -38,10 +38,17 @@ $v2 = $normalizer->normalizeDocument([
             'instance_id' => 'block_image_01',
             'enabled' => true,
             'sort' => 100,
-            'parameters' => ['file_ref' => '550e8400-e29b-41d4-a716-446655440000', 'alt' => 'Safe image', 'caption' => ''],
+            'parameters' => [],
             'smart_view' => 'docara.image',
             'content_bindings' => [[
-                'binding_id' => 'image.caption',
+                'binding_id' => 'alt',
+                'content_type' => 'docara.page_block',
+                'content_ref' => 'content-image-01',
+                'field' => 'alt',
+                'value_type' => 'string',
+                'expected_revision' => 3,
+            ], [
+                'binding_id' => 'caption',
                 'content_type' => 'docara.page_block',
                 'content_ref' => 'content-image-01',
                 'field' => 'caption',
@@ -99,8 +106,10 @@ foreach ([
         'section_id' => 'docara.content', 'instance_id' => 'section_content', 'region_id' => 'main', 'enabled' => true,
         'parameters' => [], 'blocks' => [[
             'block_id' => 'text', 'instance_id' => 'block_text_unsafe', 'enabled' => true, 'sort' => 100,
-            'parameters' => ['heading' => '', 'body' => '<script>alert(1)</script>', 'alignment' => 'left'],
-            'smart_view' => 'docara.text', 'content_bindings' => [], 'asset_refs' => [],
+            'parameters' => ['html' => '<script>alert(1)</script>', 'alignment' => 'left'],
+            'smart_view' => 'docara.text', 'content_bindings' => [
+                ['binding_id' => 'body', 'content_type' => 'docara.page_block', 'content_ref' => 'unsafe', 'field' => 'body', 'value_type' => 'text', 'expected_revision' => 1],
+            ], 'asset_refs' => [],
         ]],
     ]]],
 ] as $invalidDocument) {

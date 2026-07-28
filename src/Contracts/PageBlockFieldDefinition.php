@@ -15,6 +15,7 @@ final readonly class PageBlockFieldDefinition
         public int $maxLength = 0,
         public array $options = [],
         public string $default = '',
+        public string $storage = 'content',
     ) {
     }
 
@@ -23,6 +24,7 @@ final readonly class PageBlockFieldDefinition
         if (!LayoutDescriptor::isStableKey($this->key)
             || trim($this->labelKey) === ''
             || !in_array($this->type, ['string', 'text', 'select', 'file', 'url'], true)
+            || !in_array($this->storage, ['content', 'parameter', 'asset'], true)
             || $this->maxLength < 0) {
             return false;
         }
@@ -31,6 +33,8 @@ final readonly class PageBlockFieldDefinition
             return false;
         }
 
-        return $this->type === 'select' || $this->options === [];
+        return ($this->type === 'select' || $this->options === [])
+            && ($this->storage !== 'asset' || $this->type === 'file')
+            && ($this->storage !== 'parameter' || $this->type === 'select');
     }
 }

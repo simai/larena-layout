@@ -132,12 +132,21 @@ final readonly class PageCompositionNormalizer
             $documentBlockIds[] = $instanceId;
             $blockId = trim((string) ($raw[$legacy ? 'type' : 'block_id'] ?? ''));
             $definition = $this->catalog->require($blockId);
-            $rawParameters = $raw[$legacy ? 'settings' : 'parameters'] ?? null;
-            $settings = $this->settings($definition, is_array($rawParameters) ? $rawParameters : []);
             $bindings = $legacy ? [] : $this->contentBindings($raw['content_bindings'] ?? []);
             $assets = $legacy
-                ? $this->legacyAssets($definition, $settings)
+                ? []
                 : $this->assetRefs($raw['asset_refs'] ?? []);
+            $rawParameters = $raw[$legacy ? 'settings' : 'parameters'] ?? null;
+            $settings = $this->settings(
+                $definition,
+                is_array($rawParameters) ? $rawParameters : [],
+                $legacy,
+                array_map(static fn (PageContentBinding $binding): string => $binding->bindingId, $bindings),
+                array_map(static fn (PageAssetReference $asset): string => $asset->role, $assets),
+            );
+            if ($legacy) {
+                $assets = $this->legacyAssets($definition, $settings);
+            }
             $smartView = $legacy ? $definition->smartView : trim((string) ($raw['smart_view'] ?? ''));
             if ($smartView !== $definition->smartView) {
                 throw new InvalidArgumentException('layout_page_block_smart_view_mismatch:' . $instanceId);
@@ -158,10 +167,27 @@ final readonly class PageCompositionNormalizer
         return $blocks;
     }
 
-    /** @param array<string,mixed> $raw @return array<string,mixed> */
-    private function settings(PageBlockDefinition $definition, array $raw): array
+    /**
+     * @param array<string,mixed> $raw
+     * @param list<string> $boundFields
+     * @param list<string> $assetRoles
+     * @return array<string,mixed>
+     */
+    private function settings(
+        PageBlockDefinition $definition,
+        array $raw,
+        bool $legacy,
+        array $boundFields,
+        array $assetRoles,
+    ): array
     {
-        $allowed = array_map(static fn (PageBlockFieldDefinition $field): string => $field->key, $definition->fields);
+        $allowed = array_map(
+            static fn (PageBlockFieldDefinition $field): string => $field->key,
+            array_values(array_filter(
+                $definition->fields,
+                static fn (PageBlockFieldDefinition $field): bool => $legacy || $field->storage === 'parameter',
+            )),
+        );
         foreach (array_keys($raw) as $key) {
             if (!in_array($key, $allowed, true)) {
                 throw new InvalidArgumentException('layout_page_block_unknown_setting:' . (string) $key);
@@ -170,6 +196,15 @@ final readonly class PageCompositionNormalizer
 
         $settings = [];
         foreach ($definition->fields as $field) {
+            if (!$legacy && $field->storage !== 'parameter') {
+                $satisfied = $field->storage === 'content'
+                    ? in_array($field->key, $boundFields, true)
+                    : in_array($field->key, $assetRoles, true);
+                if ($field->required && !$satisfied) {
+                    throw new InvalidArgumentException('layout_page_block_required_reference:' . $field->key);
+                }
+                continue;
+            }
             $value = trim((string) ($raw[$field->key] ?? $field->default));
             if ($field->required && $value === '') {
                 throw new InvalidArgumentException('layout_page_block_required_setting:' . $field->key);
@@ -187,7 +222,9 @@ final readonly class PageCompositionNormalizer
         }
 
         foreach ($definition->pairedFields as [$left, $right]) {
-            if (($settings[$left] === '') !== ($settings[$right] === '')) {
+            $leftPresent = ($settings[$left] ?? '') !== '' || in_array($left, $boundFields, true);
+            $rightPresent = ($settings[$right] ?? '') !== '' || in_array($right, $boundFields, true);
+            if ($leftPresent !== $rightPresent) {
                 throw new InvalidArgumentException('layout_page_block_paired_settings:' . $left . ':' . $right);
             }
         }

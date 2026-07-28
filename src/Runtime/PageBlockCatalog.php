@@ -50,6 +50,7 @@ final class PageBlockCatalog
                 'max_length' => $field->maxLength,
                 'options' => $field->options,
                 'default' => $field->default,
+                'storage' => $field->storage,
             ], $definition->fields),
         ], $this->all());
     }
@@ -61,10 +62,10 @@ final class PageBlockCatalog
             new PageBlockDefinition('text', 'blocks.types.text', 'docara.text', [
                 new PageBlockFieldDefinition('heading', 'blocks.fields.heading', 'string', false, 160),
                 new PageBlockFieldDefinition('body', 'blocks.fields.body', 'text', true, 12000),
-                new PageBlockFieldDefinition('alignment', 'blocks.fields.alignment', 'select', true, 0, ['left', 'center'], 'left'),
+                new PageBlockFieldDefinition('alignment', 'blocks.fields.alignment', 'select', true, 0, ['left', 'center'], 'left', 'parameter'),
             ]),
             new PageBlockDefinition('image', 'blocks.types.image', 'docara.image', [
-                new PageBlockFieldDefinition('file_ref', 'blocks.fields.image', 'file', true, 100),
+                new PageBlockFieldDefinition('file_ref', 'blocks.fields.image', 'file', true, 100, [], '', 'asset'),
                 new PageBlockFieldDefinition('alt', 'blocks.fields.alt', 'string', true, 255),
                 new PageBlockFieldDefinition('caption', 'blocks.fields.caption', 'string', false, 500),
             ]),
@@ -72,10 +73,10 @@ final class PageBlockCatalog
                 new PageBlockFieldDefinition('eyebrow', 'blocks.fields.eyebrow', 'string', false, 120),
                 new PageBlockFieldDefinition('title', 'blocks.fields.title', 'string', true, 220),
                 new PageBlockFieldDefinition('body', 'blocks.fields.body', 'text', false, 3000),
-                new PageBlockFieldDefinition('image_file_ref', 'blocks.fields.image', 'file', false, 100),
+                new PageBlockFieldDefinition('image_file_ref', 'blocks.fields.image', 'file', false, 100, [], '', 'asset'),
                 new PageBlockFieldDefinition('cta_label', 'blocks.fields.cta_label', 'string', false, 120),
                 new PageBlockFieldDefinition('cta_url', 'blocks.fields.cta_url', 'url', false, 500),
-                new PageBlockFieldDefinition('style', 'blocks.fields.style', 'select', true, 0, ['default', 'accent'], 'default'),
+                new PageBlockFieldDefinition('style', 'blocks.fields.style', 'select', true, 0, ['default', 'accent'], 'default', 'parameter'),
             ], [['cta_label', 'cta_url']]),
             new PageBlockDefinition('columns', 'blocks.types.columns', 'docara.columns', [
                 new PageBlockFieldDefinition('left_title', 'blocks.fields.left_title', 'string', false, 160),
@@ -88,7 +89,7 @@ final class PageBlockCatalog
                 new PageBlockFieldDefinition('body', 'blocks.fields.body', 'text', false, 2000),
                 new PageBlockFieldDefinition('label', 'blocks.fields.cta_label', 'string', true, 120),
                 new PageBlockFieldDefinition('url', 'blocks.fields.cta_url', 'url', true, 500),
-                new PageBlockFieldDefinition('style', 'blocks.fields.style', 'select', true, 0, ['primary', 'secondary'], 'primary'),
+                new PageBlockFieldDefinition('style', 'blocks.fields.style', 'select', true, 0, ['primary', 'secondary'], 'primary', 'parameter'),
             ]),
         ];
     }

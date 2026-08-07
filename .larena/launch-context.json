@@ -127,7 +127,11 @@
     "tests/Integration/*",
     "tests/Integration/PageDescriptorPersistenceTest.php",
     "docs/project-management/launch-records/g-storage-page-foundation-layout.json",
-    "docs/project-management/evidence/g-storage-page-foundation/layout/*"
+    "docs/project-management/evidence/g-storage-page-foundation/layout/*",
+    "docs/project-management/evidence/g-storage-page-foundation/layout/README.md",
+    "docs/project-management/evidence/g-storage-page-foundation/layout/verification.json",
+    "docs/project-management/evidence/g-storage-page-foundation/layout/file-map.json",
+    "docs/project-management/evidence/g-storage-page-foundation/layout/graph-sync-proposal.json"
   ],
   "forbidden_files": [
     "config/*",
@@ -175,7 +179,7 @@
     "selected_features": ["layout.persistent_page_descriptor", "layout.typed_binding_resolution"],
     "evidence_path": "docs/project-management/evidence/g-storage-page-foundation/layout/",
     "action_gate": {"status": "success", "evidence_ref": "source/output/action-gates/action-gate-report-20260807223945.json"},
-    "status": "coding_started",
+    "status": "tested_pending_independent_audit",
     "readiness_ceiling": "TESTED"
   }
 }

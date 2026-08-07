@@ -1,0 +1,16 @@
+{
+  "schema": "larena.package_launch_record.v1",
+  "goal_id": "G-STORAGE-PAGE-FOUNDATION-01",
+  "batch": "S-LAYOUT-01",
+  "package": "larena/layout",
+  "goal": "Own persistent declarative JSON page descriptors and bounded typed binding resolution without canonical HTML, executable code or physical paths.",
+  "base_revision": "d282c278f61af5e27decaf5c229a8bc0cae59756",
+  "branch": "codex/g-storage-page-layout",
+  "specs_revision": "97b91cecafa36343f11166afb9db7c7036dac803",
+  "allowed_files_ref": ".larena/launch-context.json#allowed_files",
+  "evidence_path": "docs/project-management/evidence/g-storage-page-foundation/layout/",
+  "action_gate": {"status": "success", "evidence_ref": "source/output/action-gates/action-gate-report-20260807223945.json"},
+  "readiness_ceiling": "TESTED",
+  "status": "coding_started",
+  "stop_conditions": ["Access Root Specs or another read-only owner change required", "canonical graph adoption required", "merge push deploy live runtime or user data required"]
+}

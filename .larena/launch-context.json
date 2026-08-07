@@ -4,6 +4,7 @@
   "repository_class": "continuation_repository",
   "repository_contains_prior_implementation": true,
   "launch_record_ref": "/Users/rim/Documents/GitHub/larena/docs/project-management/launch-records/larena-smart-ui-foundation-v1.json",
+  "active_goal_launch_ref": "docs/project-management/launch-records/g-storage-page-foundation-layout.json",
   "specs_repo": "simai/larena-specs",
   "specs_commit": "665f7d8bf5abcd13f06b852f0702e31582b8708e",
   "base_commit": "c2f0056a4e4c27ca59b1db751d832830603c8427",
@@ -31,6 +32,8 @@
     ,"layout.page_section_instance"
     ,"layout.typed_content_binding"
     ,"layout.logical_asset_reference"
+    ,"layout.persistent_page_descriptor"
+    ,"layout.typed_binding_resolution"
   ],
   "allowed_files": [
     ".env.example",
@@ -107,11 +110,20 @@
     "tests/Unit/AdminLayoutRecipeTest.php",
     "scripts/run-unit-tests.php",
     "scripts/analyse.php",
-    "tests/bootstrap.php"
+    "tests/bootstrap.php",
+    "database/migrations/*",
+    "src/Persistence/*",
+    "src/Exceptions/*",
+    "src/Runtime/PageDescriptorDocument.php",
+    "src/Runtime/PageProjectionResolver.php",
+    "src/Contracts/PageDescriptorStore.php",
+    "src/Contracts/PageBindingResolver.php",
+    "tests/Integration/*",
+    "docs/project-management/launch-records/g-storage-page-foundation-layout.json",
+    "docs/project-management/evidence/g-storage-page-foundation/layout/*"
   ],
   "forbidden_files": [
     "config/*",
-    "database/migrations/*",
     "routes/*",
     "resources/*",
     "src/Admin/*",
@@ -119,14 +131,12 @@
     "src/Editor/*",
     "src/Http/*",
     "src/ImportExport/*",
-    "src/Persistence/*",
     "src/Providers/ProductionLayoutServiceProvider.php",
     "src/Resolvers/ProductionLayoutResolver.php",
     "src/Renderers/ProductionRenderEngine.php"
   ],
   "forbidden_behavior": [
     "render_engine_implementation",
-    "descriptor_persistence",
     "layout_editor_ui_implementation",
     "route_or_controller_runtime",
     "cache_runtime_integration",
@@ -135,7 +145,7 @@
     "admin_screen_implementation",
     "production_layout_resolver_behavior",
     "direct_larena_specs_update_by_package_agent",
-    "migration_or_route_change"
+    "route_change"
   ],
   "evidence_path": "docs/project-management/evidence/larena-smart-ui-foundation-v1/",
   "graph_sync_proposal_path": "docs/project-management/evidence/larena-smart-ui-foundation-v1/graph-sync-proposal.json",
@@ -148,5 +158,17 @@
   "repository_reset_pre_codegen": true,
   "repository_created_locally": true,
   "remote_push_status": "not_attempted_current_batch",
-  "coding_branch": "main"
+  "coding_branch": "main",
+  "active_goal_launch": {
+    "goal_id": "G-STORAGE-PAGE-FOUNDATION-01",
+    "batch": "S-LAYOUT-01",
+    "branch": "codex/g-storage-page-layout",
+    "base_commit": "d282c278f61af5e27decaf5c229a8bc0cae59756",
+    "specs_commit": "97b91cecafa36343f11166afb9db7c7036dac803",
+    "selected_features": ["layout.persistent_page_descriptor", "layout.typed_binding_resolution"],
+    "evidence_path": "docs/project-management/evidence/g-storage-page-foundation/layout/",
+    "action_gate": {"status": "success", "evidence_ref": "source/output/action-gates/action-gate-report-20260807223945.json"},
+    "status": "coding_started",
+    "readiness_ceiling": "TESTED"
+  }
 }

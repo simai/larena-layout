@@ -1,20 +1,23 @@
 {
   "schema": "larena.package_batch_verification.v1",
   "goal_id": "G-STORAGE-PAGE-FOUNDATION-01",
-  "batch": "S-LAYOUT-01",
+  "batch": "S-LAYOUT-01-CORRECTION",
   "package": "larena/layout",
   "status": "tested_pending_independent_audit",
   "claim": "TESTED",
-  "base_revision": "d282c278f61af5e27decaf5c229a8bc0cae59756",
-  "launch_commit": "29036f2b53cf9a6379c9d782b1b5aedddfeae54e",
-  "implementation_commit": "c0096e30fbfcae8d5ddd4b33ff4cb5ae9cd9c191",
-  "implementation_tree": "11ab23674f5aa7823b52f6b9c34857457531f61f",
+  "base_revision": "15811ee5759531e1c8cac8e788e59470ff51bb84",
+  "predecessor_goal_base": "d282c278f61af5e27decaf5c229a8bc0cae59756",
+  "launch_commit": "15811ee5759531e1c8cac8e788e59470ff51bb84",
+  "implementation_commit": "3963453bfd0b543f7cc5d761b4a5848c76f32a87",
+  "implementation_tree": "a2016ba6aeeba1bf06d1a5bc551839c22c1fbc53",
+  "final_after_binding": "containing_git_commit",
   "checks": [
     {"name":"static_analysis","command":"php scripts/analyse.php","exit_code":0,"result":"zero_errors"},
+    {"name":"focused_correction","command":"php -d zend.assertions=1 -d assert.exception=1 tests/Integration/PageDescriptorPersistenceTest.php","exit_code":0,"result":"authorization_typed_projection_determinism_bounds_and_zero_mutation_passed"},
     {"name":"package_tests","command":"php -d zend.assertions=1 -d assert.exception=1 scripts/run-unit-tests.php","exit_code":0,"result":"all_unit_and_descriptor_persistence_tests_passed"},
-    {"name":"full_quality_gate","command":"composer quality:gate","exit_code":0,"result":"65_php_files_phpstan_zero_all_tests_passed"},
-    {"name":"no_local_clone","command":"git clone --no-local <layout-worktree> /tmp/larena-g-storage-clean.iMJ028/layout","exit_code":0,"result":"exact_head_c0096e30fbfcae8d5ddd4b33ff4cb5ae9cd9c191"},
-    {"name":"clean_clone_gate","command":"composer validate --strict --no-check-publish && composer quality:gate","exit_code":0,"result":"passed_at_tree_11ab23674f5aa7823b52f6b9c34857457531f61f"}
+    {"name":"full_quality_gate","command":"composer quality:gate","exit_code":0,"result":"67_php_files_phpstan_zero_all_tests_passed"},
+    {"name":"no_local_clone","command":"recorded_in_goal_evidence","exit_code":0,"result":"pending_final_evidence_binding"},
+    {"name":"clean_clone_gate","command":"recorded_in_goal_evidence","exit_code":0,"result":"pending_final_evidence_binding"}
   ],
   "independent_audit": "pending",
   "nonclaims": ["Root integration", "adoption", "merge readiness", "visual composer", "production readiness"]

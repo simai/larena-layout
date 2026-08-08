@@ -14,7 +14,8 @@
   "readiness_ceiling": "TESTED",
   "status": "tested_pending_independent_audit",
   "launch_commit": "15811ee5759531e1c8cac8e788e59470ff51bb84",
-  "implementation_commit": "containing_git_commit",
+  "implementation_commit": "3963453bfd0b543f7cc5d761b4a5848c76f32a87",
+  "implementation_tree": "a2016ba6aeeba1bf06d1a5bc551839c22c1fbc53",
   "final_after_binding": "containing_git_commit",
   "stop_conditions": ["Access Root Specs or another read-only owner change required", "canonical graph adoption required", "merge push deploy live runtime or user data required"]
 }

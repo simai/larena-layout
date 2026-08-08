@@ -1,6 +1,6 @@
 package: larena/layout
 title: Larena Layout
-status: typed_admin_recipe_contract
+status: implementation_verification_ready
 cluster: frontend-composition
 batch: larena-smart-ui-foundation-v1-layout-recipes
 features:
@@ -21,11 +21,15 @@ features:
   - layout.page_block_catalog
   - layout.page_composition_validation
   - layout.page_block_smart_view_mapping
+  - layout.persistent_page_descriptor
+  - layout.page_descriptor_scope_authorization
+  - layout.typed_safe_owner_projection
+  - layout.deterministic_bounded_projection
 runtime:
   php: "^8.3"
   laravel: "^13.0"
 evidence:
-  path: docs/project-management/evidence/larena-smart-ui-foundation-v1/
+  path: docs/project-management/evidence/g-storage-page-foundation/layout/
   previous_paths:
     - docs/project-management/evidence/frontend-composition/batch-0/layout-clean-baseline/
     - docs/project-management/evidence/frontend-composition/batch-1/layout-current/

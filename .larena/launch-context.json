@@ -34,6 +34,9 @@
     ,"layout.logical_asset_reference"
     ,"layout.persistent_page_descriptor"
     ,"layout.typed_binding_resolution"
+    ,"layout.page_descriptor_scope_authorization"
+    ,"layout.typed_safe_owner_projection"
+    ,"layout.deterministic_bounded_projection"
   ],
   "allowed_files": [
     ".env.example",
@@ -123,6 +126,8 @@
     "src/Contracts/PageDescriptorStore.php",
     "src/Contracts/PageBindingResolver.php",
     "src/Contracts/PageBindingOwnerResolver.php",
+    "src/Contracts/PageDescriptorAuthorizationPolicy.php",
+    "src/ValueObjects/PageBindingResult.php",
     "src/ValueObjects/PageDescriptorRevision.php",
     "tests/Integration/*",
     "tests/Integration/PageDescriptorPersistenceTest.php",
@@ -173,12 +178,12 @@
   "active_goal_launch": {
     "goal_id": "G-STORAGE-PAGE-FOUNDATION-01",
     "batch": "S-LAYOUT-01",
-    "branch": "codex/g-storage-page-layout",
-    "base_commit": "d282c278f61af5e27decaf5c229a8bc0cae59756",
+    "branch": "codex/g-storage-page-layout-correction",
+    "base_commit": "15811ee5759531e1c8cac8e788e59470ff51bb84",
     "specs_commit": "97b91cecafa36343f11166afb9db7c7036dac803",
-    "selected_features": ["layout.persistent_page_descriptor", "layout.typed_binding_resolution"],
+    "selected_features": ["layout.persistent_page_descriptor", "layout.typed_binding_resolution", "layout.page_descriptor_scope_authorization", "layout.typed_safe_owner_projection", "layout.deterministic_bounded_projection"],
     "evidence_path": "docs/project-management/evidence/g-storage-page-foundation/layout/",
-    "action_gate": {"status": "success", "evidence_ref": "source/output/action-gates/action-gate-report-20260807223945.json"},
+    "action_gate": {"status": "success", "evidence_ref": "source/output/action-gates/action-gate-report-20260807234738.json"},
     "status": "tested_pending_independent_audit",
     "readiness_ceiling": "TESTED"
   }

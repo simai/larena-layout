@@ -6,6 +6,7 @@ namespace Larena\Layout\Persistence;
 
 use JsonException;
 use Larena\Layout\Contracts\PageDescriptorStore;
+use Larena\Layout\Contracts\PageDescriptorAuthorizationPolicy;
 use Larena\Layout\Exceptions\LayoutRejected;
 use Larena\Layout\Runtime\PageDescriptorNormalizer;
 use Larena\Layout\ValueObjects\PageDescriptorRevision;
@@ -14,7 +15,11 @@ use Throwable;
 
 final readonly class PdoPageDescriptorStore implements PageDescriptorStore
 {
-    public function __construct(private PDO $pdo, private PageDescriptorNormalizer $normalizer = new PageDescriptorNormalizer())
+    public function __construct(
+        private PDO $pdo,
+        private PageDescriptorAuthorizationPolicy $authorization,
+        private PageDescriptorNormalizer $normalizer = new PageDescriptorNormalizer(),
+    )
     {
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
@@ -40,23 +45,32 @@ final readonly class PdoPageDescriptorStore implements PageDescriptorStore
 
     public function read(string $scopeRef, string $pageId, string $actor): ?PageDescriptorRevision
     {
-        $this->assertActor($actor);
-        $statement = $this->pdo->prepare('SELECT current_revision, current_json, semantic_hash FROM larena_layout_page_descriptors WHERE scope_ref = :scope AND page_id = :page');
-        $statement->execute(['scope' => $scopeRef, 'page' => $pageId]);
-        $row = $statement->fetch(PDO::FETCH_ASSOC);
-        if (!is_array($row)) {
-            return null;
+        $this->authorization->assertAllowed($actor, PageDescriptorAuthorizationPolicy::READ, $scopeRef);
+        try {
+            $statement = $this->pdo->prepare('SELECT current_revision, current_json, semantic_hash FROM larena_layout_page_descriptors WHERE scope_ref = :scope AND page_id = :page');
+            $statement->execute(['scope' => $scopeRef, 'page' => $pageId]);
+            $row = $statement->fetch(PDO::FETCH_ASSOC);
+            if (!is_array($row)) {
+                return null;
+            }
+            return $this->hydrate($scopeRef, $pageId, (int) $row['current_revision'], (string) $row['current_json'], (string) $row['semantic_hash']);
+        } catch (LayoutRejected $exception) {
+            throw $exception;
+        } catch (Throwable) {
+            throw new LayoutRejected('layout_descriptor_persistence_failed');
         }
-        return $this->hydrate($scopeRef, $pageId, (int) $row['current_revision'], (string) $row['current_json'], (string) $row['semantic_hash']);
     }
 
     /** @param array<string, mixed> $descriptor */
     private function persist(array $descriptor, ?int $expectedRevision, string $actor): PageDescriptorRevision
     {
-        $this->assertActor($actor);
-        $this->install();
         $descriptor = $this->normalizer->normalize($descriptor);
         $scope = (string) $descriptor['scope_ref'];
+        $this->authorization->assertAllowed(
+            $actor,
+            $expectedRevision === null ? PageDescriptorAuthorizationPolicy::CREATE : PageDescriptorAuthorizationPolicy::UPDATE,
+            $scope,
+        );
         $page = (string) $descriptor['page_id'];
         $json = $this->normalizer->encode($descriptor);
         $hash = $this->normalizer->hash($descriptor);
@@ -89,11 +103,16 @@ final readonly class PdoPageDescriptorStore implements PageDescriptorStore
             $version->execute(['scope' => $scope, 'page' => $page, 'revision' => $revision, 'json' => $json, 'hash' => $hash, 'actor' => $actor]);
             $this->pdo->commit();
             return new PageDescriptorRevision($page, $scope, $revision, $descriptor, $hash);
-        } catch (Throwable $exception) {
+        } catch (LayoutRejected $exception) {
             if ($this->pdo->inTransaction()) {
                 $this->pdo->rollBack();
             }
             throw $exception;
+        } catch (Throwable) {
+            if ($this->pdo->inTransaction()) {
+                $this->pdo->rollBack();
+            }
+            throw new LayoutRejected('layout_descriptor_persistence_failed');
         }
     }
 
@@ -114,10 +133,4 @@ final readonly class PdoPageDescriptorStore implements PageDescriptorStore
         return new PageDescriptorRevision($page, $scope, $revision, $descriptor, $hash);
     }
 
-    private function assertActor(string $actor): void
-    {
-        if (preg_match('/^[a-z][a-z0-9_.-]*:[a-z][a-z0-9_.:-]{1,159}$/', $actor) !== 1) {
-            throw new LayoutRejected('layout_actor_invalid');
-        }
-    }
 }

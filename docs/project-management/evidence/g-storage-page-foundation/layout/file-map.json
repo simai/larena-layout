@@ -1,15 +1,17 @@
 {
   "schema": "larena.evidence_file_map.v1",
-  "batch": "S-LAYOUT-01",
+  "batch": "S-LAYOUT-01-CORRECTION",
   "runtime": [
     "src/Contracts/PageBindingOwnerResolver.php",
+    "src/Contracts/PageDescriptorAuthorizationPolicy.php",
     "src/Contracts/PageDescriptorStore.php",
     "src/Exceptions/LayoutRejected.php",
     "src/Persistence/PdoPageDescriptorStore.php",
     "src/Runtime/PageDescriptorComponentRegistry.php",
     "src/Runtime/PageDescriptorNormalizer.php",
     "src/Runtime/PageProjectionResolver.php",
-    "src/ValueObjects/PageDescriptorRevision.php"
+    "src/ValueObjects/PageDescriptorRevision.php",
+    "src/ValueObjects/PageBindingResult.php"
   ],
   "tests": ["tests/Integration/PageDescriptorPersistenceTest.php", "scripts/run-unit-tests.php"],
   "launch": [".larena/launch-context.json", "docs/project-management/launch-records/g-storage-page-foundation-layout.json"]

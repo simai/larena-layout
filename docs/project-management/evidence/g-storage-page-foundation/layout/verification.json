@@ -16,8 +16,8 @@
     {"name":"focused_correction","command":"php -d zend.assertions=1 -d assert.exception=1 tests/Integration/PageDescriptorPersistenceTest.php","exit_code":0,"result":"authorization_typed_projection_determinism_bounds_and_zero_mutation_passed"},
     {"name":"package_tests","command":"php -d zend.assertions=1 -d assert.exception=1 scripts/run-unit-tests.php","exit_code":0,"result":"all_unit_and_descriptor_persistence_tests_passed"},
     {"name":"full_quality_gate","command":"composer quality:gate","exit_code":0,"result":"67_php_files_phpstan_zero_all_tests_passed"},
-    {"name":"no_local_clone","command":"recorded_in_goal_evidence","exit_code":0,"result":"pending_final_evidence_binding"},
-    {"name":"clean_clone_gate","command":"recorded_in_goal_evidence","exit_code":0,"result":"pending_final_evidence_binding"}
+    {"name":"no_local_clone","command":"git clone --no-local <layout-worktree> /tmp/larena-layout-correction-clean.aPxrUh/repo","exit_code":0,"result":"exact_head_e9ba5c1ecf19850b0baef71f0eaf47154944b588_tree_e3f60bd09f8bb9d5c63c1a36258e0cdb54deb897_clean"},
+    {"name":"clean_clone_gate","command":"composer validate --strict --no-check-publish && composer quality:gate","exit_code":0,"result":"passed_67_php_phpstan_zero_all_tests"}
   ],
   "independent_audit": "pending",
   "nonclaims": ["Root integration", "adoption", "merge readiness", "visual composer", "production readiness"]

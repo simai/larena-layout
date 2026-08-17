@@ -1,8 +1,8 @@
 package: larena/layout
 title: Larena Layout
-status: implementation_verification_ready
+status: review_completed
 cluster: frontend-composition
-batch: larena-smart-ui-foundation-v1-layout-recipes
+batch: larena-minimal-cms-v1-b3
 features:
   - layout.admin_layout_recipe_contract
   - layout.admin_collection_recipe
@@ -29,7 +29,7 @@ runtime:
   php: "^8.3"
   laravel: "^13.0"
 evidence:
-  path: docs/project-management/evidence/g-storage-page-foundation/layout/
+  path: docs/project-management/evidence/larena-minimal-cms-v1-b3
   previous_paths:
     - docs/project-management/evidence/frontend-composition/batch-0/layout-clean-baseline/
     - docs/project-management/evidence/frontend-composition/batch-1/layout-current/

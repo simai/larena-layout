@@ -10,7 +10,8 @@
     }
   ],
   "require": {
-    "php": "^8.3"
+    "php": "^8.3",
+    "larena/core": "dev-main"
   },
   "autoload": {
     "psr-4": {
@@ -25,9 +26,12 @@
   "require-dev": {
     "phpstan/phpstan": "^2.0"
   },
+  "repositories": [
+    {"type":"path","url":"../core","options":{"symlink":true}}
+  ],
   "scripts": {
-    "test": "@php -d zend.assertions=1 -d assert.exception=1 scripts/run-unit-tests.php",
-    "test:unit": "@php -d zend.assertions=1 -d assert.exception=1 scripts/run-unit-tests.php",
+    "test": ["@php -d zend.assertions=1 -d assert.exception=1 scripts/run-unit-tests.php","@php tests/Unit/MinimalCmsDependencyContractTest.php"],
+    "test:unit": ["@php -d zend.assertions=1 -d assert.exception=1 scripts/run-unit-tests.php","@php tests/Unit/MinimalCmsDependencyContractTest.php"],
     "lint": "@php scripts/lint.php",
     "analyse": "@php scripts/analyse.php",
     "validate:larena": "@php scripts/validate-larena-package.php",
@@ -44,8 +48,9 @@
   },
   "config": {
     "sort-packages": true,
-    "allow-plugins": {}
+    "allow-plugins": {},
+    "platform":{"php":"8.3.31"}
   },
-  "minimum-stability": "stable",
+  "minimum-stability": "dev",
   "prefer-stable": true
 }

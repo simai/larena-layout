@@ -43,6 +43,7 @@ $allowedStatuses = [
     'repository_prepared_pending_review',
     'coding_started',
     'contract_skeleton_review_passed',
+    'review_completed',
 ];
 if (!in_array((string) ($launchContext['status'] ?? ''), $allowedStatuses, true)) {
     $errors[] = 'launch-context status is not allowed for this package stage.';

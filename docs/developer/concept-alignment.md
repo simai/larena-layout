@@ -16,9 +16,9 @@ Accepted Target State: `larena.target.minimal_cms_v1` at semantic digest `sha256
 
 Existing composition contracts continue where compatible. B3 adds the lower Core edge; B11 completes the accepted hierarchy and normalized-plan failure behavior.
 
-## Current alignment gap
+## Current alignment
 
-B3 aligns the mandatory dependency with Core. The package still needs B11 proof of the full hierarchy and deterministic plan boundary.
+B11 adds an explicit site envelope over the existing page descriptor and emits a deterministic normalized render plan. Region, component and source references fail closed. Layout returns identifiers and bindings only; it imports no UI class and invokes no renderer.
 
 ## Install and rollback baseline
 

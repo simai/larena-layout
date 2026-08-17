@@ -94,6 +94,10 @@ if ($codingStarted) {
         'src/Runtime/AdminLayoutRecipeRegistry.php',
         'tests/Unit/AdminLayoutRecipeTest.php',
         'tests/Unit/PageCompositionRuntimeTest.php',
+        'src/Contracts/SiteDescriptor.php',
+        'src/Contracts/NormalizedRenderPlan.php',
+        'src/Runtime/MinimalCmsRenderPlanRuntime.php',
+        'tests/Unit/MinimalCmsRenderPlanTest.php',
     ];
     foreach ($requiredContractFiles as $file) {
         if (!is_file($file)) {

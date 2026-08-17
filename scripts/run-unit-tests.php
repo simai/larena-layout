@@ -11,6 +11,7 @@ $tests = [
     __DIR__ . '/../tests/Unit/InMemoryLayoutRuntimeTest.php',
     __DIR__ . '/../tests/Unit/InMemoryPageBuilderRuntimeTest.php',
     __DIR__ . '/../tests/Unit/PageCompositionRuntimeTest.php',
+    __DIR__ . '/../tests/Unit/MinimalCmsRenderPlanTest.php',
     __DIR__ . '/../tests/Integration/PageDescriptorPersistenceTest.php',
 ];
 

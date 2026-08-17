@@ -1,0 +1,14 @@
+{
+  "schema": "larena.package_launch_record.v1",
+  "id": "larena-minimal-cms-v1-b11-layout",
+  "goal": "larena-minimal-cms-v1",
+  "package": "larena/layout",
+  "branch": "main",
+  "base_commit": "ae928aa9f2accebf7b443f0bc3f77d60ef7f7258",
+  "scope": "Complete the site to page to region to section to block contract and deterministic renderer-independent plan.",
+  "runtime_boundary": "local package contracts and tests only",
+  "target_id": "larena.target.minimal_cms_v1",
+  "semantic_digest": "sha256:2793f61ba9563839831d57e87ac5cd6399c37a3183f1a68981b6fc7f941a1ad2",
+  "production_ready": false,
+  "status": "completed"
+}

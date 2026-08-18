@@ -6,6 +6,7 @@
 
 - Add the Minimal CMS site descriptor and deterministic normalized render plan.
 - Reject unknown pages, regions, Smart Component identifiers and binding sources before rendering.
+- Preserve an enclosing database transaction while persisting page descriptors through a savepoint.
 
 ### Documentation
 

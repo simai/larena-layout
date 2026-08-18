@@ -29,6 +29,14 @@ assert($created->revision === 1);
 $reopened = new PdoPageDescriptorStore(new PDO('sqlite:' . $path), $policy);
 assert($reopened->read('scope:tenant-alpha', 'page.home', 'actor:alpha')?->semanticHash === $created->semanticHash);
 
+$pdo->beginTransaction();
+$nestedDescriptor = $descriptor;
+$nestedDescriptor['page_id'] = 'page.nested';
+assert($store->create($nestedDescriptor, 'actor:alpha')->revision === 1);
+assert($pdo->inTransaction());
+$pdo->rollBack();
+assert($reopened->read('scope:tenant-alpha', 'page.nested', 'actor:alpha') === null);
+
 $projection = (new PageProjectionResolver($reopened, new LayoutOwnerFixture(), $policy))
     ->project('scope:tenant-alpha', 'page.home', 'actor:alpha');
 assert($projection['descriptor_hash'] === $created->semanticHash);

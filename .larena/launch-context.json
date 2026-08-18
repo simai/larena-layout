@@ -15,7 +15,8 @@
     "docs/project-management/launch-records/larena-minimal-cms-v1-b11.json", "module.yaml",
     "scripts/run-unit-tests.php", "scripts/validate-larena-package.php",
     "src/Contracts/NormalizedRenderPlan.php", "src/Contracts/SiteDescriptor.php",
-    "src/Runtime/MinimalCmsRenderPlanRuntime.php", "tests/Unit/MinimalCmsRenderPlanTest.php"
+    "src/Persistence/PdoPageDescriptorStore.php", "src/Runtime/MinimalCmsRenderPlanRuntime.php",
+    "tests/Integration/PageDescriptorPersistenceTest.php", "tests/Unit/MinimalCmsRenderPlanTest.php"
   ],
   "forbidden_files": ["config/*", "database/*", "routes/*", "resources/*"],
   "forbidden_behavior": ["ui_package_dependency", "renderer_invocation", "accepted_target_change", "production_readiness_claim"],

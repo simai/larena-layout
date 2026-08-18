@@ -74,7 +74,12 @@ final readonly class PdoPageDescriptorStore implements PageDescriptorStore
         $page = (string) $descriptor['page_id'];
         $json = $this->normalizer->encode($descriptor);
         $hash = $this->normalizer->hash($descriptor);
-        $this->pdo->beginTransaction();
+        $nestedTransaction = $this->pdo->inTransaction();
+        if ($nestedTransaction) {
+            $this->pdo->exec('SAVEPOINT larena_layout_descriptor_write');
+        } else {
+            $this->pdo->beginTransaction();
+        }
         try {
             $query = $this->pdo->prepare('SELECT current_revision FROM larena_layout_page_descriptors WHERE scope_ref = :scope AND page_id = :page');
             $query->execute(['scope' => $scope, 'page' => $page]);
@@ -101,19 +106,32 @@ final readonly class PdoPageDescriptorStore implements PageDescriptorStore
             }
             $version = $this->pdo->prepare('INSERT INTO larena_layout_page_descriptor_versions (scope_ref, page_id, revision, document_json, semantic_hash, changed_by) VALUES (:scope, :page, :revision, :json, :hash, :actor)');
             $version->execute(['scope' => $scope, 'page' => $page, 'revision' => $revision, 'json' => $json, 'hash' => $hash, 'actor' => $actor]);
-            $this->pdo->commit();
+            if ($nestedTransaction) {
+                $this->pdo->exec('RELEASE SAVEPOINT larena_layout_descriptor_write');
+            } else {
+                $this->pdo->commit();
+            }
             return new PageDescriptorRevision($page, $scope, $revision, $descriptor, $hash);
         } catch (LayoutRejected $exception) {
-            if ($this->pdo->inTransaction()) {
-                $this->pdo->rollBack();
-            }
+            $this->rollbackWrite($nestedTransaction);
             throw $exception;
         } catch (Throwable) {
-            if ($this->pdo->inTransaction()) {
-                $this->pdo->rollBack();
-            }
+            $this->rollbackWrite($nestedTransaction);
             throw new LayoutRejected('layout_descriptor_persistence_failed');
         }
+    }
+
+    private function rollbackWrite(bool $nestedTransaction): void
+    {
+        if (!$this->pdo->inTransaction()) {
+            return;
+        }
+        if ($nestedTransaction) {
+            $this->pdo->exec('ROLLBACK TO SAVEPOINT larena_layout_descriptor_write');
+            $this->pdo->exec('RELEASE SAVEPOINT larena_layout_descriptor_write');
+            return;
+        }
+        $this->pdo->rollBack();
     }
 
     private function hydrate(string $scope, string $page, int $revision, string $json, string $hash): PageDescriptorRevision

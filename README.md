@@ -13,6 +13,12 @@ and cardinality. Larena UI validates component keys, props, slots and rendering;
 backend packages remain responsible for scoped data, permissions and effects.
 Unknown recipes and invalid assignments fail closed.
 
+Page Assembly v1 is the canonical backend composition envelope. It normalizes
+site, page, region, section and block order while retaining only stable Smart
+Component view, preset, modifier and binding identifiers. A bounded adapter
+accepts the already supported legacy page descriptor shape; Layout still never
+chooses a frontend renderer or calls UI directly.
+
 Layout also owns a persistent declarative JSON page descriptor and a typed
 headless projection boundary. Descriptor create, update, read and projection
 require an explicit actor/operation/scope policy. Owner adapters return one of

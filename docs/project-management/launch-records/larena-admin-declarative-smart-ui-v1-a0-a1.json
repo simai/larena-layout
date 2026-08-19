@@ -1,0 +1,36 @@
+{
+  "schema": "larena.package_launch_record.v1",
+  "id": "larena-admin-declarative-smart-ui-v1-a0-a1-layout",
+  "goal": "larena-admin-declarative-smart-ui-v1",
+  "package": "larena/layout",
+  "branch": "main",
+  "base_commit": "730f14a276b8b2666818e939b2e5ab67574703d6",
+  "scope": "Define the canonical Page Assembly v1 descriptor and compatibility adapter for the accepted Minimal CMS page descriptor without changing package ownership or dependencies.",
+  "allowed_files": [
+    "src/Runtime/PageAssemblyDescriptorNormalizer.php",
+    "src/Runtime/LegacyPageDescriptorAdapter.php",
+    "resources/schemas/page-assembly.schema.json",
+    "resources/examples/admin-collection.page-assembly.json",
+    "tests/Unit/PageAssemblyDescriptorTest.php",
+    "scripts/run-unit-tests.php",
+    "docs/developer/page-assembly-contract.md",
+    "docs/project-management/evidence/larena-admin-declarative-smart-ui-v1-a0-a1/README.md",
+    "README.md",
+    "CHANGELOG.md",
+    "module.yaml",
+    "docs/project-management/launch-records/larena-admin-declarative-smart-ui-v1-a0-a1.json"
+  ],
+  "forbidden": [
+    "package dependency changes",
+    "database migrations",
+    "production runtime writes",
+    "public release"
+  ],
+  "runtime_boundary": "local package contracts and tests only",
+  "target_id": "larena.target.admin_declarative_smart_ui_v1",
+  "semantic_digest": "sha256:40acc9adad3c131d888a0c5664a0fbe0e3ea9c13e628662fb8a2fbe562e60e81",
+  "evidence": "docs/project-management/evidence/larena-admin-declarative-smart-ui-v1-a0-a1/",
+  "rollback": "Revert only the files listed in allowed_files to base_commit; no database or active runtime state is changed.",
+  "production_ready": false,
+  "status": "checks_passed"
+}

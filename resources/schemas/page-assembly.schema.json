@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://larena.dev/schemas/layout/page-assembly.v1.json",
+  "title": "Larena Page Assembly Descriptor v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "site_id", "page_id", "scope_ref", "layout_id", "regions"],
+  "properties": {
+    "schema": {"const": "larena.layout.page_assembly.v1"},
+    "site_id": {"$ref": "#/$defs/stableKey"},
+    "page_id": {"$ref": "#/$defs/stableKey"},
+    "scope_ref": {"type": "string", "pattern": "^scope:[a-z][a-z0-9_.:-]{1,119}$"},
+    "layout_id": {"$ref": "#/$defs/stableKey"},
+    "regions": {
+      "type": "array",
+      "maxItems": 12,
+      "items": {"$ref": "#/$defs/region"}
+    }
+  },
+  "$defs": {
+    "stableKey": {"type": "string", "pattern": "^[a-z][a-z0-9_.:-]{1,119}$"},
+    "componentKey": {"type": "string", "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$"},
+    "variantKey": {"type": "string", "pattern": "^[a-z][a-z0-9_.-]{0,79}$"},
+    "sort": {"type": "integer", "minimum": 0, "maximum": 1000000},
+    "safeValue": {
+      "oneOf": [
+        {"type": ["string", "number", "integer", "boolean", "null"]},
+        {"type": "array", "maxItems": 100, "items": {"$ref": "#/$defs/safeValue"}},
+        {"type": "object", "maxProperties": 100, "additionalProperties": {"$ref": "#/$defs/safeValue"}}
+      ]
+    },
+    "instance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "component", "view", "preset", "modifiers", "props", "sort"],
+      "properties": {
+        "id": {"$ref": "#/$defs/stableKey"},
+        "component": {"$ref": "#/$defs/componentKey"},
+        "view": {"$ref": "#/$defs/variantKey"},
+        "preset": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/variantKey"}]},
+        "modifiers": {"type": "array", "uniqueItems": true, "maxItems": 20, "items": {"$ref": "#/$defs/variantKey"}},
+        "props": {"type": "object", "maxProperties": 100, "additionalProperties": {"$ref": "#/$defs/safeValue"}},
+        "sort": {"$ref": "#/$defs/sort"}
+      }
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "target", "selector", "expected_revision"],
+      "properties": {
+        "id": {"$ref": "#/$defs/stableKey"},
+        "kind": {"enum": ["content_document", "storage_record", "logical_file", "tree_node"]},
+        "target": {"type": "string", "minLength": 1, "maxLength": 280},
+        "selector": {"type": "string", "pattern": "^(?:\\$|[a-z][a-z0-9_.-]{0,119})$"},
+        "expected_revision": {"type": "integer", "minimum": 1}
+      }
+    },
+    "block": {
+      "allOf": [
+        {"$ref": "#/$defs/instance"},
+        {
+          "type": "object",
+          "required": ["bindings"],
+          "properties": {
+            "bindings": {"type": "array", "maxItems": 100, "items": {"$ref": "#/$defs/binding"}}
+          }
+        }
+      ]
+    },
+    "section": {
+      "allOf": [
+        {"$ref": "#/$defs/instance"},
+        {
+          "type": "object",
+          "required": ["blocks"],
+          "properties": {
+            "blocks": {"type": "array", "maxItems": 100, "items": {"$ref": "#/$defs/block"}}
+          }
+        }
+      ]
+    },
+    "region": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "sort", "sections"],
+      "properties": {
+        "id": {"$ref": "#/$defs/stableKey"},
+        "sort": {"$ref": "#/$defs/sort"},
+        "sections": {"type": "array", "maxItems": 30, "items": {"$ref": "#/$defs/section"}}
+      }
+    }
+  }
+}

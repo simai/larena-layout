@@ -1,0 +1,44 @@
+{
+  "schema": "larena.layout.page_assembly.v1",
+  "site_id": "site.admin",
+  "page_id": "page.admin.collection",
+  "scope_ref": "scope:admin.main",
+  "layout_id": "admin.default",
+  "regions": [
+    {
+      "id": "region.main",
+      "sort": 100,
+      "sections": [
+        {
+          "id": "section.collection",
+          "component": "admin.collection",
+          "view": "default",
+          "preset": null,
+          "modifiers": ["comfortable"],
+          "props": {"title": "Team members"},
+          "sort": 100,
+          "blocks": [
+            {
+              "id": "block.table",
+              "component": "dataview.table",
+              "view": "default",
+              "preset": "comfortable",
+              "modifiers": ["searchable", "filterable"],
+              "props": {"aria-label": "Team members"},
+              "sort": 100,
+              "bindings": [
+                {
+                  "id": "binding.members",
+                  "kind": "storage_record",
+                  "target": "structure.team_members|record.collection",
+                  "selector": "$",
+                  "expected_revision": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

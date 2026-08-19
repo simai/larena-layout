@@ -1,0 +1,6 @@
+{
+  "schema": "larena.graph_sync_proposal.v1",
+  "canonical_update_allowed": false,
+  "proposal": "none",
+  "reason": "additive implementation within the accepted architecture and semantic digest"
+}

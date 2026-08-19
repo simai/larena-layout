@@ -1,0 +1,5 @@
+{
+  "schema": "larena.evidence_file_map.v1",
+  "launch_record": "docs/project-management/launch-records/larena-admin-declarative-smart-ui-v1-a0-a1.json",
+  "surfaces": ["src/Runtime", "resources/schemas", "resources/examples", "tests/Unit", "docs/developer"]
+}

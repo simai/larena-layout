@@ -11,7 +11,7 @@ use Larena\Layout\Exceptions\LayoutRejected;
 
 final readonly class MinimalCmsRenderPlanRuntime
 {
-    public function __construct(private PageDescriptorNormalizer $normalizer = new PageDescriptorNormalizer())
+    public function __construct(private PageAssemblyDescriptorNormalizer $normalizer = new PageAssemblyDescriptorNormalizer())
     {
     }
 
@@ -26,6 +26,9 @@ final readonly class MinimalCmsRenderPlanRuntime
         }
         if ($normalized['scope_ref'] !== $site->scopeRef) {
             throw new LayoutRejected('layout_render_plan_scope_mismatch');
+        }
+        if ($normalized['site_id'] !== $site->siteId) {
+            throw new LayoutRejected('layout_render_plan_site_mismatch');
         }
         foreach ($normalized['regions'] as $region) {
             if (!is_array($region) || !in_array($region['id'] ?? null, $site->regionIds, true)) {

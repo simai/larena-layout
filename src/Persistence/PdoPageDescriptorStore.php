@@ -8,6 +8,8 @@ use JsonException;
 use Larena\Layout\Contracts\PageDescriptorStore;
 use Larena\Layout\Contracts\PageDescriptorAuthorizationPolicy;
 use Larena\Layout\Exceptions\LayoutRejected;
+use Larena\Layout\Runtime\LegacyPageDescriptorAdapter;
+use Larena\Layout\Runtime\PageAssemblyDescriptorNormalizer;
 use Larena\Layout\Runtime\PageDescriptorNormalizer;
 use Larena\Layout\ValueObjects\PageDescriptorRevision;
 use PDO;
@@ -18,7 +20,9 @@ final readonly class PdoPageDescriptorStore implements PageDescriptorStore
     public function __construct(
         private PDO $pdo,
         private PageDescriptorAuthorizationPolicy $authorization,
-        private PageDescriptorNormalizer $normalizer = new PageDescriptorNormalizer(),
+        private PageAssemblyDescriptorNormalizer $normalizer = new PageAssemblyDescriptorNormalizer(),
+        private PageDescriptorNormalizer $legacyNormalizer = new PageDescriptorNormalizer(),
+        private LegacyPageDescriptorAdapter $legacyAdapter = new LegacyPageDescriptorAdapter(),
     )
     {
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -61,10 +65,50 @@ final readonly class PdoPageDescriptorStore implements PageDescriptorStore
         }
     }
 
+    public function history(string $scopeRef, string $pageId, string $actor): array
+    {
+        $this->authorization->assertAllowed($actor, PageDescriptorAuthorizationPolicy::READ, $scopeRef);
+        try {
+            $statement = $this->pdo->prepare('SELECT revision, document_json, semantic_hash FROM larena_layout_page_descriptor_versions WHERE scope_ref = :scope AND page_id = :page ORDER BY revision DESC');
+            $statement->execute(['scope' => $scopeRef, 'page' => $pageId]);
+            $history = [];
+            while (is_array($row = $statement->fetch(PDO::FETCH_ASSOC))) {
+                $history[] = $this->hydrate($scopeRef, $pageId, (int) $row['revision'], (string) $row['document_json'], (string) $row['semantic_hash']);
+            }
+            return $history;
+        } catch (LayoutRejected $exception) {
+            throw $exception;
+        } catch (Throwable) {
+            throw new LayoutRejected('layout_descriptor_persistence_failed');
+        }
+    }
+
+    public function rollback(string $scopeRef, string $pageId, int $targetRevision, int $expectedRevision, string $actor): PageDescriptorRevision
+    {
+        if ($targetRevision < 1 || $expectedRevision < 1) {
+            throw new LayoutRejected('layout_descriptor_revision_invalid');
+        }
+        $this->authorization->assertAllowed($actor, PageDescriptorAuthorizationPolicy::UPDATE, $scopeRef);
+        try {
+            $statement = $this->pdo->prepare('SELECT document_json, semantic_hash FROM larena_layout_page_descriptor_versions WHERE scope_ref = :scope AND page_id = :page AND revision = :revision');
+            $statement->execute(['scope' => $scopeRef, 'page' => $pageId, 'revision' => $targetRevision]);
+            $row = $statement->fetch(PDO::FETCH_ASSOC);
+            if (!is_array($row)) {
+                throw new LayoutRejected('layout_descriptor_revision_unknown');
+            }
+            $target = $this->hydrate($scopeRef, $pageId, $targetRevision, (string) $row['document_json'], (string) $row['semantic_hash']);
+            return $this->persist($target->descriptor, $expectedRevision, $actor);
+        } catch (LayoutRejected $exception) {
+            throw $exception;
+        } catch (Throwable) {
+            throw new LayoutRejected('layout_descriptor_persistence_failed');
+        }
+    }
+
     /** @param array<string, mixed> $descriptor */
     private function persist(array $descriptor, ?int $expectedRevision, string $actor): PageDescriptorRevision
     {
-        $descriptor = $this->normalizer->normalize($descriptor);
+        $descriptor = $this->normalize($descriptor);
         $scope = (string) $descriptor['scope_ref'];
         $this->authorization->assertAllowed(
             $actor,
@@ -144,11 +188,33 @@ final readonly class PdoPageDescriptorStore implements PageDescriptorStore
         if (!is_array($descriptor) || array_is_list($descriptor)) {
             throw new LayoutRejected('layout_descriptor_persisted_json_invalid');
         }
-        $descriptor = $this->normalizer->normalize($descriptor);
-        if ($descriptor['scope_ref'] !== $scope || $descriptor['page_id'] !== $page || !hash_equals($this->normalizer->hash($descriptor), $hash)) {
+        $legacy = ($descriptor['schema'] ?? null) === PageDescriptorNormalizer::SCHEMA;
+        if ($legacy) {
+            $legacyDescriptor = $this->legacyNormalizer->normalize($descriptor);
+            if (!hash_equals($this->legacyNormalizer->hash($legacyDescriptor), $hash)) {
+                throw new LayoutRejected('layout_descriptor_persisted_integrity_failed');
+            }
+            $descriptor = $this->legacyAdapter->adapt($legacyDescriptor, 'site.legacy');
+        } else {
+            $descriptor = $this->normalizer->normalize($descriptor);
+            if (!hash_equals($this->normalizer->hash($descriptor), $hash)) {
+                throw new LayoutRejected('layout_descriptor_persisted_integrity_failed');
+            }
+        }
+        if ($descriptor['scope_ref'] !== $scope || $descriptor['page_id'] !== $page) {
             throw new LayoutRejected('layout_descriptor_persisted_integrity_failed');
         }
-        return new PageDescriptorRevision($page, $scope, $revision, $descriptor, $hash);
+        return new PageDescriptorRevision($page, $scope, $revision, $descriptor, $this->normalizer->hash($descriptor));
+    }
+
+    /** @param array<string, mixed> $descriptor @return array<string, mixed> */
+    private function normalize(array $descriptor): array
+    {
+        if (($descriptor['schema'] ?? null) === PageDescriptorNormalizer::SCHEMA) {
+            return $this->legacyAdapter->adapt($descriptor, 'site.legacy');
+        }
+
+        return $this->normalizer->normalize($descriptor);
     }
 
 }

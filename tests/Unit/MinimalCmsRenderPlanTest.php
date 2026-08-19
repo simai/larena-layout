@@ -8,15 +8,15 @@ use Larena\Layout\Contracts\SiteDescriptor;
 use Larena\Layout\Exceptions\LayoutRejected;
 use Larena\Layout\Runtime\MinimalCmsRenderPlanRuntime;
 use Larena\Layout\Runtime\PageDescriptorComponentRegistry;
-use Larena\Layout\Runtime\PageDescriptorNormalizer;
+use Larena\Layout\Runtime\PageAssemblyDescriptorNormalizer;
 
-$runtime = new MinimalCmsRenderPlanRuntime(new PageDescriptorNormalizer(
+$runtime = new MinimalCmsRenderPlanRuntime(new PageAssemblyDescriptorNormalizer(
     new PageDescriptorComponentRegistry(['layout.section'], ['ui.input']),
 ));
 $site = new SiteDescriptor('site.main', 'scope:site.main', ['page.home'], ['region.main']);
 $page = [
-    'schema' => PageDescriptorNormalizer::SCHEMA,
-    'schema_version' => PageDescriptorNormalizer::SCHEMA_VERSION,
+    'schema' => PageAssemblyDescriptorNormalizer::SCHEMA,
+    'site_id' => 'site.main',
     'page_id' => 'page.home',
     'scope_ref' => 'scope:site.main',
     'layout_id' => 'layout.default',
@@ -24,12 +24,10 @@ $page = [
         'id' => 'region.main',
         'sort' => 10,
         'sections' => [[
-            'id' => 'section.hero',
-            'component' => 'layout.section',
+            'id' => 'section.hero', 'component' => 'layout.section', 'view' => 'default', 'preset' => null, 'modifiers' => [], 'props' => [],
             'sort' => 10,
             'blocks' => [[
-                'id' => 'block.title',
-                'component' => 'ui.input',
+                'id' => 'block.title', 'component' => 'ui.input', 'view' => 'default', 'preset' => null, 'modifiers' => [], 'props' => [],
                 'sort' => 10,
                 'bindings' => [[
                     'id' => 'binding.title',
@@ -69,6 +67,9 @@ $reject(static fn () => $runtime->plan($site, $unknownComponent), 'layout_descri
 
 $unknownSource = $page;
 $unknownSource['regions'][0]['sections'][0]['blocks'][0]['bindings'][0]['kind'] = 'remote_service';
-$reject(static fn () => $runtime->plan($site, $unknownSource), 'layout_descriptor_binding_kind_unknown');
+$reject(static fn () => $runtime->plan($site, $unknownSource), 'layout_page_assembly_binding_kind_unknown');
+
+$wrongSite = new SiteDescriptor('site.other', 'scope:site.main', ['page.home'], ['region.main']);
+$reject(static fn () => $runtime->plan($wrongSite, $page), 'layout_render_plan_site_mismatch');
 
 echo "MinimalCmsRenderPlanTest passed.\n";

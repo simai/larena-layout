@@ -28,6 +28,7 @@ $created = $store->create($descriptor, 'actor:alpha');
 assert($created->revision === 1);
 $reopened = new PdoPageDescriptorStore(new PDO('sqlite:' . $path), $policy);
 assert($reopened->read('scope:tenant-alpha', 'page.home', 'actor:alpha')?->semanticHash === $created->semanticHash);
+assert($created->descriptor['schema'] === 'larena.layout.page_assembly.v1');
 
 $pdo->beginTransaction();
 $nestedDescriptor = $descriptor;
@@ -69,9 +70,16 @@ foreach ([
 $updated = $descriptor;
 $updated['layout_id'] = 'layout.revised';
 assert($store->update($updated, 1, 'actor:alpha')->revision === 2);
+$history = $store->history('scope:tenant-alpha', 'page.home', 'actor:alpha');
+assert(array_map(static fn ($revision): int => $revision->revision, $history) === [2, 1]);
+$rolledBack = $store->rollback('scope:tenant-alpha', 'page.home', 1, 2, 'actor:alpha');
+assert($rolledBack->revision === 3);
+assert($rolledBack->descriptor['layout_id'] === 'layout.default');
+assert(array_map(static fn ($revision): int => $revision->revision, $store->history('scope:tenant-alpha', 'page.home', 'actor:alpha')) === [3, 2, 1]);
 $beforeStale = state($pdo);
-reject(static fn () => $store->update($descriptor, 1, 'actor:alpha'), 'layout_descriptor_revision_conflict');
+reject(static fn () => $store->update($descriptor, 2, 'actor:alpha'), 'layout_descriptor_revision_conflict');
 assert(state($pdo) === $beforeStale);
+reject(static fn () => $store->rollback('scope:tenant-alpha', 'page.home', 99, 3, 'actor:alpha'), 'layout_descriptor_revision_unknown');
 
 foreach (['unsafe_storage_key', 'unsafe_path', 'unsafe_html', 'unsafe_code', 'unsafe_private', 'private_exception', 'kind_mismatch', 'fanout', 'aggregate'] as $mode) {
     try {

@@ -9,13 +9,16 @@
   "target_id": "larena.target.minimal_cms_v1",
   "semantic_digest": "sha256:2793f61ba9563839831d57e87ac5cd6399c37a3183f1a68981b6fc7f941a1ad2",
   "base_commit": "730f14a276b8b2666818e939b2e5ab67574703d6",
-  "selected_features": ["declarative_page_assembly", "legacy_page_descriptor_adapter"],
+  "selected_features": ["declarative_page_assembly", "legacy_page_descriptor_adapter", "page_assembly_version_history", "page_assembly_rollback"],
   "allowed_files": [
     ".larena/launch-context.json", "CHANGELOG.md", "README.md", "module.yaml", "scripts/run-unit-tests.php",
     "docs/developer/page-assembly-contract.md",
     "docs/project-management/launch-records/larena-admin-declarative-smart-ui-v1-a0-a1.json",
     "resources/examples/admin-collection.page-assembly.json", "resources/schemas/page-assembly.schema.json",
-    "src/Runtime/LegacyPageDescriptorAdapter.php", "src/Runtime/PageAssemblyDescriptorNormalizer.php",
+    "src/Contracts/PageDescriptorStore.php", "src/Persistence/PdoPageDescriptorStore.php",
+    "src/Runtime/LegacyPageDescriptorAdapter.php", "src/Runtime/MinimalCmsRenderPlanRuntime.php",
+    "src/Runtime/PageAssemblyDescriptorNormalizer.php", "src/ValueObjects/PageDescriptorRevision.php",
+    "tests/Integration/PageDescriptorPersistenceTest.php", "tests/Unit/MinimalCmsRenderPlanTest.php",
     "tests/Unit/PageAssemblyDescriptorTest.php"
   ],
   "forbidden_files": ["config/*", "database/*", "routes/*"],

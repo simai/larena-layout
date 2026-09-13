@@ -1,0 +1,12 @@
+{
+  "schema": "larena.package_launch_record.v1",
+  "package": "larena/layout",
+  "target_id": "larena.target.framework_composition_stage2",
+  "goal": "Project an existing larena.layout.page_composition into simai.composition.document.v1 in memory without mutating storage.",
+  "source_contract": "larena.layout.page_composition",
+  "target_contract": "simai.composition.document.v1",
+  "scope": ["projection", "explicit_binding_owners", "semantic_extensions", "tests"],
+  "non_goals": ["database_migration", "storage_format_change", "rendering", "mass_page_conversion", "production_readiness"],
+  "authorization": "2026-09-13-framework-composition-larena-integration",
+  "coding_allowed": true
+}

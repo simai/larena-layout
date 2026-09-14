@@ -1,0 +1,9 @@
+{
+  "schema": "larena.evidence_file_map.v1",
+  "files": {
+    "src/Runtime/FrameworkRecipeRequestFactory.php": "Larena projection to Recipe and trusted inputs",
+    "src/Runtime/FrameworkRecipeCompiler.php": "Exact-candidate process boundary",
+    "resources/runtime/framework-recipe-adapter.mjs": "Framework resolver and renderer invocation",
+    "tests/Unit/FrameworkRecipeCompilerTest.php": "Product scenario and fail-closed checks"
+  }
+}

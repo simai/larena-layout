@@ -40,6 +40,43 @@ assert($expanded['document'] !== $compact['document']);
 assert($expanded['dependencyReceipt'] !== $compact['dependencyReceipt']);
 assert($expanded['dependencyReceipt']['documentDigest'] !== $compact['dependencyReceipt']['documentDigest']);
 
+$projection = [
+    'schema' => 'larena.layout.page_projection',
+    'scope_ref' => 'scope:minimal-cms',
+    'page_id' => 'page.home',
+    'regions' => [[
+        'id' => 'region.main',
+        'sections' => [[
+            'id' => 'section.main',
+            'component' => 'layout.section',
+            'blocks' => [[
+                'id' => 'block.title',
+                'component' => 'ui.input',
+                'bindings' => [[
+                    'kind' => 'storage_record',
+                    'target' => 'workbench.project_items|record-00000000000000000000000000000000',
+                    'selector' => 'title',
+                    'expected_revision' => 5,
+                    'value' => ['values' => ['title' => 'Настоящая страница Larena']],
+                ]],
+            ]],
+        ]],
+    ]],
+];
+$boundHeading = $compiler->compile($factory->boundHeading($projection, 'scope:minimal-cms'));
+assert(str_contains($boundHeading['html'], '<h1'));
+assert(str_contains($boundHeading['html'], 'Настоящая страница Larena'));
+assert(count($boundHeading['dependencyReceipt']['references']) === 1);
+
+$unsupported = $projection;
+$unsupported['regions'][0]['sections'][0]['blocks'][0]['component'] = 'ui.unknown';
+try {
+    $factory->boundHeading($unsupported, 'scope:minimal-cms');
+    throw new RuntimeException('An unsupported Larena component was accepted.');
+} catch (InvalidArgumentException $exception) {
+    assert($exception->getMessage() === 'layout_framework_recipe_projection_component_unsupported');
+}
+
 $denied = $factory->article($composition, $resolved, 'site-17', 'compact');
 $denied['inputs']['values']['body']['origin']['scope'] = 'other-site';
 try {

@@ -57,6 +57,138 @@ final readonly class FrameworkRecipeRequestFactory
         ];
     }
 
+    /**
+     * Build the bounded first adapter from a persisted Larena page assembly to
+     * the neutral Framework Recipe contract.
+     *
+     * @param array<string, mixed> $projection
+     * @return array<string, mixed>
+     */
+    public function boundHeading(array $projection, string $scope): array
+    {
+        if (($projection['schema'] ?? null) !== 'larena.layout.page_projection'
+            || ($projection['scope_ref'] ?? null) !== $scope
+            || ! is_string($projection['page_id'] ?? null)
+            || preg_match('/^[a-z][a-z0-9_.:-]{1,119}$/D', $projection['page_id']) !== 1
+        ) {
+            throw new InvalidArgumentException('layout_framework_recipe_projection_invalid');
+        }
+
+        $regions = $projection['regions'] ?? null;
+        if (! is_array($regions) || count($regions) !== 1
+            || ! is_array($regions[0]['sections'] ?? null) || count($regions[0]['sections']) !== 1
+        ) {
+            throw new InvalidArgumentException('layout_framework_recipe_projection_shape_unsupported');
+        }
+        $section = $regions[0]['sections'][0];
+        $blocks = is_array($section) ? ($section['blocks'] ?? null) : null;
+        if (! is_array($section) || ($section['component'] ?? null) !== 'layout.section'
+            || ! is_array($blocks) || count($blocks) !== 1
+        ) {
+            throw new InvalidArgumentException('layout_framework_recipe_projection_shape_unsupported');
+        }
+        $block = $blocks[0];
+        $bindings = is_array($block) ? ($block['bindings'] ?? null) : null;
+        if (! is_array($block) || ($block['component'] ?? null) !== 'ui.input'
+            || ! is_array($bindings) || count($bindings) !== 1
+        ) {
+            throw new InvalidArgumentException('layout_framework_recipe_projection_component_unsupported');
+        }
+        $binding = $bindings[0];
+        $title = is_array($binding) ? ($binding['value']['values']['title'] ?? null) : null;
+        if (($binding['kind'] ?? null) !== 'storage_record'
+            || ($binding['selector'] ?? null) !== 'title'
+            || ! is_string($binding['target'] ?? null)
+            || ! is_int($binding['expected_revision'] ?? null)
+            || ! is_string($title) || trim($title) === '' || mb_strlen($title) > 160
+        ) {
+            throw new InvalidArgumentException('layout_framework_recipe_projection_binding_unsupported');
+        }
+
+        $content = [['type' => 'text', 'value' => $title]];
+        $origin = [
+            'scope' => $scope,
+            'owner' => 'larena/storage',
+            'ref' => $binding['target'].'#title',
+            'revision' => (string) $binding['expected_revision'],
+        ];
+
+        return [
+            'recipe' => [
+                'schema' => 'simai.composition.recipe.v1',
+                'id' => 'larena.bound-heading-page',
+                'profile' => 'ui-layout',
+                'locale' => 'ru',
+                'inputs' => [
+                    'heading' => [
+                        'kind' => 'content',
+                        'schema' => ['type' => 'array'],
+                        'expectedOrigin' => $origin,
+                    ],
+                ],
+                'root' => [
+                    'id' => 'page',
+                    'ref' => [
+                        'kind' => 'template', 'owner' => 'larena/layout',
+                        'ref' => 'bound-heading-page', 'policy' => 'pinned', 'revision' => '1',
+                    ],
+                    'slots' => [
+                        'main' => [[
+                            'id' => (string) ($section['id'] ?? 'section.main'),
+                            'node' => [
+                                'type' => 'layout.section',
+                                'slots' => ['default' => [[
+                                    'id' => (string) ($block['id'] ?? 'block.title'),
+                                    'node' => [
+                                        'type' => 'content.heading',
+                                        'data' => [
+                                            'level' => ['literal' => 1],
+                                            'content' => ['input' => 'heading'],
+                                        ],
+                                        'bindings' => [['input' => 'heading', 'target' => 'content']],
+                                    ],
+                                ]]],
+                            ],
+                        ]],
+                    ],
+                ],
+            ],
+            'inputs' => [
+                'schema' => 'simai.composition.inputs.v1',
+                'scope' => $scope,
+                'values' => [
+                    'heading' => [
+                        'kind' => 'content', 'value' => $content,
+                        'valueDigest' => $this->digest($content), 'origin' => $origin,
+                    ],
+                ],
+            ],
+            'trustedContext' => ['scope' => $scope],
+            'executionContract' => [
+                'contractDigest' => self::CONTRACT_DIGEST,
+                'registryDigest' => 'sha256:larena-registry',
+                'rendererDigest' => 'sha256:larena-renderer',
+            ],
+            'sources' => [[
+                'kind' => 'template', 'owner' => 'larena/layout',
+                'ref' => 'bound-heading-page', 'revision' => '1',
+                'source' => [
+                    'schema' => 'simai.composition.recipe-manifest.v1',
+                    'id' => 'bound-heading-page',
+                    'parameters' => [],
+                    'slots' => ['main' => ['min' => 1, 'max' => 1, 'types' => ['layout.section']]],
+                    'body' => [
+                        'id' => 'shell',
+                        'node' => [
+                            'type' => 'layout.page',
+                            'slots' => ['default' => [['id' => 'main-slot', 'insertSlot' => 'main']]],
+                        ],
+                    ],
+                ],
+            ]],
+        ];
+    }
+
     /** @return array<string,mixed> */
     private function recipe(): array
     {

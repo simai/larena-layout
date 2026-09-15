@@ -16,6 +16,7 @@ $tests = [
     __DIR__ . '/../tests/Unit/PageAssemblyDescriptorTest.php',
     __DIR__ . '/../tests/Unit/MinimalCmsRenderPlanTest.php',
     __DIR__ . '/../tests/Integration/PageDescriptorPersistenceTest.php',
+    __DIR__ . '/../tests/Integration/FrameworkRecipeSnapshotPersistenceTest.php',
 ];
 
 foreach ($tests as $test) {

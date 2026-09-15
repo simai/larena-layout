@@ -22,6 +22,8 @@ features:
   - layout.page_composition_validation
   - layout.page_block_smart_view_mapping
   - layout.persistent_page_descriptor
+  - layout.compiled_page_snapshot_activation
+  - layout.compiled_page_snapshot_rollback
   - layout.page_descriptor_scope_authorization
   - layout.typed_safe_owner_projection
   - layout.deterministic_bounded_projection

@@ -34,3 +34,20 @@ advanced developer surface.
 Migration notes: additive contract only. No database migration is introduced
 in this batch. Existing stored page descriptors remain readable through the
 adapter. Rollback removes the new normalizer, schema, example and adapter.
+
+## Recipe and active result
+
+Page Assembly remains Larena's editable source. `FrameworkRecipeRequestFactory`
+can map an authorized projection to a Simai Framework Recipe request. Framework
+then produces a complete Document, HTML and dependency receipt.
+
+These three values may be saved together as an immutable compiled-page
+snapshot. The active pointer has its own increasing revision. Publication and
+rollback must name the revision they observed; a stale request fails instead of
+overwriting a newer result. Rollback selects an older verified snapshot and
+creates a new pointer revision. Reading or switching the result repeats the
+Larena scope-policy check, so revoking access also affects cached output.
+
+The file store proves this lifecycle without a database migration. A Larena
+application may provide another implementation of `CompiledPageSnapshotStore`,
+but it must preserve the same whole-snapshot, revision and authorization rules.

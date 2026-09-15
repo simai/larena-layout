@@ -3,7 +3,12 @@
   "files": {
     "src/Runtime/FrameworkRecipeRequestFactory.php": "Larena projection to Recipe and trusted inputs",
     "src/Runtime/FrameworkRecipeCompiler.php": "Exact-candidate process boundary",
+    "src/Runtime/FrameworkRecipeSnapshotPublisher.php": "Compile then activate boundary",
+    "src/Contracts/CompiledPageSnapshotStore.php": "Product-owned compiled snapshot lifecycle contract",
+    "src/Persistence/FileCompiledPageSnapshotStore.php": "Immutable snapshots, activation CAS, rollback and authorization",
+    "src/ValueObjects/CompiledPageSnapshot.php": "Active compiled page result",
     "resources/runtime/framework-recipe-adapter.mjs": "Framework resolver and renderer invocation",
-    "tests/Unit/FrameworkRecipeCompilerTest.php": "Product scenario and fail-closed checks"
+    "tests/Unit/FrameworkRecipeCompilerTest.php": "Product scenario and fail-closed checks",
+    "tests/Integration/FrameworkRecipeSnapshotPersistenceTest.php": "Activation, rollback, stale write and revoked access checks"
   }
 }

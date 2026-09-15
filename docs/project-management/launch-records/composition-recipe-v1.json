@@ -2,11 +2,11 @@
   "schema": "larena.package_launch_record.v1",
   "package": "larena/layout",
   "target_id": "larena.target.composition_recipe_v1",
-  "goal": "Resolve one existing Larena article scenario through the accepted Simai Framework Composition Recipe candidate without changing storage.",
+  "goal": "Resolve one existing Larena article scenario and safely activate or roll back its compiled snapshot without changing the database.",
   "source_contract": "larena.layout.page_composition",
   "target_contract": "simai.composition.recipe.v1",
-  "scope": ["article_projection", "trusted_input_snapshot", "settings_variant", "exact_framework_pin", "tests"],
-  "non_goals": ["database_migration", "storage_format_change", "mass_page_conversion", "production_activation"],
+  "scope": ["article_projection", "trusted_input_snapshot", "settings_variant", "exact_framework_pin", "compiled_snapshot", "activation_cas", "rollback", "access_recheck", "tests"],
+  "non_goals": ["database_migration", "mass_page_conversion", "production_activation"],
   "authorization": "2026-09-14-composition-recipe-v1-plan",
   "coding_allowed": true
 }

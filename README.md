@@ -16,8 +16,17 @@ Unknown recipes and invalid assignments fail closed.
 Page Assembly v1 is the canonical backend composition envelope. It normalizes
 site, page, region, section and block order while retaining only stable Smart
 Component view, preset, modifier and binding identifiers. A bounded adapter
-accepts the already supported legacy page descriptor shape; Layout still never
-chooses a frontend renderer or calls UI directly.
+accepts the already supported legacy page descriptor shape. This authoring
+contract does not contain renderer code or HTML.
+
+The optional Composition Recipe adapter passes one authorized projection and
+its settings to an exactly pinned Simai Framework runtime. A successful build
+can be stored as one immutable snapshot containing Document, HTML and its
+dependency receipt. `FileCompiledPageSnapshotStore` changes the active snapshot
+only when the caller supplies the current activation revision. Rollback points
+to an earlier verified snapshot while increasing that revision, and every read
+checks the scope policy again. The store is a database-free integration surface;
+the application still owns its production cache and publication policy.
 
 Layout also owns a persistent declarative JSON page descriptor and a typed
 headless projection boundary. Descriptor create, update, read and projection
@@ -36,8 +45,8 @@ production renderer or production readiness.
 
 Universal layout and page composition engine for public pages, admin pages, dashboards, forms, lists, detail pages, documentation pages and widgets in Larena.
 
-The package contains no routes, browser renderer or frontend assets. Its PDO
-persistence and headless projection are package-level candidates awaiting
-independent acceptance and Root adoption.
+The package contains no routes or frontend assets. Its PDO descriptor
+persistence, headless projection and compiled-snapshot adapter are package-level
+candidates awaiting application adoption.
 
 Canonical specifications are in `simai/larena-specs`.

@@ -9,6 +9,16 @@ use JsonException;
 
 final readonly class FrameworkRecipeCompiler
 {
+    public static function fromFrameworkDistribution(string $nodeBinary, string $frameworkRoot): self
+    {
+        $entry = rtrim($frameworkRoot, '/\\\\').'/distr/core/js/composition/index.mjs';
+        if (! is_file($entry) || is_link($entry)) {
+            throw new InvalidArgumentException('layout_framework_recipe_distribution_invalid');
+        }
+
+        return new self($nodeBinary, $entry, 'sha256:'.hash_file('sha256', $entry));
+    }
+
     public function __construct(
         private string $nodeBinary,
         private string $frameworkEntry,

@@ -13,12 +13,12 @@ use Larena\Layout\Runtime\FrameworkRecipeSnapshotPublisher;
 use Larena\Layout\Runtime\PageCompositionNormalizer;
 
 $node = getenv('SIMAI_NODE_BINARY');
-$frameworkRoot = getenv('SIMAI_UI_SOURCE_ROOT');
+$frameworkRoot = getenv('SIMAI_UI_ROOT');
 if (! is_string($node) || $node === '' || ! is_string($frameworkRoot) || $frameworkRoot === '') {
     echo "FrameworkRecipeSnapshotPersistenceTest skipped: exact Framework candidate is not configured.\n";
     return;
 }
-$entry = realpath($frameworkRoot.'/src/core/js/composition/index.mjs');
+$entry = realpath($frameworkRoot.'/distr/core/js/composition/index.mjs');
 assert(is_string($entry));
 $root = sys_get_temp_dir().'/larena-recipe-snapshots-'.bin2hex(random_bytes(8));
 mkdir($root, 0755, true);
@@ -48,7 +48,7 @@ try {
         }
     };
     $store = new FileCompiledPageSnapshotStore($root, $policy);
-    $compiler = new FrameworkRecipeCompiler($node, $entry, 'sha256:'.hash_file('sha256', $entry));
+    $compiler = FrameworkRecipeCompiler::fromFrameworkDistribution($node, $frameworkRoot);
     $publisher = new FrameworkRecipeSnapshotPublisher($compiler, $store);
     $factory = new FrameworkRecipeRequestFactory();
     $composition = (new PageCompositionNormalizer())->normalizeEditorBlocks([[

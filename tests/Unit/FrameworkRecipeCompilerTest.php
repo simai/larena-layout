@@ -9,12 +9,12 @@ use Larena\Layout\Runtime\FrameworkRecipeRequestFactory;
 use Larena\Layout\Runtime\PageCompositionNormalizer;
 
 $node = getenv('SIMAI_NODE_BINARY');
-$frameworkRoot = getenv('SIMAI_UI_SOURCE_ROOT');
+$frameworkRoot = getenv('SIMAI_UI_ROOT');
 if (! is_string($node) || $node === '' || ! is_string($frameworkRoot) || $frameworkRoot === '') {
     echo "FrameworkRecipeCompilerTest skipped: exact Framework candidate is not configured.\n";
     return;
 }
-$entry = realpath($frameworkRoot.'/src/core/js/composition/index.mjs');
+$entry = realpath($frameworkRoot.'/distr/core/js/composition/index.mjs');
 assert(is_string($entry));
 $composition = (new PageCompositionNormalizer())->normalizeEditorBlocks([[
     'instance_id' => 'block_text_01', 'type' => 'text', 'enabled' => true, 'sort' => 100,
@@ -22,7 +22,7 @@ $composition = (new PageCompositionNormalizer())->normalizeEditorBlocks([[
 ]]);
 $resolved = [['instance_id' => 'block_text_01', 'settings' => ['heading' => 'Статья', 'body' => 'Текст из существующего источника Larena.', 'alignment' => 'left']]];
 $factory = new FrameworkRecipeRequestFactory();
-$compiler = new FrameworkRecipeCompiler($node, $entry, 'sha256:'.hash_file('sha256', $entry));
+$compiler = FrameworkRecipeCompiler::fromFrameworkDistribution($node, $frameworkRoot);
 
 $compact = $compiler->compile($factory->article($composition, $resolved, 'site-17', 'compact'));
 assert(str_contains($compact['html'], 'Краткая шапка'));

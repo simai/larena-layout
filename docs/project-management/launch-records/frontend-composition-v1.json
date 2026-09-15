@@ -1,0 +1,28 @@
+{
+  "schema": "larena.package_launch_record.v1",
+  "package": "larena/layout",
+  "target_id": "larena.target.frontend_composition_v1",
+  "goal": "Persist, query, version and recursively resolve Larena page, section and block artifacts into the pinned Framework Composition Recipe without storing authored HTML.",
+  "source_contract": "larena.frontend.composition 1.0.0",
+  "target_contract": "simai.composition.recipe.v1 1.0.1",
+  "scope": [
+    "artifact_normalization",
+    "versioned_persistence",
+    "many_parent_relationship_projection",
+    "draft_publish_restore",
+    "named_slot_recursion",
+    "cycle_and_limit_rejection",
+    "recipe_projection",
+    "sqlite_and_mysql_compatible_ddl",
+    "tests"
+  ],
+  "non_goals": [
+    "framework_grammar_change",
+    "eager_page_migration",
+    "new_package",
+    "production_activation",
+    "visual_editor"
+  ],
+  "authorization": "2026-09-15-unified-declarative-composition-plan",
+  "coding_allowed": true
+}

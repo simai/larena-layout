@@ -1,0 +1,14 @@
+{
+  "schema": "larena.evidence_file_map.v1",
+  "files": {
+    "src/Contracts/LayoutArtifactCatalog.php": "read and relationship query contract",
+    "src/Contracts/LayoutArtifactStore.php": "version, publication and restoration contract",
+    "src/Persistence/PdoLayoutArtifactStore.php": "SQLite and MySQL persistence with immutable revisions and placement projection",
+    "src/Runtime/LayoutArtifactNormalizer.php": "Larena artifact envelope and safe canonical encoding",
+    "src/Runtime/LayoutArtifactResolver.php": "UI-manifest validation and recursive Framework Recipe projection",
+    "src/ValueObjects/LayoutArtifactRevision.php": "immutable artifact revision result",
+    "src/ValueObjects/LayoutPlacement.php": "named revision-pinned placement value",
+    "tests/Integration/LayoutArtifactPersistenceTest.php": "SQLite/MySQL lifecycle, many-parent queries and persistence boundaries",
+    "tests/Unit/LayoutArtifactResolverTest.php": "nested block and exact Framework runtime proof"
+  }
+}

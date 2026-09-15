@@ -4,6 +4,11 @@
 
 ### Added
 
+- Add a versioned `LayoutArtifactStore` and query catalog for reusable page, section and block JSON artifacts.
+- Add immutable revision-pinned placement links with many-parent lookup, publication and restoration.
+- Project recursively nested artifacts through UI-owned named-slot manifests to Framework Composition Recipe 1.0.1.
+- Verify artifact persistence and reinstall on SQLite and disposable MySQL 8.4.
+
 - Add the Minimal CMS site descriptor and deterministic normalized render plan.
 - Reject unknown pages, regions, Smart Component identifiers and binding sources before rendering.
 - Preserve an enclosing database transaction while persisting page descriptors through a savepoint.

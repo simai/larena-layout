@@ -31,11 +31,16 @@ features:
   - layout.normalized_render_plan
   - layout.page_assembly_descriptor_v1
   - layout.legacy_page_descriptor_adapter
+  - layout.layout_artifact_catalog
+  - layout.layout_artifact_revision_store
+  - layout.layout_artifact_relationship_projection
+  - layout.layout_artifact_recipe_projection
 runtime:
   php: "^8.3"
   laravel: "^13.0"
 evidence:
-  path: docs/project-management/evidence/larena-minimal-cms-v1-b11
+  path: docs/project-management/evidence/frontend-composition-v1
   previous_paths:
+    - docs/project-management/evidence/larena-minimal-cms-v1-b11
     - docs/project-management/evidence/frontend-composition/batch-0/layout-clean-baseline/
     - docs/project-management/evidence/frontend-composition/batch-1/layout-current/

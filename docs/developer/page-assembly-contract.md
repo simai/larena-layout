@@ -1,5 +1,25 @@
 # Page Assembly Descriptor v1
 
+The product standard is `larena.frontend.composition` 1.0.0. New reusable
+structure uses `larena.layout.artifact.v1`: page, section and block share one
+envelope and differ by `kind`. Existing Page Assembly and legacy Page
+Descriptor documents remain bounded compatibility inputs during page-by-page
+migration.
+
+An artifact placement names a child artifact, exact child revision (or the
+published pointer), instance, slot, order, enabled state and inert parameter
+overrides. Revisions are immutable. The relationship table indexes every
+parent revision, so a child may have several current parents and a published
+tree cannot silently change when a child draft changes.
+
+`LayoutArtifactResolver` receives UI-owned manifests and validates every view,
+variant and named slot before projecting the recursive tree to Framework
+Recipe. Artifact `parameters.data` and `parameters.props` become literal Recipe
+data and props; typed content, storage, setting and logical-file bindings remain
+references until their owner resolves the exact revision. Auth request values
+such as CSRF, passwords, one-time codes, entered identity and personalized
+errors are never artifact or shared-snapshot data.
+
 `larena/layout` owns the canonical declarative page assembly document. The
 document describes placement and bindings; it never contains PHP classes,
 SIMAI Framework tags, templates, HTML, JavaScript, asset paths or executable
@@ -31,9 +51,11 @@ keys, duplicate IDs and aggregate limits fail closed. A future constructor
 edits this descriptor through validated forms and preview; raw JSON remains an
 advanced developer surface.
 
-Migration notes: additive contract only. No database migration is introduced
-in this batch. Existing stored page descriptors remain readable through the
-adapter. Rollback removes the new normalizer, schema, example and adapter.
+Migration notes: additive contract only. Existing stored page descriptors
+remain readable through the adapter and are not rewritten at installation.
+The artifact store creates its three tables explicitly; uninstall drops only
+those tables, and reapply recreates an empty store. Application migration and
+data backup remain Root responsibilities.
 
 ## Recipe and active result
 

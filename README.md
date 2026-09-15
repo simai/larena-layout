@@ -1,5 +1,20 @@
 # Larena Layout
 
+Larena Frontend Composition 1.0 adds one recursive artifact model for pages,
+sections and blocks. Package-owned artifacts come from pinned Git revisions;
+site-owned artifacts use `LayoutArtifactStore`; compiled Framework Documents,
+HTML and dependency receipts remain immutable snapshots. The same artifact can
+be placed in several parents because parent-child rows are a query projection,
+not an ownership tree.
+
+`PdoLayoutArtifactStore` provides immutable revision history, optimistic
+updates, draft publication, restoration, queries by kind/parent/child and a
+revision-pinned placement index on SQLite and MySQL. `LayoutArtifactResolver`
+checks the component, view, variant, named slot, cardinality, kind and optional
+component allowlist supplied by `larena/ui`, then emits
+`simai.composition.recipe.v1`. Unknown references and manifests fail before a
+snapshot can be activated.
+
 The typed Admin recipe contract defines package-owned `admin.collection` and
 `admin.form` composition without taking ownership of UI components, rendering,
 records or effects. `admin.collection` preserves the existing heading, toolbar,
@@ -41,7 +56,8 @@ therefore cannot create tables, and rejected writes against an installed schema
 remain transactionally atomic.
 
 This developer slice does not claim a theme builder, visual page builder,
-production renderer or production readiness.
+mass page migration or production readiness. Application adoption starts with
+the isolated Auth login page and remains a separate acceptance stage.
 
 Universal layout and page composition engine for public pages, admin pages, dashboards, forms, lists, detail pages, documentation pages and widgets in Larena.
 

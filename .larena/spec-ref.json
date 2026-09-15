@@ -2,10 +2,13 @@
   "schema": "larena.package_specs_reference.v1",
   "package": "larena/layout",
   "specs_repo": "simai/larena-specs",
-  "specs_commit": "757a99ffaa351db55b29bb9ac6d7eb4a18d8e23c",
+  "specs_commit": "d2efbf0b5100a57b6503654d2e49b7222d94b43c",
   "package_spec": "specs/packages/layout/package.json",
   "package_dna": "specs/packages/layout/dna.json",
   "features_index": "specs/packages/layout/features.json",
+  "frontend_standard": "specs/standards/larena-frontend-composition-v1.json",
+  "frontend_standard_version": "1.0.0",
+  "frontend_standard_sha256": "bbf755329dbf66a24a2c2a2ba63c3cd5b5459a3e220cda7b664703d555b027ed",
   "canonical_update_allowed": false,
   "graph_sync_proposal_required": true
 }

@@ -14,8 +14,11 @@ $tests = [
     __DIR__ . '/../tests/Unit/FrameworkCompositionProjectorTest.php',
     __DIR__ . '/../tests/Unit/FrameworkRecipeCompilerTest.php',
     __DIR__ . '/../tests/Unit/PageAssemblyDescriptorTest.php',
+    __DIR__ . '/../tests/Unit/LayoutArtifactNormalizerTest.php',
+    __DIR__ . '/../tests/Unit/LayoutArtifactResolverTest.php',
     __DIR__ . '/../tests/Unit/MinimalCmsRenderPlanTest.php',
     __DIR__ . '/../tests/Integration/PageDescriptorPersistenceTest.php',
+    __DIR__ . '/../tests/Integration/LayoutArtifactPersistenceTest.php',
     __DIR__ . '/../tests/Integration/FrameworkRecipeSnapshotPersistenceTest.php',
 ];
 

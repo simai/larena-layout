@@ -9,7 +9,7 @@ use Larena\Layout\Contracts\PageComposition;
 
 final readonly class FrameworkRecipeRequestFactory
 {
-    private const CONTRACT_DIGEST = 'sha256:894de36b030bebdcc539c3616f29f0ca97d20f5aed07b9cd07d0d5448eda1cc2';
+    private const CONTRACT_DIGEST = 'sha256:63daf55cb7d7c39d55f59a5ba3f5d7e511ace3f16d344879cbc877782ff3dcfd';
 
     /** @param list<array<string,mixed>> $resolvedBlocks @return array<string,mixed> */
     public function article(PageComposition $composition, array $resolvedBlocks, string $scope, string $headerMode): array

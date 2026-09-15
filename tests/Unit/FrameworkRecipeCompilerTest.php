@@ -26,6 +26,7 @@ $compiler = FrameworkRecipeCompiler::fromFrameworkDistribution($node, $framework
 
 $compact = $compiler->compile($factory->article($composition, $resolved, 'site-17', 'compact'));
 assert(str_contains($compact['html'], 'Краткая шапка'));
+assert(str_contains($compact['html'], '<h1'));
 assert(str_contains($compact['html'], 'Текст из существующего источника Larena.'));
 assert(! str_contains($compact['html'], 'Расширенная шапка'));
 assert(count($compact['dependencyReceipt']['references']) === 2);

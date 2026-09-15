@@ -51,8 +51,8 @@ final readonly class FrameworkRecipeRequestFactory
             'executionContract' => ['contractDigest' => self::CONTRACT_DIGEST, 'registryDigest' => 'sha256:larena-registry', 'rendererDigest' => 'sha256:larena-renderer'],
             'sources' => [
                 ['kind' => 'template', 'owner' => 'larena/layout', 'ref' => 'article', 'revision' => '1', 'source' => $this->pageTemplate()],
-                ['kind' => 'fragment', 'owner' => 'larena/layout', 'ref' => 'header.compact', 'revision' => '1', 'source' => $this->header('Краткая шапка')],
-                ['kind' => 'fragment', 'owner' => 'larena/layout', 'ref' => 'header.expanded', 'revision' => '1', 'source' => $this->header('Расширенная шапка')],
+                ['kind' => 'fragment', 'owner' => 'larena/layout', 'ref' => 'header.compact', 'revision' => '2', 'source' => $this->header('Краткая шапка')],
+                ['kind' => 'fragment', 'owner' => 'larena/layout', 'ref' => 'header.expanded', 'revision' => '2', 'source' => $this->header('Расширенная шапка')],
             ],
         ];
     }
@@ -68,8 +68,8 @@ final readonly class FrameworkRecipeRequestFactory
             ],
             'root' => ['id' => 'page', 'ref' => ['kind' => 'template', 'owner' => 'larena/layout', 'ref' => 'article', 'policy' => 'pinned', 'revision' => '1'], 'slots' => [
                 'header' => [['id' => 'header-choice', 'select' => ['value' => ['input' => 'headerMode'], 'cases' => [
-                    'compact' => ['id' => 'compact', 'ref' => ['kind' => 'fragment', 'owner' => 'larena/layout', 'ref' => 'header.compact', 'policy' => 'pinned', 'revision' => '1']],
-                    'expanded' => ['id' => 'expanded', 'ref' => ['kind' => 'fragment', 'owner' => 'larena/layout', 'ref' => 'header.expanded', 'policy' => 'pinned', 'revision' => '1']],
+                    'compact' => ['id' => 'compact', 'ref' => ['kind' => 'fragment', 'owner' => 'larena/layout', 'ref' => 'header.compact', 'policy' => 'pinned', 'revision' => '2']],
+                    'expanded' => ['id' => 'expanded', 'ref' => ['kind' => 'fragment', 'owner' => 'larena/layout', 'ref' => 'header.expanded', 'policy' => 'pinned', 'revision' => '2']],
                 ]]]],
                 'main' => [['id' => 'article-body', 'node' => ['type' => 'content.paragraph', 'data' => ['content' => ['input' => 'body']], 'bindings' => [['input' => 'body', 'target' => 'content']]]]],
             ]],
@@ -109,7 +109,7 @@ final readonly class FrameworkRecipeRequestFactory
     private function header(string $title): array
     {
         return ['id' => 'header', 'node' => ['type' => 'layout.section', 'slots' => ['default' => [[
-            'id' => 'title', 'node' => ['type' => 'content.heading', 'data' => ['level' => ['literal' => 2], 'content' => ['literal' => [['type' => 'text', 'value' => $title]]]]],
+            'id' => 'title', 'node' => ['type' => 'content.heading', 'data' => ['level' => ['literal' => 1], 'content' => ['literal' => [['type' => 'text', 'value' => $title]]]]],
         ]]]]];
     }
 }

@@ -15,3 +15,8 @@ Passed on PHP 8.3.31:
 - exact Framework source runtime compilation and server HTML;
 - existing Recipe compiler and immutable snapshot regression tests;
 - PHP-encoded artifact validation against the accepted JSON Schema.
+- Framework canonical JSON vectors including Unicode UTF-16 key order, empty
+  object/array distinction and JavaScript array-index ordering;
+- immutable package catalog path containment, parent/child queries and database
+  override precedence;
+- node-only PHP Recipe resolution, Framework node IDs and receipt digests.

@@ -30,6 +30,10 @@
     "src/Contracts/LayoutArtifactCatalog.php",
     "src/Contracts/LayoutArtifactStore.php",
     "src/Persistence/PdoLayoutArtifactStore.php",
+    "src/Persistence/PackageLayoutArtifactCatalog.php",
+    "src/Runtime/HybridLayoutArtifactCatalog.php",
+    "src/Runtime/FrameworkCanonicalJson.php",
+    "src/Runtime/FrameworkNodeRecipeResolver.php",
     "src/Runtime/LayoutArtifactNormalizer.php",
     "src/Runtime/LayoutArtifactResolver.php",
     "src/ValueObjects/LayoutArtifactRevision.php",
@@ -38,6 +42,9 @@
     "src/Runtime/FrameworkRecipeRequestFactory.php",
     "tests/Unit/LayoutArtifactNormalizerTest.php",
     "tests/Unit/LayoutArtifactResolverTest.php",
+    "tests/Unit/FrameworkCanonicalJsonTest.php",
+    "tests/Unit/PackageLayoutArtifactCatalogTest.php",
+    "tests/Unit/FrameworkNodeRecipeResolverTest.php",
     "tests/Integration/LayoutArtifactPersistenceTest.php"
   ],
   "forbidden_files": [

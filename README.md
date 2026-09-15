@@ -15,6 +15,17 @@ component allowlist supplied by `larena/ui`, then emits
 `simai.composition.recipe.v1`. Unknown references and manifests fail before a
 snapshot can be activated.
 
+`PackageLayoutArtifactCatalog` reads immutable package artifacts from a pinned
+catalog without allowing paths to escape the package. `HybridLayoutArtifactCatalog`
+prefers a site-owned database revision and falls back to the packaged system
+revision. Database overrides may reference pinned package children; the store
+checks the combined graph for cycles before committing the override.
+
+`FrameworkNodeRecipeResolver` is the PHP request-time adapter for the bounded
+node-only Recipe profile emitted by `LayoutArtifactResolver`. It reproduces the
+Framework node identity and canonical digest rules, emits a Framework Document
+and dependency receipt, and performs no Node.js process or external I/O.
+
 The typed Admin recipe contract defines package-owned `admin.collection` and
 `admin.form` composition without taking ownership of UI components, rendering,
 records or effects. `admin.collection` preserves the existing heading, toolbar,
@@ -61,8 +72,8 @@ the isolated Auth login page and remains a separate acceptance stage.
 
 Universal layout and page composition engine for public pages, admin pages, dashboards, forms, lists, detail pages, documentation pages and widgets in Larena.
 
-The package contains no routes or frontend assets. Its PDO descriptor
-persistence, headless projection and compiled-snapshot adapter are package-level
-candidates awaiting application adoption.
+The package contains no routes or frontend assets. Its package/database catalog,
+headless projection and compiled-snapshot adapters are used by application
+owners; application-specific types and HTML remain outside Layout.
 
 Canonical specifications are in `simai/larena-specs`.

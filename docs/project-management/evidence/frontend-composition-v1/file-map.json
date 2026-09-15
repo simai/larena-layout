@@ -4,11 +4,18 @@
     "src/Contracts/LayoutArtifactCatalog.php": "read and relationship query contract",
     "src/Contracts/LayoutArtifactStore.php": "version, publication and restoration contract",
     "src/Persistence/PdoLayoutArtifactStore.php": "SQLite and MySQL persistence with immutable revisions and placement projection",
+    "src/Persistence/PackageLayoutArtifactCatalog.php": "immutable package-owned artifact catalog with contained paths",
+    "src/Runtime/HybridLayoutArtifactCatalog.php": "database override and system fallback resolution",
+    "src/Runtime/FrameworkCanonicalJson.php": "Framework canonical JSON and digest profile in PHP",
+    "src/Runtime/FrameworkNodeRecipeResolver.php": "request-time node-only Recipe to Document PHP adapter",
     "src/Runtime/LayoutArtifactNormalizer.php": "Larena artifact envelope and safe canonical encoding",
     "src/Runtime/LayoutArtifactResolver.php": "UI-manifest validation and recursive Framework Recipe projection",
     "src/ValueObjects/LayoutArtifactRevision.php": "immutable artifact revision result",
     "src/ValueObjects/LayoutPlacement.php": "named revision-pinned placement value",
     "tests/Integration/LayoutArtifactPersistenceTest.php": "SQLite/MySQL lifecycle, many-parent queries and persistence boundaries",
-    "tests/Unit/LayoutArtifactResolverTest.php": "nested block and exact Framework runtime proof"
+    "tests/Unit/LayoutArtifactResolverTest.php": "nested block and exact Framework runtime proof",
+    "tests/Unit/FrameworkCanonicalJsonTest.php": "cross-language canonicalization vectors",
+    "tests/Unit/PackageLayoutArtifactCatalogTest.php": "system catalog and database override proof",
+    "tests/Unit/FrameworkNodeRecipeResolverTest.php": "PHP Recipe identity and receipt proof"
   }
 }

@@ -8,6 +8,10 @@
 - Add immutable revision-pinned placement links with many-parent lookup, publication and restoration.
 - Project recursively nested artifacts through UI-owned named-slot manifests to Framework Composition Recipe 1.0.1.
 - Verify artifact persistence and reinstall on SQLite and disposable MySQL 8.4.
+- Read immutable system artifacts through a traversal-safe package catalog and
+  resolve database overrides over that catalog.
+- Add a no-I/O PHP adapter for the node-only Framework Recipe profile with
+  cross-language canonical JSON and Framework node identities.
 
 - Add the Minimal CMS site descriptor and deterministic normalized render plan.
 - Reject unknown pages, regions, Smart Component identifiers and binding sources before rendering.

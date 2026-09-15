@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Larena\Layout\Persistence;
 
 use JsonException;
+use Larena\Layout\Contracts\LayoutArtifactCatalog;
 use Larena\Layout\Contracts\LayoutArtifactStore;
 use Larena\Layout\Contracts\PageDescriptorAuthorizationPolicy;
 use Larena\Layout\Exceptions\LayoutRejected;
@@ -19,6 +20,7 @@ final readonly class PdoLayoutArtifactStore implements LayoutArtifactStore
         private PDO $pdo,
         private PageDescriptorAuthorizationPolicy $authorization,
         private LayoutArtifactNormalizer $normalizer = new LayoutArtifactNormalizer(),
+        private ?LayoutArtifactCatalog $fallback = null,
     ) {
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
@@ -258,7 +260,7 @@ final readonly class PdoLayoutArtifactStore implements LayoutArtifactStore
                 throw new LayoutRejected('layout_artifact_revision_conflict');
             }
             $revision = $expectedRevision === null ? 1 : $expectedRevision + 1;
-            $resolvedPlacements = $this->resolvePlacements($scope, $artifact['placements']);
+            $resolvedPlacements = $this->resolvePlacements($scope, $artifact['placements'], $actor);
             if ($expectedRevision === null) {
                 $head = $this->pdo->prepare('INSERT INTO larena_layout_artifacts (scope_ref, artifact_id, kind, current_revision, published_revision, current_json, semantic_hash, updated_by) VALUES (:scope, :artifact, :kind, :revision, NULL, :json, :hash, :actor)');
             } else {
@@ -278,7 +280,7 @@ final readonly class PdoLayoutArtifactStore implements LayoutArtifactStore
             foreach ($resolvedPlacements as $placement) {
                 $insert->execute(['scope' => $scope, 'parent' => $id, 'parent_revision' => $revision, 'instance' => $placement['instance_id'], 'child' => $placement['artifact_ref'], 'child_revision' => $placement['child_revision'], 'slot' => $placement['slot'], 'sort' => $placement['sort'], 'enabled' => $placement['enabled'] ? 1 : 0]);
             }
-            $this->assertAcyclic($scope, $id, $revision, [], 0);
+            $this->assertAcyclic($scope, $id, $revision, [], 0, $actor);
             $this->pdo->commit();
             return new LayoutArtifactRevision($id, $scope, (string) $artifact['kind'], $revision, $artifact, $hash, false);
         } catch (LayoutRejected $exception) {
@@ -291,7 +293,7 @@ final readonly class PdoLayoutArtifactStore implements LayoutArtifactStore
     }
 
     /** @param list<array<string, mixed>> $placements @return list<array<string, mixed>> */
-    private function resolvePlacements(string $scope, array $placements): array
+    private function resolvePlacements(string $scope, array $placements, string $actor): array
     {
         $resolved = [];
         foreach ($placements as $placement) {
@@ -301,11 +303,17 @@ final readonly class PdoLayoutArtifactStore implements LayoutArtifactStore
                 $query->execute(['scope' => $scope, 'artifact' => $placement['artifact_ref']]);
                 $value = $query->fetchColumn();
                 if ($value === false || $value === null) {
-                    throw new LayoutRejected('layout_artifact_child_not_published');
+                    $fallback = $this->fallback?->published($scope, (string) $placement['artifact_ref'], $actor);
+                    if ($fallback === null) {
+                        throw new LayoutRejected('layout_artifact_child_not_published');
+                    }
+                    $revision = $fallback->revision;
+                } else {
+                    $revision = (int) $value;
                 }
-                $revision = (int) $value;
             }
-            if ($this->versionRow($scope, (string) $placement['artifact_ref'], (int) $revision) === null) {
+            if ($this->versionRow($scope, (string) $placement['artifact_ref'], (int) $revision) === null
+                && $this->fallback?->readRevision($scope, (string) $placement['artifact_ref'], (int) $revision, $actor) === null) {
                 throw new LayoutRejected('layout_artifact_child_revision_unknown');
             }
             $placement['child_revision'] = $revision;
@@ -315,7 +323,7 @@ final readonly class PdoLayoutArtifactStore implements LayoutArtifactStore
     }
 
     /** @param array<string, true> $path */
-    private function assertAcyclic(string $scope, string $artifactId, int $revision, array $path, int $depth): void
+    private function assertAcyclic(string $scope, string $artifactId, int $revision, array $path, int $depth, string $actor): void
     {
         if ($depth > 32) {
             throw new LayoutRejected('layout_artifact_graph_depth_limit_exceeded');
@@ -325,10 +333,39 @@ final readonly class PdoLayoutArtifactStore implements LayoutArtifactStore
             throw new LayoutRejected('layout_artifact_cycle_detected');
         }
         $path[$key] = true;
-        $statement = $this->pdo->prepare('SELECT child_artifact_id, child_revision FROM larena_layout_artifact_links WHERE scope_ref = :scope AND parent_artifact_id = :artifact AND parent_revision = :revision AND enabled = 1 ORDER BY sort_order, instance_id');
-        $statement->execute(['scope' => $scope, 'artifact' => $artifactId, 'revision' => $revision]);
-        while (is_array($child = $statement->fetch(PDO::FETCH_ASSOC))) {
-            $this->assertAcyclic($scope, (string) $child['child_artifact_id'], (int) $child['child_revision'], $path, $depth + 1);
+        $children = [];
+        if ($this->versionRow($scope, $artifactId, $revision) !== null) {
+            $statement = $this->pdo->prepare('SELECT child_artifact_id, child_revision FROM larena_layout_artifact_links WHERE scope_ref = :scope AND parent_artifact_id = :artifact AND parent_revision = :revision AND enabled = 1 ORDER BY sort_order, instance_id');
+            $statement->execute(['scope' => $scope, 'artifact' => $artifactId, 'revision' => $revision]);
+            while (is_array($child = $statement->fetch(PDO::FETCH_ASSOC))) {
+                $children[] = ['artifact_id' => (string) $child['child_artifact_id'], 'revision' => (int) $child['child_revision']];
+            }
+        } else {
+            $fallback = $this->fallback?->readRevision($scope, $artifactId, $revision, $actor);
+            if ($fallback === null) {
+                throw new LayoutRejected('layout_artifact_child_revision_unknown');
+            }
+            foreach ($fallback->artifact['placements'] as $placement) {
+                if (!$placement['enabled']) {
+                    continue;
+                }
+                $childRevision = $placement['expected_revision'];
+                if ($childRevision === null) {
+                    $query = $this->pdo->prepare('SELECT published_revision FROM larena_layout_artifacts WHERE scope_ref = :scope AND artifact_id = :artifact');
+                    $query->execute(['scope' => $scope, 'artifact' => $placement['artifact_ref']]);
+                    $value = $query->fetchColumn();
+                    $childRevision = $value === false || $value === null
+                        ? $this->fallback->published($scope, (string) $placement['artifact_ref'], $actor)?->revision
+                        : (int) $value;
+                }
+                if (!is_int($childRevision)) {
+                    throw new LayoutRejected('layout_artifact_child_not_published');
+                }
+                $children[] = ['artifact_id' => (string) $placement['artifact_ref'], 'revision' => $childRevision];
+            }
+        }
+        foreach ($children as $child) {
+            $this->assertAcyclic($scope, $child['artifact_id'], $child['revision'], $path, $depth + 1, $actor);
         }
     }
 

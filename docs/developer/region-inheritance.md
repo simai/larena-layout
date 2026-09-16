@@ -11,3 +11,5 @@ Output contains references and a provenance receipt, not HTML or a Framework doc
 All traversed dependencies, including earlier overridden layers, remain in the receipt. Cache identity must additionally include owner inputs, settings, localization and exact frontend pair. This resolver does not activate snapshots. Failed resolution must leave the existing active snapshot untouched at the caller boundary.
 
 No database migration or live activation is included. The integration guard and complete browser/publication acceptance remain pending.
+
+`LayoutArtifactResolver::inheritedRecipe` resolves the guarded request, maps regions to registered shell slots, derives placements in memory and invokes the same recursive artifact tree compiler. Mapping must be one-to-one. Kind, component, slot cardinality and cycle rules remain enforced. Shell hash remains canonical; the caller must include the complete inheritance receipt in cache identity.

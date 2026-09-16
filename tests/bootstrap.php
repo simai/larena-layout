@@ -17,7 +17,12 @@ if (is_string($entryAppRoot) && $entryAppRoot !== '') {
 
 foreach (array_unique($candidates) as $autoload) {
     if (is_file($autoload)) {
-        require_once $autoload;
+        $loader = require $autoload;
+        if ($loader instanceof \Composer\Autoload\ClassLoader) {
+            $localLoader = new \Composer\Autoload\ClassLoader();
+            $localLoader->addPsr4('Larena\\Layout\\', $packageRoot . '/src');
+            $localLoader->register(true);
+        }
 
         return;
     }

@@ -23,7 +23,10 @@
     "src/Runtime/RegionInheritanceResolver.php",
     "tests/Unit/RegionInheritanceResolverTest.php",
     "scripts/run-unit-tests.php",
-    "docs/developer/region-inheritance.md"
+    "docs/developer/region-inheritance.md",
+    "src/Runtime/LayoutArtifactResolver.php",
+    "tests/Unit/InheritedArtifactRecipeTest.php",
+    "tests/bootstrap.php"
   ],
   "forbidden_files": [
     "config/*",

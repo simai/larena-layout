@@ -1,3 +1,5 @@
 # Implementation
 
 RegionInheritanceResolver merges authorized site, section and page layers independently for shell and registered regions. Explicit empty replacement clears a region. Exact catalog revisions and placement identity are preserved. Receipt includes source provenance and all traversed artifact revisions. No persistence, publication or renderer is added.
+
+Existing artifact resolver now projects inherited region placements through its same recursive entry implementation. CLI test compiles page → section → externally bound Unicode paragraph to meaningful HTML on the exact old pair. Its lock is 1.0.0 / 894de36…, differing from accepted Specs 1.0.1 / 63daf55…; release conformance remains pending, see framework-contract-delivery-gap.json.

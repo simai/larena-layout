@@ -10,9 +10,12 @@
     "src/Runtime/RegionInheritanceResolver.php",
     "tests/Unit/RegionInheritanceResolverTest.php",
     "scripts/run-unit-tests.php",
-    "docs/developer/region-inheritance.md"
+    "docs/developer/region-inheritance.md",
+    "src/Runtime/LayoutArtifactResolver.php",
+    "tests/Unit/InheritedArtifactRecipeTest.php",
+    "tests/bootstrap.php"
   ],
-  "scope": "Resolve authorized site/section/page layers through the existing scoped artifact catalog; no persistence or rendering changes",
+  "scope": "Resolve authorized site/section/page layers through the existing scoped artifact catalog; no persistence or rendering changes; project effective regions into existing named-slot artifact resolver",
   "forbidden": [
     "database changes",
     "live activation",

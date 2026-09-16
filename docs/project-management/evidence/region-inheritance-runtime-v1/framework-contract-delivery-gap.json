@@ -1,0 +1,15 @@
+{
+  "status": "confirmed_mismatch",
+  "accepted_specs_contract": {
+    "version": "1.0.1",
+    "digest": "sha256:63daf55cb7d7c39d55f59a5ba3f5d7e511ace3f16d344879cbc877782ff3dcfd"
+  },
+  "tested_distribution_contract": {
+    "version": "1.0.0",
+    "digest": "sha256:894de36b030bebdcc539c3616f29f0ca97d20f5aed07b9cd07d0d5448eda1cc2"
+  },
+  "distribution_pair": "8c22fe2b80bb/400d80e501ca",
+  "owner": "Framework distribution through ui-control; Larena UI exact delivery adoption",
+  "release_accepted": false,
+  "required_closure": "Rebuild/adopt exact generated pair containing accepted 1.0.1 contract and repeat conformance and regression tests; do not hand edit distribution."
+}

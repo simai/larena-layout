@@ -37,6 +37,55 @@ final readonly class LayoutArtifactResolver
             throw new LayoutRejected('layout_artifact_root_kind_invalid');
         }
 
+        return $this->build($root, $actor, $locale);
+    }
+
+    /**
+     * Source guard is mandatory and owns canonical source/context verification.
+     * Region-to-slot mappings are trusted application registrations, not JSON inputs.
+     * @param array<string,mixed> $request
+     * @param \Closure(array<string,mixed>,string,string):bool $sourceGuard
+     * @param array<string,string> $regionSlots
+     * @return array<string,mixed>
+     */
+    public function inheritedRecipe(array $request, string $actor, \Closure $sourceGuard, array $regionSlots, string $locale = 'ru'): array
+    {
+        if (preg_match('/^[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*$/D', $locale) !== 1) {
+            throw new LayoutRejected('layout_artifact_locale_invalid');
+        }
+        if (count(array_unique(array_values($regionSlots))) !== count($regionSlots)) {
+            throw new LayoutRejected('layout_inheritance_region_mapping_ambiguous');
+        }
+        $resolved = (new RegionInheritanceResolver($this->catalog, $sourceGuard, array_keys($regionSlots)))->resolve($request, $actor);
+        $scope = $resolved['receipt']['scope_ref'];
+        $shell = $resolved['shell'];
+        $root = $this->catalog->readRevision($scope, $shell['artifact_id'], $shell['revision'], $actor);
+        if ($root === null || $root->kind !== 'page') throw new LayoutRejected('layout_artifact_root_kind_invalid');
+        $manifest = $this->manifest($root->artifact);
+        foreach ($regionSlots as $slot) {
+            if (!isset($manifest['slots'][$slot])) throw new LayoutRejected('layout_inheritance_region_slot_unknown');
+        }
+        $artifact = $root->artifact;
+        foreach ($resolved['regions'] as $region => $placements) {
+            $slot = $regionSlots[$region];
+            $artifact['placements'] = array_values(array_filter($artifact['placements'], static fn (array $existing): bool => $existing['slot'] !== $slot));
+            foreach ($placements as $order => $placement) {
+                $artifact['placements'][] = ['instance_id' => $placement['placement_id'],
+                    'artifact_ref' => $placement['artifact']['artifact_id'], 'expected_revision' => $placement['artifact']['revision'],
+                    'slot' => $slot, 'sort' => $order, 'enabled' => true, 'parameters' => []];
+            }
+        }
+        // Derived placements exist only in memory. Keep the canonical shell hash in dependencies.
+        $derived = new LayoutArtifactRevision($root->artifactId, $root->scopeRef, $root->kind, $root->revision,
+            (new LayoutArtifactNormalizer())->normalize($artifact), $root->semanticHash, $root->published);
+        $result = $this->build($derived, $actor, $locale);
+        $result['inheritanceReceipt'] = $resolved['receipt'];
+        return $result;
+    }
+
+    /** @return array{recipe:array<string,mixed>,dependencies:list<array<string,mixed>>,semantic_hashes:list<string>} */
+    private function build(LayoutArtifactRevision $root, string $actor, string $locale): array
+    {
         $dependencies = [];
         $path = [];
         $count = 0;
@@ -58,7 +107,7 @@ final readonly class LayoutArtifactResolver
                 'root' => $entry,
                 'extensions' => [
                     'larena:artifact-root' => [
-                        'scope_ref' => $scopeRef,
+                        'scope_ref' => $root->scopeRef,
                         'artifact_id' => $root->artifactId,
                         'revision' => $root->revision,
                     ],

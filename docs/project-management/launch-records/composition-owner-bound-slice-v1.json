@@ -1,22 +1,9 @@
 {
-  "schema": "larena.package_launch_context.v1",
+  "schema": "larena.package_launch_record.v1",
   "package": "larena/layout",
-  "repository_class": "continuation_repository",
-  "repository_contains_prior_implementation": true,
-  "launch_record_ref": "docs/project-management/launch-records/composition-owner-bound-slice-v1.json",
-  "specs_repo": "simai/larena-specs",
-  "specs_commit": "d2efbf0b5100a57b6503654d2e49b7222d94b43c",
-  "target_id": "larena.target.frontend_composition_v1",
-  "semantic_digest": "sha256:bbf755329dbf66a24a2c2a2ba63c3cd5b5459a3e220cda7b664703d555b027ed",
+  "status": "coding_started",
+  "goal": "owner-bound-composition-slice",
   "base_commit": "92aa5ec16f4520a6424d97e09b0277bf75cfa5c3",
-  "selected_features": [
-    "layout_artifact_catalog",
-    "layout_artifact_revision_store",
-    "many_parent_placement_projection",
-    "recursive_named_slot_resolution",
-    "framework_recipe_projection",
-    "compiled_snapshot_compatibility"
-  ],
   "allowed_files": [
     ".larena/launch-context.json",
     ".github/workflows/larena-package-ci.yml",
@@ -54,35 +41,16 @@
     "tests/Unit/LayoutArtifactInputResolverTest.php",
     "docs/project-management/launch-records/composition-owner-bound-slice-v1.json"
   ],
-  "forbidden_files": [
-    "config/*",
-    "database/*",
-    "routes/*"
+  "scope": "Resolve typed owner inputs into the existing Framework Recipe; permit a trusted UI registry module for project types; preserve snapshot activation",
+  "forbidden": [
+    "Framework grammar fork",
+    "new database tables",
+    "live activation"
   ],
-  "forbidden_behavior": [
-    "framework_contract_fork",
-    "second_compiled_document_format",
-    "eager_page_migration",
-    "production_activation",
-    "production_readiness_claim"
+  "tests": [
+    "unit",
+    "Framework conformance",
+    "integration publish/rollback"
   ],
-  "required_evidence_files": [
-    "README.md",
-    "implementation-summary.md",
-    "independent-review.md",
-    "tests.md",
-    "smoke.md",
-    "file-map.json",
-    "deviations.json",
-    "graph-sync-proposal.json"
-  ],
-  "evidence_path": "docs/project-management/evidence/composition-owner-bound-slice-v1",
-  "graph_sync_proposal_path": "docs/project-management/evidence/composition-owner-bound-slice-v1/graph-sync-proposal.json",
-  "status": "coding_started",
-  "coding_allowed": true,
-  "coding_started": true,
-  "repository_enforcement_installed": true,
-  "review_completed": false,
-  "next_transition": "isolated_slice_review",
-  "coding_branch": "codex/composition-owner-bound-slice"
+  "evidence": "docs/project-management/evidence/composition-owner-bound-slice-v1"
 }

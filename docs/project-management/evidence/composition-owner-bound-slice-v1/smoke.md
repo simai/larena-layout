@@ -1,0 +1,1 @@
+Chrome 1440x1000 and 390x844; light/dark and RTL; image loaded, two sections, reused block has distinct instance IDs, no overflow, zero client scripts, console warnings/errors empty. Activation 1 -> 2 -> rollback 3; previous digest restored.

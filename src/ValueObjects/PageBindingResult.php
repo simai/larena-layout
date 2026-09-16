@@ -45,6 +45,13 @@ final readonly class PageBindingResult
         return new self('tree_node', $value);
     }
 
+    /** @param array<string,mixed> $value */
+    public static function setting(array $value): self
+    {
+        self::exactKeys($value, ['key', 'revision', 'scope_ref', 'source_layer', 'value']);
+        return new self('setting', $value);
+    }
+
     /** @param array<string, mixed> $value @param list<string> $expected */
     private static function exactKeys(array $value, array $expected): void
     {

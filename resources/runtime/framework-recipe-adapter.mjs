@@ -1,7 +1,8 @@
 import { pathToFileURL } from 'node:url';
 
-const [frameworkEntry] = process.argv.slice(2);
+const [frameworkEntry, registryModule] = process.argv.slice(2);
 const framework = await import(pathToFileURL(frameworkEntry));
+const registry = registryModule ? (await import(pathToFileURL(registryModule))).createRegistry(framework) : undefined;
 const chunks = [];
 for await (const chunk of process.stdin) chunks.push(chunk);
 const request = framework.parseRecipeJson(Buffer.concat(chunks).toString('utf8'));
@@ -12,6 +13,7 @@ for (const source of request.sources || []) {
   sources.set(key, source);
 }
 const result = await framework.resolveRecipe(request.recipe, {
+  registry,
   trustedContext: request.trustedContext,
   inputs: request.inputs,
   executionContract: request.executionContract,
@@ -26,6 +28,6 @@ if (!result.document) {
   process.stdout.write(JSON.stringify(result));
   process.exit(1);
 }
-const rendered = await framework.render(result.document);
+const rendered = await framework.render(result.document, { registry });
 if (rendered.diagnostics.length) throw new Error(rendered.diagnostics[0].message);
 process.stdout.write(JSON.stringify({ ...result, html: rendered.html, assets: rendered.assets, documentDigest: rendered.digest }));

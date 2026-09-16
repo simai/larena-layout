@@ -1,0 +1,8 @@
+{
+  "limitations": [
+    "Isolated candidate only; no larena.test deployment or clean GitHub distribution acceptance.",
+    "No general layout editor or mass migration.",
+    "No automatic reverse dependency invalidation worker: target publication checks dependency digests.",
+    "Independent external review and MySQL acceptance of this new slice are not performed."
+  ]
+}

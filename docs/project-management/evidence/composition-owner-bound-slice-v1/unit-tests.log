@@ -1,0 +1,18 @@
+AdminLayoutRecipeTest passed.
+InMemoryLayoutRuntimeTest passed.
+InMemoryPageBuilderRuntimeTest passed.
+PageCompositionRuntimeTest passed.
+FrameworkCompositionProjectorTest passed.
+FrameworkRecipeCompilerTest passed.
+PageAssemblyDescriptorTest passed.
+LayoutArtifactNormalizerTest passed.
+LayoutArtifactResolverTest passed.
+LayoutArtifactInputResolverTest passed.
+FrameworkCanonicalJsonTest passed.
+PackageLayoutArtifactCatalogTest passed.
+FrameworkNodeRecipeResolverTest passed.
+MinimalCmsRenderPlanTest passed.
+PageDescriptorPersistenceTest passed.
+LayoutArtifactPersistenceTest passed.
+FrameworkRecipeSnapshotPersistenceTest passed.
+Larena Layout unit tests passed.

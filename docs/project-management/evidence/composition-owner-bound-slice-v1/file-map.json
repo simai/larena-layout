@@ -1,0 +1,13 @@
+{
+  "package": "layout",
+  "files": [
+    ".larena/launch-context.json",
+    "resources/runtime/framework-recipe-adapter.mjs",
+    "scripts/run-unit-tests.php",
+    "src/Runtime/FrameworkRecipeCompiler.php",
+    "src/ValueObjects/PageBindingResult.php",
+    "docs/project-management/launch-records/composition-owner-bound-slice-v1.json",
+    "src/Runtime/LayoutArtifactInputResolver.php",
+    "tests/Unit/LayoutArtifactInputResolverTest.php"
+  ]
+}

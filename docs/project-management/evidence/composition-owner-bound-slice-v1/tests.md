@@ -1,0 +1,1 @@
+Package unit tests run with assertions enabled and the exact Framework distribution; PHPStan level 5 passed with zero errors. Root integrated suite: 9 tests, 133 assertions, all passed after fixture cleanup and publication-revocation checks.

@@ -1,0 +1,5 @@
+{
+  "runtime": "src/Runtime/RegionInheritanceResolver.php",
+  "test": "tests/Unit/RegionInheritanceResolverTest.php",
+  "documentation": "docs/developer/region-inheritance.md"
+}

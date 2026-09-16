@@ -1,0 +1,6 @@
+{
+  "canonical_update_allowed": false,
+  "status": "proposal_only",
+  "candidate": "larena.frontend.region-inheritance",
+  "runtime_scope": "isolated merger only"
+}

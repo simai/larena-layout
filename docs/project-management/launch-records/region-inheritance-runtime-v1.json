@@ -1,0 +1,29 @@
+{
+  "schema": "larena.package_launch_record.v1",
+  "package": "larena/layout",
+  "status": "coding_started",
+  "goal": "region-inheritance-runtime",
+  "base_commit": "c1c09d0e65d4970c4da5e068be8c6b585a5e2a0a",
+  "allowed_files": [
+    ".larena/launch-context.json",
+    "docs/project-management/launch-records/region-inheritance-runtime-v1.json",
+    "src/Runtime/RegionInheritanceResolver.php",
+    "tests/Unit/RegionInheritanceResolverTest.php",
+    "scripts/run-unit-tests.php",
+    "docs/developer/region-inheritance.md"
+  ],
+  "scope": "Resolve authorized site/section/page layers through the existing scoped artifact catalog; no persistence or rendering changes",
+  "forbidden": [
+    "database changes",
+    "live activation",
+    "Framework grammar fork"
+  ],
+  "tests": [
+    "inheritance and explicit empty",
+    "source and artifact authorization",
+    "exact revisions",
+    "source immutability"
+  ],
+  "evidence": "docs/project-management/evidence/region-inheritance-runtime-v1",
+  "standard_candidate_ref": "larena-specs@07fab889:specs/interface-program/region-inheritance.standard.json"
+}

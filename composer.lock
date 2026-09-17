@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "60e30cae5f85329468ddbdcc716892ce",
+    "content-hash": "59384f0eb43173c59ea8139808899b58",
     "packages": [
         {
             "name": "brick/math",
@@ -1171,7 +1171,7 @@
             "dist": {
                 "type": "path",
                 "url": "../core",
-                "reference": "4c46725962d730f7ba8fa871f9bd1d57d9151391"
+                "reference": "47123f2e79fd8852c91af7eafb4b03754425ac4a"
             },
             "require": {
                 "illuminate/console": "^13.0",
@@ -1230,7 +1230,8 @@
                     "@php tests/Unit/FirstRunPreflightServiceTest.php",
                     "@php tests/Unit/WebInstallStateStoreTest.php",
                     "@php tests/Unit/WebInstallCoordinatorRecoveryTest.php",
-                    "@php tests/Unit/MinimalCmsDependencyContractTest.php"
+                    "@php tests/Unit/MinimalCmsDependencyContractTest.php",
+                    "@php tests/Unit/MinimalCmsCoreBoundaryTest.php"
                 ],
                 "test:unit": [
                     "@php tests/Unit/OperationRuntimeContractTest.php",
@@ -1258,7 +1259,8 @@
                     "@php tests/Unit/FirstRunPreflightServiceTest.php",
                     "@php tests/Unit/WebInstallStateStoreTest.php",
                     "@php tests/Unit/WebInstallCoordinatorRecoveryTest.php",
-                    "@php tests/Unit/MinimalCmsDependencyContractTest.php"
+                    "@php tests/Unit/MinimalCmsDependencyContractTest.php",
+                    "@php tests/Unit/MinimalCmsCoreBoundaryTest.php"
                 ],
                 "lint": [
                     "@php scripts/lint.php"

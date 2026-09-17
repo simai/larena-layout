@@ -1,0 +1,6 @@
+{
+  "canonical_update_allowed": false,
+  "status": "proposal_only",
+  "candidate": "larena.layout.transaction_joining_snapshot_store",
+  "runtime_scope": "isolated package candidate"
+}

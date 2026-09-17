@@ -1,0 +1,8 @@
+{
+  "canonical_update_allowed": false,
+  "status": "proposal_only",
+  "candidate": "larena.layout.package_owned_schema_migration",
+  "target_id": "larena.target.frontend_composition_v1",
+  "graph_gap": "accepted_project_technology_target_binding_missing",
+  "runtime_scope": "isolated Layout and Larena Root candidates"
+}

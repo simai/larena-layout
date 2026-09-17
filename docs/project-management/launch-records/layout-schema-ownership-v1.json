@@ -1,0 +1,27 @@
+{
+  "schema": "larena.package_launch_record.v1",
+  "package": "larena/layout",
+  "target_id": "larena.target.frontend_composition_v1",
+  "goal": "Move the five artifact and compiled-snapshot tables from request-time DDL to a package-owned Laravel migration while preserving standalone PDO test helpers.",
+  "source_contract": "larena.layout.persistence.v1",
+  "target_contract": "larena.layout.persistence.v1",
+  "scope": [
+    "package_service_provider",
+    "package_owned_migration",
+    "sqlite_fresh_rollback_reapply",
+    "root_request_time_ddl_removal",
+    "existing_composition_regression",
+    "evidence"
+  ],
+  "non_goals": [
+    "page_descriptor_migration_transfer",
+    "mysql_acceptance_without_disposable_credentials",
+    "framework_contract_change",
+    "live_database_change",
+    "production_activation",
+    "main_publication"
+  ],
+  "authorization": "active-declarative-interface-goal-continuation",
+  "coding_allowed": true
+}
+

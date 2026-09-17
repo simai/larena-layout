@@ -1,0 +1,9 @@
+{
+  "status": "isolated_candidate",
+  "remaining": [
+    "mysql migration and transaction acceptance",
+    "post-publication inverse draft or restore workflow",
+    "browser acceptance",
+    "release packaging and canonical publication"
+  ]
+}

@@ -11,6 +11,8 @@
   ],
   "require": {
     "php": "^8.3",
+    "illuminate/database": "^13.0",
+    "illuminate/support": "^13.0",
     "larena/core": "dev-main"
   },
   "autoload": {
@@ -51,6 +53,13 @@
     "sort-packages": true,
     "allow-plugins": {},
     "platform":{"php":"8.3.31"}
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Larena\\Layout\\Providers\\LayoutServiceProvider"
+      ]
+    }
   },
   "minimum-stability": "dev",
   "prefer-stable": true

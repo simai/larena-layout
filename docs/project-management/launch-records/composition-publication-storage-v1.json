@@ -1,0 +1,29 @@
+{
+  "schema": "larena.package_launch_record.v1",
+  "package": "larena/layout",
+  "target_id": "larena.target.frontend_composition_v1",
+  "goal": "Provide database-backed immutable compiled page snapshots that can participate in the same transaction as owner settings while preserving the existing snapshot contract.",
+  "source_contract": "larena.layout.compiled_page_snapshot.v1",
+  "target_contract": "larena.layout.compiled_page_snapshot.v1",
+  "scope": [
+    "pdo_snapshot_storage",
+    "activation_revision_cas",
+    "transaction_joining",
+    "artifact_publication_transaction_joining",
+    "rollback",
+    "restart_persistence",
+    "region_projection_continuation",
+    "tests",
+    "evidence"
+  ],
+  "non_goals": [
+    "generic_http_apply_endpoint",
+    "setting_ownership",
+    "database_migration_runner",
+    "mysql_acceptance",
+    "root_activation",
+    "production_activation"
+  ],
+  "authorization": "active-declarative-interface-goal-continuation",
+  "coding_allowed": true
+}

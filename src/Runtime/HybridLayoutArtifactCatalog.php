@@ -33,12 +33,23 @@ final readonly class HybridLayoutArtifactCatalog implements LayoutArtifactCatalo
 
     public function search(string $scopeRef, string $actor, ?string $kind = null, ?string $parentId = null, ?string $childId = null): array
     {
-        return $this->unique([...$this->overrides->search($scopeRef, $actor, $kind, $parentId, $childId), ...$this->system->search($scopeRef, $actor, $kind, $parentId, $childId)]);
+        $overrides = $this->overrides->search($scopeRef, $actor, $kind, $parentId, $childId);
+        $system = array_values(array_filter(
+            $this->system->search($scopeRef, $actor, $kind, $parentId, $childId),
+            fn (LayoutArtifactRevision $artifact): bool => $this->overrides->read($scopeRef, $artifact->artifactId, $actor) === null,
+        ));
+
+        return $this->unique([...$overrides, ...$system]);
     }
 
     public function parents(string $scopeRef, string $artifactId, string $actor): array
     {
-        return $this->uniqueRows([...$this->overrides->parents($scopeRef, $artifactId, $actor), ...$this->system->parents($scopeRef, $artifactId, $actor)]);
+        $system = array_values(array_filter(
+            $this->system->parents($scopeRef, $artifactId, $actor),
+            fn (array $row): bool => $this->overrides->read($scopeRef, $row['parent_artifact_id'], $actor) === null,
+        ));
+
+        return $this->uniqueRows([...$this->overrides->parents($scopeRef, $artifactId, $actor), ...$system]);
     }
 
     public function children(string $scopeRef, string $artifactId, string $actor): array

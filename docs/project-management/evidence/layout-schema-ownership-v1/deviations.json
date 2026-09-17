@@ -1,0 +1,19 @@
+{
+  "status": "locally_verified_candidate",
+  "verified": [
+    "sqlite_package_migration_adoption",
+    "sqlite_root_migrate_rollback_reapply",
+    "request_time_ddl_removed_from_isolated_root",
+    "adjacent_root_regression_cohort"
+  ],
+  "remaining": [
+    "mysql_migration_rollback_reapply_with_disposable_credentials",
+    "independent_review",
+    "project_technology_target_binding",
+    "release_packaging_and_publication"
+  ],
+  "deferred": [
+    "page_descriptor_table_ownership_transfer"
+  ]
+}
+

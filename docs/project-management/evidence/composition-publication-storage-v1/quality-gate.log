@@ -1,0 +1,149 @@
+> @php scripts/validate-larena-package.php
+Larena Layout contract skeleton launch context is valid.
+> @php scripts/lint.php
+No syntax errors detected in scripts/analyse.php
+No syntax errors detected in scripts/check-evidence.php
+No syntax errors detected in scripts/lint.php
+No syntax errors detected in scripts/run-unit-tests.php
+No syntax errors detected in scripts/test-placeholder.php
+No syntax errors detected in scripts/validate-larena-package.php
+No syntax errors detected in src/Contracts/AdminCollectionLayoutPlan.php
+No syntax errors detected in src/Contracts/AdminFormLayoutPlan.php
+No syntax errors detected in src/Contracts/AdminLayoutRecipe.php
+No syntax errors detected in src/Contracts/AdminLayoutRegion.php
+No syntax errors detected in src/Contracts/AdminSettingsDrivenLayoutPlan.php
+No syntax errors detected in src/Contracts/AtomicBlockPlacement.php
+No syntax errors detected in src/Contracts/BlockWidgetCall.php
+No syntax errors detected in src/Contracts/CompiledPageSnapshotStore.php
+No syntax errors detected in src/Contracts/ComposedSection.php
+No syntax errors detected in src/Contracts/ContentModel.php
+No syntax errors detected in src/Contracts/DataSourceBinding.php
+No syntax errors detected in src/Contracts/LayoutArtifactCatalog.php
+No syntax errors detected in src/Contracts/LayoutArtifactStore.php
+No syntax errors detected in src/Contracts/LayoutBinding.php
+No syntax errors detected in src/Contracts/LayoutDescriptor.php
+No syntax errors detected in src/Contracts/LayoutDraft.php
+No syntax errors detected in src/Contracts/LayoutProfile.php
+No syntax errors detected in src/Contracts/LayoutRegion.php
+No syntax errors detected in src/Contracts/LayoutRuntime.php
+No syntax errors detected in src/Contracts/LayoutVersion.php
+No syntax errors detected in src/Contracts/NormalizedRenderPlan.php
+No syntax errors detected in src/Contracts/PageAssetReference.php
+No syntax errors detected in src/Contracts/PageBindingOwnerResolver.php
+No syntax errors detected in src/Contracts/PageBlockDefinition.php
+No syntax errors detected in src/Contracts/PageBlockFieldDefinition.php
+No syntax errors detected in src/Contracts/PageBlockInstance.php
+No syntax errors detected in src/Contracts/PageBuilderPreview.php
+No syntax errors detected in src/Contracts/PageComposition.php
+No syntax errors detected in src/Contracts/PageContentBinding.php
+No syntax errors detected in src/Contracts/PageDescriptor.php
+No syntax errors detected in src/Contracts/PageDescriptorAuthorizationPolicy.php
+No syntax errors detected in src/Contracts/PageDescriptorStore.php
+No syntax errors detected in src/Contracts/PageSectionInstance.php
+No syntax errors detected in src/Contracts/ResolvedLayoutPlan.php
+No syntax errors detected in src/Contracts/SectionCall.php
+No syntax errors detected in src/Contracts/SectionDefinition.php
+No syntax errors detected in src/Contracts/SectionInstance.php
+No syntax errors detected in src/Contracts/SiteDescriptor.php
+No syntax errors detected in src/Contracts/SitePackLayoutManifest.php
+No syntax errors detected in src/Enums/LayoutBindingScope.php
+No syntax errors detected in src/Enums/LayoutProfileCode.php
+No syntax errors detected in src/Enums/LayoutVersionStatus.php
+No syntax errors detected in src/Exceptions/LayoutRejected.php
+No syntax errors detected in src/Persistence/FileCompiledPageSnapshotStore.php
+No syntax errors detected in src/Persistence/PackageLayoutArtifactCatalog.php
+No syntax errors detected in src/Persistence/PdoCompiledPageSnapshotStore.php
+No syntax errors detected in src/Persistence/PdoLayoutArtifactStore.php
+No syntax errors detected in src/Persistence/PdoPageDescriptorStore.php
+No syntax errors detected in src/Runtime/AdminLayoutRecipeRegistry.php
+No syntax errors detected in src/Runtime/ArtifactRegionPlacementProjector.php
+No syntax errors detected in src/Runtime/AtomicBlockRenderer.php
+No syntax errors detected in src/Runtime/FrameworkCanonicalJson.php
+No syntax errors detected in src/Runtime/FrameworkCompositionProjector.php
+No syntax errors detected in src/Runtime/FrameworkNodeRecipeResolver.php
+No syntax errors detected in src/Runtime/FrameworkRecipeCompiler.php
+No syntax errors detected in src/Runtime/FrameworkRecipeRequestFactory.php
+No syntax errors detected in src/Runtime/FrameworkRecipeSnapshotPublisher.php
+No syntax errors detected in src/Runtime/HybridLayoutArtifactCatalog.php
+No syntax errors detected in src/Runtime/InMemoryDataRuntime.php
+No syntax errors detected in src/Runtime/InMemoryLayoutRuntime.php
+No syntax errors detected in src/Runtime/InMemoryPageBuilderRuntime.php
+No syntax errors detected in src/Runtime/LayoutArtifactInputResolver.php
+No syntax errors detected in src/Runtime/LayoutArtifactNormalizer.php
+No syntax errors detected in src/Runtime/LayoutArtifactResolver.php
+No syntax errors detected in src/Runtime/LegacyPageDescriptorAdapter.php
+No syntax errors detected in src/Runtime/MinimalCmsRenderPlanRuntime.php
+No syntax errors detected in src/Runtime/PageAssemblyDescriptorNormalizer.php
+No syntax errors detected in src/Runtime/PageBlockCatalog.php
+No syntax errors detected in src/Runtime/PageCompositionNormalizer.php
+No syntax errors detected in src/Runtime/PageDescriptorComponentRegistry.php
+No syntax errors detected in src/Runtime/PageDescriptorNormalizer.php
+No syntax errors detected in src/Runtime/PageProjectionResolver.php
+No syntax errors detected in src/Runtime/RegionInheritanceResolver.php
+No syntax errors detected in src/Runtime/SectionComposer.php
+No syntax errors detected in src/ValueObjects/CompiledPageSnapshot.php
+No syntax errors detected in src/ValueObjects/LayoutArtifactRevision.php
+No syntax errors detected in src/ValueObjects/LayoutPlacement.php
+No syntax errors detected in src/ValueObjects/PageBindingResult.php
+No syntax errors detected in src/ValueObjects/PageDescriptorRevision.php
+No syntax errors detected in tests/Integration/FrameworkRecipeSnapshotPersistenceTest.php
+No syntax errors detected in tests/Integration/LayoutArtifactPersistenceTest.php
+No syntax errors detected in tests/Integration/PageDescriptorPersistenceTest.php
+No syntax errors detected in tests/Unit/AdminLayoutRecipeTest.php
+No syntax errors detected in tests/Unit/ArtifactRegionPlacementProjectorTest.php
+No syntax errors detected in tests/Unit/FrameworkCanonicalJsonTest.php
+No syntax errors detected in tests/Unit/FrameworkCompositionProjectorTest.php
+No syntax errors detected in tests/Unit/FrameworkNodeRecipeResolverTest.php
+No syntax errors detected in tests/Unit/FrameworkRecipeCompilerTest.php
+No syntax errors detected in tests/Unit/InMemoryLayoutRuntimeTest.php
+No syntax errors detected in tests/Unit/InMemoryPageBuilderRuntimeTest.php
+No syntax errors detected in tests/Unit/InheritedArtifactRecipeTest.php
+No syntax errors detected in tests/Unit/LayoutArtifactInputResolverTest.php
+No syntax errors detected in tests/Unit/LayoutArtifactNormalizerTest.php
+No syntax errors detected in tests/Unit/LayoutArtifactResolverTest.php
+No syntax errors detected in tests/Unit/LayoutContractTest.php
+No syntax errors detected in tests/Unit/LayoutFailsClosedTest.php
+No syntax errors detected in tests/Unit/MinimalCmsDependencyContractTest.php
+No syntax errors detected in tests/Unit/MinimalCmsRenderPlanTest.php
+No syntax errors detected in tests/Unit/PackageLayoutArtifactCatalogTest.php
+No syntax errors detected in tests/Unit/PageAssemblyDescriptorTest.php
+No syntax errors detected in tests/Unit/PageCompositionRuntimeTest.php
+No syntax errors detected in tests/Unit/PdoCompiledPageSnapshotStoreTest.php
+No syntax errors detected in tests/Unit/RegionInheritanceResolverTest.php
+No syntax errors detected in tests/bootstrap.php
+No syntax errors detected in tools/larena-scope-check.php
+Linted 111 PHP file(s).
+> @php scripts/analyse.php
+
+ [OK] No errors                                                                 
+
+> @php -d zend.assertions=1 -d assert.exception=1 scripts/run-unit-tests.php
+AdminLayoutRecipeTest passed.
+InMemoryLayoutRuntimeTest passed.
+InMemoryPageBuilderRuntimeTest passed.
+PageCompositionRuntimeTest passed.
+FrameworkCompositionProjectorTest passed.
+FrameworkRecipeCompilerTest passed.
+PageAssemblyDescriptorTest passed.
+LayoutArtifactNormalizerTest passed.
+LayoutArtifactResolverTest passed.
+LayoutArtifactInputResolverTest passed.
+RegionInheritanceResolverTest passed: inheritance, clear, reuse, order, provenance, immutable input and nine refusals.
+ArtifactRegionPlacementProjectorTest passed: two scopes, named regions, reuse, pinned/published references, empty and disabled slots, source immutability and refusals.
+InheritedArtifactRecipeTest passed: existing Recipe tree, immutable catalog, empty slot and four manifest refusals.
+InheritedArtifactRecipeTest exact Framework compile passed: inherited page → section → externally bound paragraph → server HTML.
+PdoCompiledPageSnapshotStoreTest passed.
+FrameworkCanonicalJsonTest passed.
+PackageLayoutArtifactCatalogTest passed.
+FrameworkNodeRecipeResolverTest passed.
+MinimalCmsRenderPlanTest passed.
+PageDescriptorPersistenceTest passed.
+LayoutArtifactPersistenceTest passed.
+FrameworkRecipeSnapshotPersistenceTest passed.
+Larena Layout unit tests passed.
+> @php tests/Unit/MinimalCmsDependencyContractTest.php
+MinimalCmsDependencyContractTest passed.
+> @php scripts/check-evidence.php
+Evidence contract is valid for the current repository state.
+> @php tools/larena-scope-check.php
+Larena scope check ok: 23 changed file(s).

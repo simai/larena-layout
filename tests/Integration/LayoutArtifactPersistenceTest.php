@@ -54,6 +54,22 @@ function runLayoutArtifactPersistenceTest(): void
     assert(array_map(static fn ($revision): int => $revision->revision, $store->history('scope:tenant-alpha', 'block.shared', 'actor:alpha')) === [2, 1]);
     assert($store->restore('scope:tenant-alpha', 'block.shared', 1, 2, 'actor:alpha')->revision === 3);
 
+    $publishedBeforeTransaction = publishedArtifactRevision($pdo, 'scope:tenant-alpha', 'block.shared');
+    try {
+        $store->transactional(function () use ($store): void {
+            $store->publish('scope:tenant-alpha', 'block.shared', 3, 3, 'actor:alpha');
+            throw new RuntimeException('force_product_publication_rollback');
+        });
+    } catch (RuntimeException $exception) {
+        assert($exception->getMessage() === 'force_product_publication_rollback');
+    }
+    assert(publishedArtifactRevision($pdo, 'scope:tenant-alpha', 'block.shared') === $publishedBeforeTransaction);
+
+    $store->transactional(function () use ($store): void {
+        $store->publish('scope:tenant-alpha', 'block.shared', 3, 3, 'actor:alpha');
+    });
+    assert(publishedArtifactRevision($pdo, 'scope:tenant-alpha', 'block.shared') === 3);
+
     $before = artifactDatabaseState($pdo);
     rejectLayoutPersistence(static fn () => $store->update($block, 2, 'actor:alpha'), 'layout_artifact_revision_conflict');
     assert(artifactDatabaseState($pdo) === $before);
@@ -107,6 +123,15 @@ function countArtifactTables(PDO $pdo): int
         throw new RuntimeException('Unable to inspect artifact tables.');
     }
     return (int) $statement->fetchColumn();
+}
+
+function publishedArtifactRevision(PDO $pdo, string $scope, string $artifact): ?int
+{
+    $statement = $pdo->prepare('SELECT published_revision FROM larena_layout_artifacts WHERE scope_ref = :scope AND artifact_id = :artifact');
+    $statement->execute(['scope' => $scope, 'artifact' => $artifact]);
+    $value = $statement->fetchColumn();
+
+    return $value === false || $value === null ? null : (int) $value;
 }
 
 /** @return array<string,mixed> */

@@ -35,6 +35,7 @@ features:
   - layout.layout_artifact_revision_store
   - layout.layout_artifact_relationship_projection
   - layout.layout_artifact_recipe_projection
+  - layout.package_owned_schema_migration
 runtime:
   php: "^8.3"
   laravel: "^13.0"

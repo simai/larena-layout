@@ -42,6 +42,14 @@ function runPackageLayoutArtifactCatalogTest(): void
     $hybrid = new HybridLayoutArtifactCatalog($overrides, $system);
     assert($hybrid->published('scope:system', 'page.system', 'guest:login')?->artifact['parameters']['props']['variant'] === 'custom');
     assert($hybrid->published('scope:system', 'block.system', 'guest:login')?->artifactId === 'block.system');
+    assert(count($hybrid->search('scope:system', 'guest:login')) === 2, 'An override must replace the system head in effective search results.');
+    assert(count($hybrid->parents('scope:system', 'block.system', 'guest:login')) === 1, 'An effective parent must not be duplicated by its system source.');
+
+    $override['placements'] = [];
+    $overrides->update($override, 1, 'guest:login');
+    $updatedHybrid = new HybridLayoutArtifactCatalog($overrides, $system);
+    assert($updatedHybrid->parents('scope:system', 'block.system', 'guest:login') === [], 'Removed system relationships must not leak through an override.');
+    assert($updatedHybrid->children('scope:system', 'page.system', 'guest:login') === [], 'Effective children must come from the override only.');
 
     $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($root, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST);
     foreach ($iterator as $item) {

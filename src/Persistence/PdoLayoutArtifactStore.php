@@ -191,8 +191,9 @@ final readonly class PdoLayoutArtifactStore implements LayoutArtifactStore
             throw new LayoutRejected('layout_artifact_revision_invalid');
         }
         $this->authorization->assertAllowed($actor, PageDescriptorAuthorizationPolicy::UPDATE, $scopeRef);
+        $ownsTransaction = false;
         try {
-            $this->begin();
+            $ownsTransaction = $this->begin();
             $version = $this->versionRow($scopeRef, $artifactId, $revision);
             if ($version === null) {
                 throw new LayoutRejected('layout_artifact_revision_unknown');
@@ -207,15 +208,39 @@ final readonly class PdoLayoutArtifactStore implements LayoutArtifactStore
                     throw new LayoutRejected('layout_artifact_revision_conflict');
                 }
             }
-            $this->pdo->commit();
+            $this->commit($ownsTransaction);
             $version['published_revision'] = $revision;
             return $this->hydrateVersion($scopeRef, $artifactId, $version);
         } catch (LayoutRejected $exception) {
-            $this->rollback();
+            $this->rollback($ownsTransaction);
             throw $exception;
         } catch (Throwable) {
-            $this->rollback();
+            $this->rollback($ownsTransaction);
             throw new LayoutRejected('layout_artifact_persistence_failed');
+        }
+    }
+
+    /**
+     * Execute one product publication unit on the artifact connection.
+     * Store operations called inside the callback join this transaction.
+     *
+     * @phpstan-impure
+     * @template T
+     * @param callable():T $operation
+     * @return T
+     */
+    public function transactional(callable $operation): mixed
+    {
+        $ownsTransaction = false;
+        try {
+            $ownsTransaction = $this->begin();
+            $result = $operation();
+            $this->commit($ownsTransaction);
+
+            return $result;
+        } catch (Throwable $exception) {
+            $this->rollback($ownsTransaction);
+            throw $exception;
         }
     }
 
@@ -248,8 +273,9 @@ final readonly class PdoLayoutArtifactStore implements LayoutArtifactStore
         $this->authorization->assertAllowed($actor, $expectedRevision === null ? PageDescriptorAuthorizationPolicy::CREATE : PageDescriptorAuthorizationPolicy::UPDATE, $scope);
         $json = $this->normalizer->encode($artifact);
         $hash = $this->normalizer->hash($artifact);
+        $ownsTransaction = false;
         try {
-            $this->begin();
+            $ownsTransaction = $this->begin();
             $query = $this->pdo->prepare('SELECT current_revision FROM larena_layout_artifacts WHERE scope_ref = :scope AND artifact_id = :artifact');
             $query->execute(['scope' => $scope, 'artifact' => $id]);
             $current = $query->fetchColumn();
@@ -281,13 +307,13 @@ final readonly class PdoLayoutArtifactStore implements LayoutArtifactStore
                 $insert->execute(['scope' => $scope, 'parent' => $id, 'parent_revision' => $revision, 'instance' => $placement['instance_id'], 'child' => $placement['artifact_ref'], 'child_revision' => $placement['child_revision'], 'slot' => $placement['slot'], 'sort' => $placement['sort'], 'enabled' => $placement['enabled'] ? 1 : 0]);
             }
             $this->assertAcyclic($scope, $id, $revision, [], 0, $actor);
-            $this->pdo->commit();
+            $this->commit($ownsTransaction);
             return new LayoutArtifactRevision($id, $scope, (string) $artifact['kind'], $revision, $artifact, $hash, false);
         } catch (LayoutRejected $exception) {
-            $this->rollback();
+            $this->rollback($ownsTransaction);
             throw $exception;
         } catch (Throwable) {
-            $this->rollback();
+            $this->rollback($ownsTransaction);
             throw new LayoutRejected('layout_artifact_persistence_failed');
         }
     }
@@ -416,17 +442,26 @@ final readonly class PdoLayoutArtifactStore implements LayoutArtifactStore
         return $this->normalizer->normalize($value);
     }
 
-    private function begin(): void
+    private function begin(): bool
     {
         if ($this->pdo->inTransaction()) {
-            throw new LayoutRejected('layout_artifact_nested_transaction_unsupported');
+            return false;
         }
         $this->pdo->beginTransaction();
+
+        return true;
     }
 
-    private function rollback(): void
+    private function commit(bool $ownsTransaction): void
     {
-        if ($this->pdo->inTransaction()) {
+        if ($ownsTransaction && $this->pdo->inTransaction()) {
+            $this->pdo->commit();
+        }
+    }
+
+    private function rollback(bool $ownsTransaction): void
+    {
+        if ($ownsTransaction && $this->pdo->inTransaction()) {
             $this->pdo->rollBack();
         }
     }

@@ -1,0 +1,23 @@
+{
+  "package_runtime": [
+    "src/Providers/LayoutServiceProvider.php",
+    "database/migrations/2026_09_17_000001_create_larena_layout_artifact_snapshot_tables.php",
+    "composer.json",
+    "composer.lock",
+    "module.yaml"
+  ],
+  "package_tests": [
+    "tests/Feature/LayoutServiceProviderMigrationTest.php",
+    "scripts/run-unit-tests.php"
+  ],
+  "documentation": [
+    "docs/developer/database-compiled-snapshots.md",
+    "source/workflow/2026-09-17-layout-schema-ownership-v1.md"
+  ],
+  "consumer_candidate": [
+    "app/Providers/StoragePageServiceProvider.php",
+    "app/Larena/Composition/OwnerBoundCompositionRuntime.php",
+    "app/Larena/Composition/CompositionEditorService.php"
+  ]
+}
+

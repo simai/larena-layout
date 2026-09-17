@@ -18,7 +18,9 @@ $tests = [
     __DIR__ . '/../tests/Unit/LayoutArtifactResolverTest.php',
     __DIR__ . '/../tests/Unit/LayoutArtifactInputResolverTest.php',
     __DIR__ . '/../tests/Unit/RegionInheritanceResolverTest.php',
+    __DIR__ . '/../tests/Unit/ArtifactRegionPlacementProjectorTest.php',
     __DIR__ . '/../tests/Unit/InheritedArtifactRecipeTest.php',
+    __DIR__ . '/../tests/Unit/PdoCompiledPageSnapshotStoreTest.php',
     __DIR__ . '/../tests/Unit/FrameworkCanonicalJsonTest.php',
     __DIR__ . '/../tests/Unit/PackageLayoutArtifactCatalogTest.php',
     __DIR__ . '/../tests/Unit/FrameworkNodeRecipeResolverTest.php',
@@ -26,6 +28,7 @@ $tests = [
     __DIR__ . '/../tests/Integration/PageDescriptorPersistenceTest.php',
     __DIR__ . '/../tests/Integration/LayoutArtifactPersistenceTest.php',
     __DIR__ . '/../tests/Integration/FrameworkRecipeSnapshotPersistenceTest.php',
+    __DIR__ . '/../tests/Feature/LayoutServiceProviderMigrationTest.php',
 ];
 
 foreach ($tests as $test) {

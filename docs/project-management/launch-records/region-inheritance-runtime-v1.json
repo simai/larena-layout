@@ -13,9 +13,13 @@
     "docs/developer/region-inheritance.md",
     "src/Runtime/LayoutArtifactResolver.php",
     "tests/Unit/InheritedArtifactRecipeTest.php",
-    "tests/bootstrap.php"
+    "tests/bootstrap.php",
+    "src/Runtime/ArtifactRegionPlacementProjector.php",
+    "tests/Unit/ArtifactRegionPlacementProjectorTest.php",
+    "src/Runtime/HybridLayoutArtifactCatalog.php",
+    "tests/Unit/PackageLayoutArtifactCatalogTest.php"
   ],
-  "scope": "Resolve authorized site/section/page layers through the existing scoped artifact catalog; no persistence or rendering changes; project effective regions into existing named-slot artifact resolver",
+  "scope": "Resolve authorized site/section/page layers through the existing scoped artifact catalog; project effective regions into existing named-slot artifact resolver; ensure hybrid effective searches and reverse relationships suppress package heads replaced by database overrides; no persistence schema or rendering changes",
   "forbidden": [
     "database changes",
     "live activation",
@@ -28,5 +32,6 @@
     "source immutability"
   ],
   "evidence": "docs/project-management/evidence/region-inheritance-runtime-v1",
-  "standard_candidate_ref": "larena-specs@07fab889:specs/interface-program/region-inheritance.standard.json"
+  "standard_candidate_ref": "larena-specs@07fab889:specs/interface-program/region-inheritance.standard.json",
+  "placement_projection_continuation": "Reusable projection of canonical authorized artifact placements into existing region request references; hybrid effective queries suppress replaced system heads and relationships; no persistence, grammar or live changes."
 }

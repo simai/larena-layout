@@ -14,12 +14,14 @@
     "src/Runtime/LayoutArtifactResolver.php",
     "tests/Unit/InheritedArtifactRecipeTest.php",
     "tests/bootstrap.php",
+    "src/Runtime/ArtifactRegionInheritanceModes.php",
+    "tests/Unit/ArtifactRegionInheritanceModesTest.php",
     "src/Runtime/ArtifactRegionPlacementProjector.php",
     "tests/Unit/ArtifactRegionPlacementProjectorTest.php",
     "src/Runtime/HybridLayoutArtifactCatalog.php",
     "tests/Unit/PackageLayoutArtifactCatalogTest.php"
   ],
-  "scope": "Resolve authorized site/section/page layers through the existing scoped artifact catalog; project effective regions into existing named-slot artifact resolver; ensure hybrid effective searches and reverse relationships suppress package heads replaced by database overrides; no persistence schema or rendering changes",
+  "scope": "Resolve authorized site/section/page layers through the existing scoped artifact catalog; project effective regions into existing named-slot artifact resolver; validate per-region inherit, replace and explicit-empty artifact intents and reset by removing a local intent; ensure hybrid effective searches and reverse relationships suppress package heads replaced by database overrides; no persistence schema or rendering changes",
   "forbidden": [
     "database changes",
     "live activation",
@@ -29,7 +31,8 @@
     "inheritance and explicit empty",
     "source and artifact authorization",
     "exact revisions",
-    "source immutability"
+    "source immutability",
+    "registered defaults, local overrides and reset"
   ],
   "evidence": "docs/project-management/evidence/region-inheritance-runtime-v1",
   "standard_candidate_ref": "larena-specs@07fab889:specs/interface-program/region-inheritance.standard.json",

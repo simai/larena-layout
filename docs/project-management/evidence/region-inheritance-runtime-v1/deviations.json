@@ -1,8 +1,6 @@
 {
   "status": "local_candidate",
   "remaining": [
-    "source-owner integration guard",
-    "existing artifact resolver integration",
     "page browser acceptance",
     "full release packaging",
     "documentation and Specs implementation mapping"

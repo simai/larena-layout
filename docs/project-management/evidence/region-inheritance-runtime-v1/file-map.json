@@ -1,5 +1,11 @@
 {
-  "runtime": "src/Runtime/RegionInheritanceResolver.php",
-  "test": "tests/Unit/RegionInheritanceResolverTest.php",
+  "runtime": [
+    "src/Runtime/RegionInheritanceResolver.php",
+    "src/Runtime/ArtifactRegionInheritanceModes.php"
+  ],
+  "test": [
+    "tests/Unit/RegionInheritanceResolverTest.php",
+    "tests/Unit/ArtifactRegionInheritanceModesTest.php"
+  ],
   "documentation": "docs/developer/region-inheritance.md"
 }

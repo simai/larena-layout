@@ -15,3 +15,10 @@ No database migration or live activation is included. The integration guard and 
 `LayoutArtifactResolver::inheritedRecipe` resolves the guarded request, maps regions to registered shell slots, derives placements in memory and invokes the same recursive artifact tree compiler. Mapping must be one-to-one. Kind, component, slot cardinality and cycle rules remain enforced. Shell hash remains canonical; the caller must include the complete inheritance receipt in cache identity.
 
 `ArtifactRegionPlacementProjector` moves canonical artifact placements into the existing region-reference model. The product supplies source/child catalogs and a trusted one-to-one slot-to-region map. Layout re-reads the exact authorized source revision, rejects altered bytes, normalizes and preflights enabled placements, then resolves pinned or published children through their catalog. Registered empty regions remain explicit empty arrays; disabled nodes are excluded. Nonempty placement parameters are refused because the region-reference contract cannot represent them. Source context membership and site/section/page selection remain product-owned. No data, snapshots or documents are persisted by this projection.
+## Per-region local intent
+
+The canonical artifact extension `larena.layout:region_modes` may contain only
+registered region keys and the values `inherit`, `replace` or `empty`.
+Registered defaults remain server-owned. Removing a local key resets that
+region to its registered default; it does not rewrite a parent artifact.
+Unknown regions and modes are rejected before resolution.

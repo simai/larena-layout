@@ -3,7 +3,7 @@
   "package": "larena/layout",
   "repository_class": "continuation_repository",
   "repository_contains_prior_implementation": true,
-  "launch_record_ref": "docs/project-management/launch-records/compiled-snapshot-catalog-v1.json",
+  "launch_record_ref": "docs/project-management/launch-records/region-inheritance-runtime-v1.json",
   "specs_repo": "simai/larena-specs",
   "specs_commit": "d2efbf0b5100a57b6503654d2e49b7222d94b43c",
   "target_id": "larena.target.frontend_composition_v1",
@@ -17,7 +17,8 @@
     "layout.transaction_joining_artifact_publication",
     "layout.package_owned_schema_migration",
     "layout.compiled_page_snapshot_catalog",
-    "layout.hybrid_immutable_revision_isolation"
+    "layout.hybrid_immutable_revision_isolation",
+    "layout.artifact_region_inheritance_modes"
   ],
   "allowed_files": [
     ".larena/launch-context.json",
@@ -69,7 +70,19 @@
     "docs/acceptance/layout-revision-isolation-2026-09-17.json",
     "docs/developer/page-assembly-contract.md",
     "docs/project-management/launch-records/hybrid-revision-isolation-v1.json",
-    "tests/Unit/LayoutArtifactResolverTest.php"
+    "tests/Unit/LayoutArtifactResolverTest.php",
+    "docs/project-management/evidence/compiled-snapshot-catalog-v1/README.md",
+    "docs/project-management/evidence/compiled-snapshot-catalog-v1/deviations.json",
+    "docs/project-management/evidence/compiled-snapshot-catalog-v1/file-map.json",
+    "docs/project-management/evidence/compiled-snapshot-catalog-v1/graph-sync-proposal.json",
+    "docs/project-management/evidence/compiled-snapshot-catalog-v1/implementation-summary.md",
+    "docs/project-management/evidence/compiled-snapshot-catalog-v1/independent-review.md",
+    "docs/project-management/evidence/compiled-snapshot-catalog-v1/instance-placement-2026-09-17.json",
+    "docs/project-management/evidence/compiled-snapshot-catalog-v1/quality-gate.log",
+    "docs/project-management/evidence/compiled-snapshot-catalog-v1/smoke.md",
+    "docs/project-management/evidence/compiled-snapshot-catalog-v1/tests.md",
+    "src/Runtime/ArtifactRegionInheritanceModes.php",
+    "tests/Unit/ArtifactRegionInheritanceModesTest.php"
   ],
   "forbidden_files": [
     "config/*",
@@ -93,8 +106,8 @@
     "deviations.json",
     "graph-sync-proposal.json"
   ],
-  "evidence_path": "docs/project-management/evidence/compiled-snapshot-catalog-v1",
-  "graph_sync_proposal_path": "docs/project-management/evidence/compiled-snapshot-catalog-v1/graph-sync-proposal.json",
+  "evidence_path": "docs/project-management/evidence/region-inheritance-runtime-v1",
+  "graph_sync_proposal_path": "docs/project-management/evidence/region-inheritance-runtime-v1/graph-sync-proposal.json",
   "status": "coding_started",
   "coding_allowed": true,
   "coding_started": true,
@@ -102,6 +115,6 @@
   "review_completed": false,
   "next_transition": "isolated_slice_review",
   "coding_branch": "codex/layout-framework-pair-acceptance",
-  "goal": "compiled-snapshot-catalog-v1",
-  "scope_note": "Continue accepted composition editor goal with optional Layout-owned bounded authorized snapshot summaries, preserving activation/rollback contracts, schema, owners and Minimal CMS. Bounded correctness correction: database revision allocation and explicit rejection of ambiguous immutable hybrid versions. No schema or live data changes."
+  "goal": "region-inheritance-runtime-v1",
+  "scope_note": "Continue the accepted region-inheritance runtime with Layout-owned per-region inherit, replace and explicit-empty intents plus reset to the registered default. Preserve the existing artifact schema through its namespaced extension, existing resolver, owners and Minimal CMS. No schema, route or live data changes."
 }

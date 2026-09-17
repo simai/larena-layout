@@ -1,0 +1,29 @@
+{
+  "goal": "Continue accepted declarative-interface goal: preserve immutable hybrid revisions",
+  "base_revision": "ccc622c49251c1409739c072b42b7dc738876f19",
+  "allowed_files": [
+    "src/Persistence/PdoLayoutArtifactStore.php",
+    "src/Runtime/HybridLayoutArtifactCatalog.php",
+    "tests/Unit/PackageLayoutArtifactCatalogTest.php",
+    "docs/developer/page-assembly-contract.md",
+    "docs/acceptance/layout-revision-isolation-2026-09-17.json",
+    ".larena/launch-context.json"
+  ],
+  "checks": [
+    "red reproduction",
+    "unit",
+    "Framework snapshot persistence",
+    "PHPStan",
+    "lint",
+    "scope check"
+  ],
+  "exclusions": [
+    "main",
+    "live website",
+    "database rewrites",
+    "schema changes",
+    "Framework contract changes"
+  ],
+  "owner_gate_evidence": "source/output/action-gates/action-gate-report-20260917194651.json",
+  "approval_basis": "User ongoing autonomous implementation authorization; reversible isolated correction only."
+}

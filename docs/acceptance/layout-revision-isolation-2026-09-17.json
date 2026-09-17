@@ -1,0 +1,21 @@
+{
+  "status": "isolated_package_verified_not_release_accepted",
+  "problem": "Unpublished database revision 1 could shadow immutable system revision 1.",
+  "red_reproduction": "/tmp/larena-layout-revision-isolation-red.log",
+  "checks": {
+    "unit_and_framework_snapshot": "passed",
+    "phpstan": "passed",
+    "lint_115_php_files": "passed"
+  },
+  "source_sha256": {
+    "src/Persistence/PdoLayoutArtifactStore.php": "206cad16b2e2e6ef2e1174abaf0503ef6c05cfc305be7b9493410fda1c7996b2",
+    "src/Runtime/HybridLayoutArtifactCatalog.php": "4c6a5eb1b7587c68d067a071d3fe2d2828b2f17ad17a9068c12be2355e6f6371",
+    "tests/Unit/PackageLayoutArtifactCatalogTest.php": "c1ec256d351019b7ec362e432aa5328b86cde385e6ced9f3d91f13cfe45e9053"
+  },
+  "limits": [
+    "No live database or main changed.",
+    "Existing differing source collisions fail closed; no automatic historical rewrite.",
+    "A later package update colliding with a retained database revision also fails closed and requires owner reconciliation.",
+    "Root integration, exact distribution repinning, browser acceptance and clean install remain pending."
+  ]
+}

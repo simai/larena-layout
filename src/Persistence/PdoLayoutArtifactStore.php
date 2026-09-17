@@ -286,6 +286,9 @@ final readonly class PdoLayoutArtifactStore implements LayoutArtifactStore
                 throw new LayoutRejected('layout_artifact_revision_conflict');
             }
             $revision = $expectedRevision === null ? 1 : $expectedRevision + 1;
+            foreach ($this->fallback?->history($scope, $id, $actor) ?? [] as $systemRevision) {
+                $revision = max($revision, $systemRevision->revision + 1);
+            }
             $resolvedPlacements = $this->resolvePlacements($scope, $artifact['placements'], $actor);
             if ($expectedRevision === null) {
                 $head = $this->pdo->prepare('INSERT INTO larena_layout_artifacts (scope_ref, artifact_id, kind, current_revision, published_revision, current_json, semantic_hash, updated_by) VALUES (:scope, :artifact, :kind, :revision, NULL, :json, :hash, :actor)');

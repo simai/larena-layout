@@ -37,8 +37,11 @@ function runPackageLayoutArtifactCatalogTest(): void
     $overrides->install();
     $override = $page;
     $override['parameters'] = ['props' => ['variant' => 'custom']];
-    $overrides->create($override, 'guest:login');
-    $overrides->publish('scope:system', 'page.system', 1, 1, 'guest:login');
+    $created = $overrides->create($override, 'guest:login');
+    $hybridDraft = new HybridLayoutArtifactCatalog($overrides, $system);
+    assert($hybridDraft->readRevision('scope:system', 'page.system', 1, 'guest:login')?->semanticHash === $system->published('scope:system', 'page.system', 'guest:login')->semanticHash, 'An unpublished override must not shadow an immutable system revision.');
+    assert($created->revision === 2, 'The first override reserves the existing system revision namespace.');
+    $overrides->publish('scope:system', 'page.system', $created->revision, $created->revision, 'guest:login');
     $hybrid = new HybridLayoutArtifactCatalog($overrides, $system);
     assert($hybrid->published('scope:system', 'page.system', 'guest:login')?->artifact['parameters']['props']['variant'] === 'custom');
     assert($hybrid->published('scope:system', 'block.system', 'guest:login')?->artifactId === 'block.system');
@@ -46,10 +49,31 @@ function runPackageLayoutArtifactCatalogTest(): void
     assert(count($hybrid->parents('scope:system', 'block.system', 'guest:login')) === 1, 'An effective parent must not be duplicated by its system source.');
 
     $override['placements'] = [];
-    $overrides->update($override, 1, 'guest:login');
+    $overrides->update($override, $created->revision, 'guest:login');
     $updatedHybrid = new HybridLayoutArtifactCatalog($overrides, $system);
     assert($updatedHybrid->parents('scope:system', 'block.system', 'guest:login') === [], 'Removed system relationships must not leak through an override.');
     assert($updatedHybrid->children('scope:system', 'page.system', 'guest:login') === [], 'Effective children must come from the override only.');
+
+    // Existing ambiguous data is retained; exact reads fail instead of guessing its source.
+    $legacy = new PdoLayoutArtifactStore(new PDO('sqlite::memory:'), $policy);
+    $legacy->install();
+    $legacy->create($override, 'guest:login');
+    $legacy->publish('scope:system', 'page.system', 1, 1, 'guest:login');
+    $legacyHybrid = new HybridLayoutArtifactCatalog($legacy, $system);
+    foreach ([
+        static fn () => $legacyHybrid->readRevision('scope:system', 'page.system', 1, 'guest:login'),
+        static fn () => $legacyHybrid->published('scope:system', 'page.system', 'guest:login'),
+        static fn () => $legacyHybrid->history('scope:system', 'page.system', 'guest:login'),
+    ] as $read) {
+        try {
+            $read();
+            throw new RuntimeException('Ambiguous immutable revision was accepted.');
+        } catch (Larena\Layout\Exceptions\LayoutRejected $exception) {
+            assert($exception->reasonCode === 'layout_artifact_revision_source_conflict');
+        }
+    }
+    assert($legacy->read('scope:system', 'page.system', 'guest:login')?->revision === 1, 'Conflict detection must not rewrite legacy data.');
+    assert(count($hybridDraft->history('scope:system', 'page.system', 'guest:login')) === 3, 'System and override versions must both remain visible.');
 
     $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($root, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST);
     foreach ($iterator as $item) {

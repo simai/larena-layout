@@ -73,3 +73,17 @@ Larena scope-policy check, so revoking access also affects cached output.
 The file store proves this lifecycle without a database migration. A Larena
 application may provide another implementation of `CompiledPageSnapshotStore`,
 but it must preserve the same whole-snapshot, revision and authorization rules.
+
+## Immutable revisions across hybrid sources
+
+Database revision allocation advances beyond both the database head and every
+revision in the authorized system catalog. An unpublished override must not
+shadow an existing exact system reference. Standalone database artifacts still
+start at revision 1.
+
+Exact hybrid reads, publication resolution and history reject different semantic
+hashes sharing a scope, artifact ID and revision with
+`layout_artifact_revision_source_conflict`. Identical source duplicates are
+compatible. A later package update must be checked against retained database
+versions before adoption. Legacy conflicts are retained for explicit owner
+reconciliation; this change does not rewrite their JSON, links or revisions.

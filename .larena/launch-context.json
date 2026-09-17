@@ -16,7 +16,8 @@
     "layout.transaction_joining_snapshot_store",
     "layout.transaction_joining_artifact_publication",
     "layout.package_owned_schema_migration",
-    "layout.compiled_page_snapshot_catalog"
+    "layout.compiled_page_snapshot_catalog",
+    "layout.hybrid_immutable_revision_isolation"
   ],
   "allowed_files": [
     ".larena/launch-context.json",
@@ -64,7 +65,10 @@
     "tests/Unit/CompiledPageSnapshotCatalogTest.php",
     "docs/compiled-snapshot-history.md",
     "docs/project-management/launch-records/compiled-snapshot-catalog-v1.json",
-    "docs/project-management/evidence/layout-schema-ownership-v1/quality-gate.log"
+    "docs/project-management/evidence/layout-schema-ownership-v1/quality-gate.log",
+    "docs/acceptance/layout-revision-isolation-2026-09-17.json",
+    "docs/developer/page-assembly-contract.md",
+    "docs/project-management/launch-records/hybrid-revision-isolation-v1.json"
   ],
   "forbidden_files": [
     "config/*",
@@ -98,5 +102,5 @@
   "next_transition": "isolated_slice_review",
   "coding_branch": "codex/layout-framework-pair-acceptance",
   "goal": "compiled-snapshot-catalog-v1",
-  "scope_note": "Continue accepted composition editor goal with optional Layout-owned bounded authorized snapshot summaries, preserving activation/rollback contracts, schema, owners and Minimal CMS."
+  "scope_note": "Continue accepted composition editor goal with optional Layout-owned bounded authorized snapshot summaries, preserving activation/rollback contracts, schema, owners and Minimal CMS. Bounded correctness correction: database revision allocation and explicit rejection of ambiguous immutable hybrid versions. No schema or live data changes."
 }

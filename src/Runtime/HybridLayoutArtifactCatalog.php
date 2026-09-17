@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Larena\Layout\Runtime;
 
 use Larena\Layout\Contracts\LayoutArtifactCatalog;
+use Larena\Layout\Exceptions\LayoutRejected;
 use Larena\Layout\ValueObjects\LayoutArtifactRevision;
 
 final readonly class HybridLayoutArtifactCatalog implements LayoutArtifactCatalog
@@ -18,12 +19,21 @@ final readonly class HybridLayoutArtifactCatalog implements LayoutArtifactCatalo
 
     public function readRevision(string $scopeRef, string $artifactId, int $revision, string $actor): ?LayoutArtifactRevision
     {
-        return $this->overrides->readRevision($scopeRef, $artifactId, $revision, $actor) ?? $this->system->readRevision($scopeRef, $artifactId, $revision, $actor);
+        $override = $this->overrides->readRevision($scopeRef, $artifactId, $revision, $actor);
+        $system = $this->system->readRevision($scopeRef, $artifactId, $revision, $actor);
+        if ($override !== null && $system !== null && $override->semanticHash !== $system->semanticHash) {
+            throw new LayoutRejected('layout_artifact_revision_source_conflict');
+        }
+        return $override ?? $system;
     }
 
     public function published(string $scopeRef, string $artifactId, string $actor): ?LayoutArtifactRevision
     {
-        return $this->overrides->published($scopeRef, $artifactId, $actor) ?? $this->system->published($scopeRef, $artifactId, $actor);
+        $published = $this->overrides->published($scopeRef, $artifactId, $actor) ?? $this->system->published($scopeRef, $artifactId, $actor);
+        if ($published !== null) {
+            $this->readRevision($scopeRef, $artifactId, $published->revision, $actor);
+        }
+        return $published;
     }
 
     public function history(string $scopeRef, string $artifactId, string $actor): array
@@ -66,6 +76,9 @@ final readonly class HybridLayoutArtifactCatalog implements LayoutArtifactCatalo
         $result = [];
         foreach ($revisions as $revision) {
             $key = $revision->scopeRef."\0".$revision->artifactId."\0".$revision->revision;
+            if (isset($result[$key]) && $result[$key]->semanticHash !== $revision->semanticHash) {
+                throw new LayoutRejected('layout_artifact_revision_source_conflict');
+            }
             $result[$key] ??= $revision;
         }
         return array_values($result);

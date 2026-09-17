@@ -68,7 +68,8 @@
     "docs/project-management/evidence/layout-schema-ownership-v1/quality-gate.log",
     "docs/acceptance/layout-revision-isolation-2026-09-17.json",
     "docs/developer/page-assembly-contract.md",
-    "docs/project-management/launch-records/hybrid-revision-isolation-v1.json"
+    "docs/project-management/launch-records/hybrid-revision-isolation-v1.json",
+    "tests/Unit/LayoutArtifactResolverTest.php"
   ],
   "forbidden_files": [
     "config/*",

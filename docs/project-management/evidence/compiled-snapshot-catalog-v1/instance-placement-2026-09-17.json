@@ -1,0 +1,27 @@
+{
+  "status": "existing_runtime_proved_editor_write_pending",
+  "source": "tests/Unit/LayoutArtifactResolverTest.php",
+  "source_sha256": "cff24cc217471d8e4b288d8c7d53daded63eeb64108292fdf92d5a89996dce1b",
+  "verified": [
+    "Same exact block revision reused in two placements with columns=2 and columns=4.",
+    "Different stable instance IDs.",
+    "Original template props remain columns=1.",
+    "One dependency entry per shared exact artifact revision.",
+    "Later shared head update does not alter either placed exact revision.",
+    "Exact Framework compiler emits both different column values and repeated server-rendered text."
+  ],
+  "next_implementation_requirements": [
+    "Resolve selected path from authorized canonical page, never from client-submitted artifact JSON.",
+    "Validate destination and value against registered editor manifest and Property contract.",
+    "Persist flat allowed props on the selected parent placement; content bindings stay in their owner plane.",
+    "Copy on write repeated ancestor artifacts along only the selected path; advance exact child references through the root.",
+    "Check all expected source revisions and page token within one existing artifact transaction.",
+    "Compile preview inside transaction; rollback every new revision and relationship on failure.",
+    "Prove unselected repeated parent and all other pages retain their previous exact revisions."
+  ],
+  "limitations": [
+    "Not an implemented editor action.",
+    "No new Framework schema or public API.",
+    "No main or live adoption."
+  ]
+}

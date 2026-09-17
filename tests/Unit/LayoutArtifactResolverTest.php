@@ -75,6 +75,49 @@ function runLayoutArtifactResolverTest(): void
         }
     }
 
+    // Instance props belong to the parent placement, not to the reused template.
+    $instances = layoutArtifactFixture('section.instances', 'section', 'layout.section');
+    $instances['placements'] = [
+        layoutPlacementFixture('left', 'block.columns', 1, 'default', 100),
+        layoutPlacementFixture('right', 'block.columns', 1, 'default', 200),
+    ];
+    $instances['placements'][0]['parameters'] = ['columns' => 2];
+    $instances['placements'][1]['parameters'] = ['columns' => 4];
+    $store->create($instances, 'actor:alpha');
+    $instancePage = layoutArtifactFixture('page.instances', 'page', 'layout.page');
+    $instancePage['placements'] = [layoutPlacementFixture('body', 'section.instances', 1)];
+    $store->create($instancePage, 'actor:alpha');
+    $instanceResult = $resolver->recipe('scope:tenant-alpha', 'page.instances', 1, 'actor:alpha');
+    $children = $instanceResult['recipe']['root']['node']['slots']['default'][0]['node']['slots']['default'];
+    assert($children[0]['node']['props']['columns']['literal'] === 2);
+    assert($children[1]['node']['props']['columns']['literal'] === 4);
+    assert($children[0]['id'] !== $children[1]['id']);
+    assert($store->readRevision('scope:tenant-alpha', 'block.columns', 1, 'actor:alpha')->artifact['parameters']['props']['columns'] === 1);
+    assert($store->children('scope:tenant-alpha', 'section.instances', 'actor:alpha')[0]['child_revision'] === 1);
+    assert(count(array_filter($instanceResult['dependencies'], static fn (array $d): bool => $d['artifact_id'] === 'block.columns')) === 1);
+    $distribution = getenv('SIMAI_UI_ROOT');
+    if (is_string($node) && $node !== '' && is_string($distribution) && $distribution !== '') {
+        $lock = json_decode((string) file_get_contents($distribution.'/distr/core/contracts/composition-recipe-v1/contract.lock.json'), true, 512, JSON_THROW_ON_ERROR);
+        $instanceHtml = FrameworkRecipeCompiler::fromFrameworkDistribution($node, $distribution)->compile([
+            'recipe' => $instanceResult['recipe'],
+            'inputs' => ['schema' => 'simai.composition.inputs.v1', 'scope' => 'scope:tenant-alpha', 'values' => []],
+            'trustedContext' => ['scope' => 'scope:tenant-alpha'],
+            'executionContract' => [
+                'contractDigest' => $lock['contractDigest'],
+                'registryDigest' => 'sha256:'.hash_file('sha256', $distribution.'/distr/core/contracts/composition-types.v1.json'),
+                'rendererDigest' => 'sha256:'.hash_file('sha256', $distribution.'/distr/core/js/composition/index.mjs'),
+            ],
+        ])['html'];
+        assert(str_contains($instanceHtml, 'data-composition-columns="2"'));
+        assert(str_contains($instanceHtml, 'data-composition-columns="4"'));
+        assert(substr_count($instanceHtml, 'Hello') === 2);
+        echo "Placed instance override exact Framework HTML proof passed.\n";
+    }
+    // Updating the shared head does not alter either exact placed revision or its override.
+    $columns['parameters']['props']['columns'] = 6;
+    $store->update($columns, 1, 'actor:alpha');
+    assert($resolver->recipe('scope:tenant-alpha', 'page.instances', 1, 'actor:alpha')['recipe'] === $instanceResult['recipe']);
+
     $badSection = layoutArtifactFixture('section.bad-slot', 'section', 'layout.section');
     $badSection['placements'] = [layoutPlacementFixture('bad', 'block.text', 1, 'sidebar')];
     $store->create($badSection, 'actor:alpha');

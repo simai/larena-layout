@@ -1,0 +1,10 @@
+{
+  "files": [
+    "CHANGELOG.md",
+    "src/Contracts/CompiledPageSnapshotCatalog.php",
+    "src/Persistence/FileCompiledPageSnapshotStore.php",
+    "tests/Unit/CompiledPageSnapshotCatalogTest.php",
+    "docs/compiled-snapshot-history.md",
+    "docs/project-management/launch-records/compiled-snapshot-catalog-v1.json"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "canonical_update_allowed": false,
+  "package": "larena/layout",
+  "proposal": "Register optional compiled snapshot catalog and bounded summary projection after accepted evidence.",
+  "status": "proposal_only"
+}

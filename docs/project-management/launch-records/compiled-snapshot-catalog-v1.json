@@ -1,0 +1,30 @@
+{
+  "schema": "larena.package_launch_record.v1",
+  "package": "larena/layout",
+  "goal": "compiled-snapshot-catalog-v1",
+  "continuation_of": "docs/project-management/launch-records/layout-schema-ownership-v1.json",
+  "baseline": "3492a2b56c3ce569294f750eb89190565d66b0ef",
+  "authorization": "Accepted autonomous declarative-interface goal and recorded next editor stage in Root workflow",
+  "allowed_files": [
+    "CHANGELOG.md",
+    "src/Contracts/CompiledPageSnapshotCatalog.php",
+    "src/Persistence/FileCompiledPageSnapshotStore.php",
+    "tests/Unit/CompiledPageSnapshotCatalogTest.php",
+    "docs/compiled-snapshot-history.md",
+    "docs/project-management/launch-records/compiled-snapshot-catalog-v1.json",
+    ".larena/launch-context.json",
+    "scripts/run-unit-tests.php",
+    "src/Persistence/PdoCompiledPageSnapshotStore.php"
+  ],
+  "non_goals": [
+    "main/live release",
+    "schema migration",
+    "new source of truth",
+    "Framework changes"
+  ],
+  "done_when": [
+    "both backends catalog passes bounded authorized integrity tests",
+    "package quality gate passes",
+    "Root browser integration separately accepted"
+  ]
+}

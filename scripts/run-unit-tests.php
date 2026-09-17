@@ -21,6 +21,7 @@ $tests = [
     __DIR__ . '/../tests/Unit/ArtifactRegionPlacementProjectorTest.php',
     __DIR__ . '/../tests/Unit/InheritedArtifactRecipeTest.php',
     __DIR__ . '/../tests/Unit/PdoCompiledPageSnapshotStoreTest.php',
+    __DIR__ . '/../tests/Unit/CompiledPageSnapshotCatalogTest.php',
     __DIR__ . '/../tests/Unit/FrameworkCanonicalJsonTest.php',
     __DIR__ . '/../tests/Unit/PackageLayoutArtifactCatalogTest.php',
     __DIR__ . '/../tests/Unit/FrameworkNodeRecipeResolverTest.php',

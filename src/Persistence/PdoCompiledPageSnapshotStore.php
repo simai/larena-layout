@@ -6,13 +6,14 @@ namespace Larena\Layout\Persistence;
 
 use JsonException;
 use Larena\Layout\Contracts\CompiledPageSnapshotStore;
+use Larena\Layout\Contracts\CompiledPageSnapshotCatalog;
 use Larena\Layout\Contracts\PageDescriptorAuthorizationPolicy;
 use Larena\Layout\Exceptions\LayoutRejected;
 use Larena\Layout\ValueObjects\CompiledPageSnapshot;
 use PDO;
 use Throwable;
 
-final readonly class PdoCompiledPageSnapshotStore implements CompiledPageSnapshotStore
+final readonly class PdoCompiledPageSnapshotStore implements CompiledPageSnapshotStore, CompiledPageSnapshotCatalog
 {
     public function __construct(private PDO $pdo, private PageDescriptorAuthorizationPolicy $authorization)
     {
@@ -83,6 +84,49 @@ final readonly class PdoCompiledPageSnapshotStore implements CompiledPageSnapsho
         } catch (Throwable) {
             throw new LayoutRejected('layout_snapshot_persistence_failed');
         }
+    }
+
+    /**
+     * @phpstan-impure
+     * @return array{snapshots:list<array{snapshot_digest:string,source_revision:string,active:bool}>,next_cursor:?string}
+     */
+    public function history(string $scopeRef, string $pageId, string $actor, int $limit = 20, ?string $afterDigest = null): array
+    {
+        $this->assertIdentity($scopeRef, $pageId, $actor);
+        $this->authorization->assertAllowed($actor, PageDescriptorAuthorizationPolicy::READ, $scopeRef);
+        if ($limit < 1 || $limit > 100) {
+            throw new LayoutRejected('layout_snapshot_history_limit_invalid');
+        }
+        if ($afterDigest !== null) {
+            $this->assertDigest($afterDigest);
+        }
+        return $this->transaction(function () use ($scopeRef, $pageId, $limit, $afterDigest): array {
+            $head = $this->head($scopeRef, $pageId);
+            if ($head !== null) {
+                $this->hydrate($scopeRef, $pageId, $head);
+            }
+            $statement = $this->pdo->prepare('SELECT snapshot_digest, source_revision, snapshot_json FROM larena_layout_compiled_snapshots WHERE scope_ref = :scope AND page_id = :page AND snapshot_digest > :after ORDER BY snapshot_digest ASC LIMIT :limit');
+            $statement->bindValue(':scope', $scopeRef);
+            $statement->bindValue(':page', $pageId);
+            $statement->bindValue(':after', $afterDigest ?? '');
+            $statement->bindValue(':limit', $limit + 1, PDO::PARAM_INT);
+            $statement->execute();
+            $summaries = [];
+            while (($row = $statement->fetch(PDO::FETCH_ASSOC)) !== false) {
+                $digest = (string) $row['snapshot_digest'];
+                $snapshot = $this->decode((string) $row['snapshot_json'], 'layout_snapshot_integrity_failed');
+                $this->assertSnapshot($snapshot, $scopeRef, $pageId, $digest);
+                if (! is_string($snapshot['source_revision'] ?? null) || $snapshot['source_revision'] !== $row['source_revision']) {
+                    throw new LayoutRejected('layout_snapshot_integrity_failed');
+                }
+                $summaries[] = ['snapshot_digest' => $digest, 'source_revision' => $snapshot['source_revision'], 'active' => ($head['snapshot_digest'] ?? null) === $digest];
+            }
+            $hasMore = count($summaries) > $limit;
+            if ($hasMore) {
+                array_pop($summaries);
+            }
+            return ['snapshots' => $summaries, 'next_cursor' => $hasMore ? $summaries[count($summaries) - 1]['snapshot_digest'] : null];
+        });
     }
 
     public function rollback(string $scopeRef, string $pageId, string $targetSnapshotDigest, int $expectedActivationRevision, string $actor): CompiledPageSnapshot

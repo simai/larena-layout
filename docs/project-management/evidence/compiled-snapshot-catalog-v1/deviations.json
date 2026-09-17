@@ -1,0 +1,8 @@
+{
+  "schema": "larena.deviations.v1",
+  "deviations": [
+    "File catalog enumerates filenames before bounded payload reading; no scalable SQL-like listing claim.",
+    "Digest ordering is deterministic, not chronology."
+  ],
+  "release_accepted": false
+}

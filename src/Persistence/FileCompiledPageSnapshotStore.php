@@ -6,11 +6,12 @@ namespace Larena\Layout\Persistence;
 
 use JsonException;
 use Larena\Layout\Contracts\CompiledPageSnapshotStore;
+use Larena\Layout\Contracts\CompiledPageSnapshotCatalog;
 use Larena\Layout\Contracts\PageDescriptorAuthorizationPolicy;
 use Larena\Layout\Exceptions\LayoutRejected;
 use Larena\Layout\ValueObjects\CompiledPageSnapshot;
 
-final readonly class FileCompiledPageSnapshotStore implements CompiledPageSnapshotStore
+final readonly class FileCompiledPageSnapshotStore implements CompiledPageSnapshotStore, CompiledPageSnapshotCatalog
 {
     private string $root;
 
@@ -58,6 +59,55 @@ final readonly class FileCompiledPageSnapshotStore implements CompiledPageSnapsh
             }
 
             return $this->hydrate($directory, $scopeRef, $pageId, $head);
+        }, false);
+    }
+
+    /**
+     * @phpstan-impure
+     * @return array{snapshots:list<array{snapshot_digest:string,source_revision:string,active:bool}>,next_cursor:?string}
+     */
+    public function history(string $scopeRef, string $pageId, string $actor, int $limit = 20, ?string $afterDigest = null): array
+    {
+        $this->assertIdentity($scopeRef, $pageId, $actor);
+        $this->authorization->assertAllowed($actor, PageDescriptorAuthorizationPolicy::READ, $scopeRef);
+        if ($limit < 1 || $limit > 100) {
+            throw new LayoutRejected('layout_snapshot_history_limit_invalid');
+        }
+        if ($afterDigest !== null) {
+            $this->digestHex($afterDigest);
+        }
+        return $this->locked($scopeRef, $pageId, function (string $directory) use ($scopeRef, $pageId, $limit, $afterDigest): array {
+            $head = $this->head($directory);
+            if ($head !== null) {
+                $this->hydrate($directory, $scopeRef, $pageId, $head);
+            }
+            $paths = glob($directory.'/snapshots/*.json');
+            if ($paths === false) {
+                throw new LayoutRejected('layout_snapshot_storage_failed');
+            }
+            sort($paths, SORT_STRING);
+            $summaries = [];
+            foreach ($paths as $path) {
+                $digest = 'sha256:'.basename($path, '.json');
+                $this->digestHex($digest);
+                if ($afterDigest !== null && strcmp($digest, $afterDigest) <= 0) {
+                    continue;
+                }
+                $snapshot = $this->decodeFile($path, 'layout_snapshot_integrity_failed');
+                $this->assertSnapshot($snapshot, $scopeRef, $pageId, $digest);
+                if (! is_string($snapshot['source_revision'] ?? null)) {
+                    throw new LayoutRejected('layout_snapshot_integrity_failed');
+                }
+                $summaries[] = ['snapshot_digest' => $digest, 'source_revision' => $snapshot['source_revision'], 'active' => ($head['snapshot_digest'] ?? null) === $digest];
+                if (count($summaries) > $limit) {
+                    break;
+                }
+            }
+            $hasMore = count($summaries) > $limit;
+            if ($hasMore) {
+                array_pop($summaries);
+            }
+            return ['snapshots' => $summaries, 'next_cursor' => $hasMore ? $summaries[count($summaries) - 1]['snapshot_digest'] : null];
         }, false);
     }
 

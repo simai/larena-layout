@@ -1,5 +1,10 @@
 # Changelog
 
+## Snapshot catalog candidate — 2026-09-17
+
+- Add optional authorized digest-keyset history for PDO and file compiled snapshots, without changing activation or rollback interfaces.
+- Validate retained payload integrity before returning summaries; never expose rendered HTML or dependency data in catalog results.
+
 ## Unreleased
 
 ### Added

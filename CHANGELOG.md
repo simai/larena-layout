@@ -7,6 +7,8 @@
 
 ## Unreleased
 
+- Project layout.regions artifacts into Framework regions, derive layout.scope endpoints from routes and pass product port bindings to the Recipe runtime.
+
 ### Added
 
 - Add a versioned `LayoutArtifactStore` and query catalog for reusable page, section and block JSON artifacts.

@@ -1,0 +1,16 @@
+{
+  "schema": "larena.evidence_file_map.v1",
+  "base_commit": "157f60b9be1bc350f91998fddd643288f0089936",
+  "changed": [
+    ".larena/launch-context.json",
+    "CHANGELOG.md",
+    "docs/developer/composition-regions-scope.md",
+    "docs/project-management/launch-records/composition-regions-scope-v1.json",
+    "resources/runtime/framework-recipe-adapter.mjs",
+    "scripts/run-unit-tests.php",
+    "src/Runtime/LayoutArtifactResolver.php",
+    "tests/Unit/RegionsScopeProjectionTest.php",
+    "docs/project-management/evidence/composition-regions-scope-v1/**"
+  ],
+  "product_source_changed": true
+}

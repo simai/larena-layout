@@ -2,7 +2,10 @@ import { pathToFileURL } from 'node:url';
 
 const [frameworkEntry, registryModule] = process.argv.slice(2);
 const framework = await import(pathToFileURL(frameworkEntry));
-const registry = registryModule ? (await import(pathToFileURL(registryModule))).createRegistry(framework) : undefined;
+const product = registryModule ? await import(pathToFileURL(registryModule)) : undefined;
+const registry = product ? product.createRegistry(framework) : undefined;
+// A product that binds its own types to published port elements exports the port registry.
+const compositionPorts = product?.createCompositionPorts ? product.createCompositionPorts(framework) : undefined;
 const chunks = [];
 for await (const chunk of process.stdin) chunks.push(chunk);
 const request = framework.parseRecipeJson(Buffer.concat(chunks).toString('utf8'));
@@ -17,6 +20,7 @@ const result = await framework.resolveRecipe(request.recipe, {
   trustedContext: request.trustedContext,
   inputs: request.inputs,
   executionContract: request.executionContract,
+  compositionPorts,
   ports: {
     readReference: async (reference) => {
       const source = sources.get(JSON.stringify([reference.kind, reference.owner, reference.ref]));
@@ -28,6 +32,6 @@ if (!result.document) {
   process.stdout.write(JSON.stringify(result));
   process.exit(1);
 }
-const rendered = await framework.render(result.document, { registry });
+const rendered = await framework.render(result.document, { registry, options: compositionPorts ? { ports: compositionPorts } : {} });
 if (rendered.diagnostics.length) throw new Error(rendered.diagnostics[0].message);
 process.stdout.write(JSON.stringify({ ...result, html: rendered.html, assets: rendered.assets, documentDigest: rendered.digest }));

@@ -12,6 +12,12 @@ use Larena\Layout\ValueObjects\LayoutPlacement;
 final readonly class LayoutArtifactResolver
 {
     public const MAX_TREE_DEPTH = 16;
+    public const REGIONS_TYPE = 'layout.regions';
+    public const REGION_TYPE = 'layout.region';
+    public const SCOPE_TYPE = 'layout.scope';
+    public const ENDPOINT_EXTENSION = 'simai.composition:endpoint';
+    private const REGION_NAME = '/^[a-z][a-z0-9-]{0,31}$/D';
+    private const REGION_KEYS = ['accepts', 'label', 'landmark', 'max_items', 'min_items', 'name', 'placement', 'sticky'];
     public const MAX_TREE_NODES = 1000;
 
     /** @param array<string, mixed> $manifests */
@@ -149,6 +155,7 @@ final readonly class LayoutArtifactResolver
 
         $slots = [];
         $slotCounts = [];
+        $endpoints = $artifact['component'] === self::SCOPE_TYPE ? self::routeEndpoints($artifact) : [];
         foreach ($artifact['placements'] as $placementData) {
             $placement = LayoutPlacement::fromArray($placementData);
             if (!$placement->enabled) {
@@ -175,7 +182,12 @@ final readonly class LayoutArtifactResolver
             if ($slotCounts[$placement->slot] > $slotManifest['max']) {
                 throw new LayoutRejected('layout_artifact_slot_max_exceeded');
             }
-            $slots[$placement->slot][] = $this->entry($child, $this->scopedId($instanceId, $placement->instanceId), $placement->parameters, $actor, $dependencies, $path, $count, $depth + 1);
+            $childEntry = $this->entry($child, $this->scopedId($instanceId, $placement->instanceId), $placement->parameters, $actor, $dependencies, $path, $count, $depth + 1);
+            if (isset($endpoints[$placement->instanceId])) {
+                // The Framework resolves the endpoint by name inside the nearest scope.
+                $childEntry['node']['extensions'][self::ENDPOINT_EXTENSION] = ['name' => $placement->instanceId];
+            }
+            $slots[$placement->slot][] = $childEntry;
         }
         foreach ($manifest['slots'] as $slot => $slotManifest) {
             $slotCount = $slotCounts[$slot] ?? 0;
@@ -190,6 +202,23 @@ final readonly class LayoutArtifactResolver
         $data = is_array($parameters['data'] ?? null) ? $parameters['data'] : [];
         $props = is_array($parameters['props'] ?? null) ? $parameters['props'] : $parameters;
         unset($props['data'], $props['props']);
+        if ($artifact['component'] === self::REGIONS_TYPE) {
+            // Artifact slots are region names; the document carries each as a layout.region node.
+            $regionEntries = [];
+            foreach (self::declaredRegions($artifact) as $region) {
+                $regionProps = [];
+                foreach ($region as $name => $value) {
+                    $regionProps[$name] = ['literal' => $value];
+                }
+                $regionEntries[] = ['id' => $this->scopedId($instanceId, 'region-'.$region['name']), 'node' => [
+                    'type' => self::REGION_TYPE,
+                    'props' => $regionProps,
+                    'slots' => ['default' => $slots[$region['name']] ?? []],
+                ]];
+            }
+            unset($props['regions']);
+            $slots = ['regions' => $regionEntries];
+        }
         $props = array_replace_recursive($props, $placementParameters);
         $literalData = [];
         foreach ($data as $name => $value) {
@@ -226,6 +255,56 @@ final readonly class LayoutArtifactResolver
                 ],
             ], static fn (mixed $value): bool => $value !== []),
         ];
+    }
+
+    /**
+     * Regions declared by a layout.regions artifact, in reading order. Only names and shape are
+     * checked here; the Framework validates landmarks, labels and cardinality.
+     *
+     * @param array<string,mixed> $artifact
+     * @return list<array<string,mixed>>
+     */
+    private static function declaredRegions(array $artifact): array
+    {
+        $parameters = is_array($artifact['parameters'] ?? null) ? $artifact['parameters'] : [];
+        $props = is_array($parameters['props'] ?? null) ? $parameters['props'] : $parameters;
+        $regions = $props['regions'] ?? null;
+        if (!is_array($regions) || !array_is_list($regions) || $regions === [] || count($regions) > 12) {
+            throw new LayoutRejected('layout_artifact_regions_invalid');
+        }
+        $names = [];
+        foreach ($regions as $region) {
+            if (!is_array($region) || array_is_list($region)
+                || array_diff(array_keys($region), self::REGION_KEYS) !== []
+                || !is_string($region['name'] ?? null) || preg_match(self::REGION_NAME, $region['name']) !== 1
+                || !is_string($region['landmark'] ?? null)) {
+                throw new LayoutRejected('layout_artifact_regions_invalid');
+            }
+            if (isset($names[$region['name']])) {
+                throw new LayoutRejected('layout_artifact_region_name_duplicate');
+            }
+            $names[$region['name']] = true;
+        }
+
+        return $regions;
+    }
+
+    /** @param array<string,mixed> $artifact @return array<string,true> */
+    private static function routeEndpoints(array $artifact): array
+    {
+        $parameters = is_array($artifact['parameters'] ?? null) ? $artifact['parameters'] : [];
+        $props = is_array($parameters['props'] ?? null) ? $parameters['props'] : $parameters;
+        $endpoints = [];
+        foreach (is_array($props['routes'] ?? null) ? $props['routes'] : [] as $route) {
+            foreach (['from', 'to'] as $side) {
+                $name = is_array($route) && is_array($route[$side] ?? null) ? ($route[$side]['endpoint'] ?? null) : null;
+                if (is_string($name)) {
+                    $endpoints[$name] = true;
+                }
+            }
+        }
+
+        return $endpoints;
     }
 
     private function scopedId(string $parentId, string $localId): string
@@ -267,6 +346,16 @@ final readonly class LayoutArtifactResolver
         }
         if (!in_array($artifact['presentation']['variant'], $manifest['variants'], true)) {
             throw new LayoutRejected('layout_artifact_variant_unknown');
+        }
+        if ($component === self::REGIONS_TYPE) {
+            $manifest['slots'] = [];
+            $regionSlot = $this->manifests[$component]['region_slot'] ?? null;
+            if (!is_array($regionSlot)) {
+                throw new LayoutRejected('layout_artifact_component_manifest_invalid');
+            }
+            foreach (self::declaredRegions($artifact) as $region) {
+                $manifest['slots'][$region['name']] = $regionSlot;
+            }
         }
         $slots = [];
         foreach ($manifest['slots'] as $slot => $slotManifest) {

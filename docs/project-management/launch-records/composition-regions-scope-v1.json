@@ -1,0 +1,18 @@
+{
+  "schema": "larena.package_launch_record.v1",
+  "package": "larena/layout",
+  "status": "coding_started",
+  "goal": "composition-regions-scope",
+  "base_commit": "157f60b9be1bc350f91998fddd643288f0089936",
+  "allowed_files": [
+    ".larena/launch-context.json",
+    "CHANGELOG.md",
+    "docs/developer/composition-regions-scope.md",
+    "docs/project-management/launch-records/composition-regions-scope-v1.json",
+    "resources/runtime/framework-recipe-adapter.mjs",
+    "scripts/run-unit-tests.php",
+    "src/Runtime/LayoutArtifactResolver.php",
+    "tests/Unit/RegionsScopeProjectionTest.php"
+  ],
+  "scope": "Project layout.regions artifacts into Framework layout.regions/layout.region nodes, derive layout.scope endpoints from routes and pass product port bindings to the Recipe runtime; no artifact schema, database or Framework change"
+}

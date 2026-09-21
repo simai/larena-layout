@@ -1,0 +1,10 @@
+{
+  "schema": "larena.graph_sync_proposal.v1",
+  "package": "larena/layout",
+  "scope": "composition regions and scope",
+  "feature_refs": [
+    "layout.region_inheritance"
+  ],
+  "canonical_update_allowed": false,
+  "proposal": "Map after Root acceptance."
+}

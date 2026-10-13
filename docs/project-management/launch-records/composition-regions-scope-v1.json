@@ -12,7 +12,9 @@
     "resources/runtime/framework-recipe-adapter.mjs",
     "scripts/run-unit-tests.php",
     "src/Runtime/LayoutArtifactResolver.php",
-    "tests/Unit/RegionsScopeProjectionTest.php"
+    "tests/Unit/RegionsScopeProjectionTest.php",
+    "src/Providers/LayoutServiceProvider.php",
+    "tests/Feature/LayoutServiceProviderBindingTest.php"
   ],
   "scope": "Project layout.regions artifacts into Framework layout.regions/layout.region nodes, derive layout.scope endpoints from routes and pass product port bindings to the Recipe runtime; no artifact schema, database or Framework change"
 }

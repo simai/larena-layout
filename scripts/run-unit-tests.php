@@ -32,6 +32,7 @@ $tests = [
     __DIR__ . '/../tests/Integration/LayoutArtifactPersistenceTest.php',
     __DIR__ . '/../tests/Integration/FrameworkRecipeSnapshotPersistenceTest.php',
     __DIR__ . '/../tests/Feature/LayoutServiceProviderMigrationTest.php',
+    __DIR__ . '/../tests/Feature/LayoutServiceProviderBindingTest.php',
 ];
 
 foreach ($tests as $test) {

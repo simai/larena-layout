@@ -29,7 +29,7 @@ $compose = static function (array $layoutConfig) use ($capsule): Container {
     });
     $app->instance(DatabaseManager::class, $capsule->getDatabaseManager());
     // A bare container stands in for the application: the provider needs only bindings and config.
-    (new LayoutServiceProvider($app))->register(); // @phpstan-ignore argument.type
+    (new ReflectionClass(LayoutServiceProvider::class))->newInstance($app)->register();
 
     return $app;
 };

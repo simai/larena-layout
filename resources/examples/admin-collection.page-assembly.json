@@ -1,5 +1,6 @@
 {
-  "schema": "larena.layout.page_assembly.v1",
+  "schema": "larena.layout.page_assembly",
+  "schema_version": 1,
   "site_id": "site.admin",
   "page_id": "page.admin.collection",
   "scope_ref": "scope:admin.main",

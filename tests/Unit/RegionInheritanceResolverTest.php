@@ -19,13 +19,13 @@ $policy = new class implements PageDescriptorAuthorizationPolicy {
 $store = new PdoLayoutArtifactStore(new PDO('sqlite::memory:'), $policy);
 $store->install();
 foreach (['shell.default' => 'page', 'block.shared' => 'block'] as $id => $kind) {
-    $store->create(['schema' => 'larena.layout.artifact.v1', 'artifact_id' => $id, 'scope_ref' => 'scope:probe',
+    $store->create(['schema' => 'larena.layout.artifact', 'schema_version' => 1, 'artifact_id' => $id, 'scope_ref' => 'scope:probe',
         'kind' => $kind, 'component' => $kind === 'page' ? 'layout.page' : 'content.paragraph',
         'presentation' => ['view' => 'default', 'variant' => null, 'modifiers' => []],
         'parameters' => [], 'placements' => [], 'bindings' => [], 'asset_refs' => [], 'extensions' => []], 'actor:allowed');
 }
 $ref = ['artifact_id' => 'block.shared', 'revision' => 1];
-$request = ['schema' => 'larena.layout.region_inheritance_request.v1', 'scope_ref' => 'scope:probe', 'layers' => [
+$request = ['schema' => 'larena.layout.region_inheritance_request', 'scope_ref' => 'scope:probe', 'layers' => [
     ['level' => 'site', 'source_id' => 'site.probe', 'revision' => 1, 'shell' => ['mode' => 'replace', 'artifact' => ['artifact_id' => 'shell.default', 'revision' => 1]],
         'regions' => ['main' => ['mode' => 'replace', 'placements' => [['placement_id' => 'first', 'artifact' => $ref]]]]],
     ['level' => 'section', 'source_id' => 'section.probe', 'revision' => 1, 'shell' => ['mode' => 'inherit'], 'regions' => []],

@@ -83,7 +83,8 @@ final readonly class FrameworkCompositionProjector
         }
 
         return [
-            'schema' => 'simai.composition.document.v1',
+            'schema' => 'simai.composition.document',
+            'schema_version' => 1,
             'id' => $documentId,
             'profile' => 'ui-layout',
             'locale' => $locale,

@@ -37,7 +37,7 @@ $document = (new FrameworkCompositionProjector())->project(
 );
 
 assert($composition->toArray() === $before);
-assert($document['schema'] === 'simai.composition.document.v1');
+assert($document['schema'] === 'simai.composition.document' && $document['schema_version'] === 1);
 assert($document['extensions']['larena:page-composition']['source_schema'] === 'larena.layout.page_composition');
 $section = $document['root']['slots']['default'][0];
 $block = $section['slots']['default'][0];

@@ -32,7 +32,7 @@ function runFrameworkNodeRecipeResolverTest(): void
         'rendererDigest' => 'sha256:php-renderer',
     ]);
     assert(($resolved['diagnostics'] ?? null) === []);
-    assert(($resolved['document']['schema'] ?? null) === 'simai.composition.document.v1');
+    assert(($resolved['document']['schema'] ?? null) === 'simai.composition.document' && ($resolved['document']['schema_version'] ?? null) === 1);
     assert(($resolved['document']['root']['slots']['default'][0]['slots']['default'][0]['data']['content'][0]['value'] ?? null) === 'Привет 😀');
     assert(preg_match('/^n-[a-f0-9]{64}$/D', $resolved['document']['root']['id']) === 1);
     $canonical = new FrameworkCanonicalJson();

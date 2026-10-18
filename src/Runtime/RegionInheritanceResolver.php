@@ -33,7 +33,7 @@ final class RegionInheritanceResolver
         $this->keys($request, ['schema', 'scope_ref', 'layers']);
         $scope = $request['scope_ref'] ?? null;
         $layers = $request['layers'] ?? null;
-        if (($request['schema'] ?? null) !== 'larena.layout.region_inheritance_request.v1'
+        if (($request['schema'] ?? null) !== 'larena.layout.region_inheritance_request'
             || !is_string($scope) || !preg_match('/^scope:[a-z][a-z0-9_.:-]{1,119}$/D', $scope)
             || !is_array($layers) || !array_is_list($layers) || count($layers) !== 3 || $actor === '') {
             throw new LayoutRejected('layout_inheritance_request_invalid');

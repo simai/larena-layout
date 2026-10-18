@@ -38,7 +38,8 @@ final class FrameworkNodeRecipeResolver
         }
         $root = $this->entry($recipe['root'], [], $recipe['id'], 0);
         $document = array_filter([
-            'schema' => 'simai.composition.document.v1',
+            'schema' => 'simai.composition.document',
+            'schema_version' => 1,
             'id' => $recipe['id'],
             'profile' => 'ui-layout',
             'locale' => is_string($recipe['locale'] ?? null) ? $recipe['locale'] : null,

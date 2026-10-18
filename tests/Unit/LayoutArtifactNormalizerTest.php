@@ -13,7 +13,15 @@ function runLayoutArtifactNormalizerTest(): void
     $artifact = layoutArtifactFixture('block.notice', 'block', 'content.notice');
     $artifact['parameters'] = ['tone' => 'info', 'count' => 2];
     $normalized = $normalizer->normalize($artifact);
-    assert($normalized['schema'] === LayoutArtifactNormalizer::SCHEMA);
+    assert($normalized['schema'] === LayoutArtifactNormalizer::SCHEMA && $normalized['schema_version'] === 1);
+    // An artifact stored before the names lost their version keeps its form, so its stored hash still matches.
+    $legacy = $artifact;
+    unset($legacy['schema_version']);
+    $legacy['schema'] = 'larena.layout.artifact.v1';
+    $legacyNormalized = $normalizer->normalize($legacy);
+    assert($legacyNormalized['schema'] === 'larena.layout.artifact.v1' && !array_key_exists('schema_version', $legacyNormalized));
+    assert($normalizer->hash($legacy) === $normalizer->hash($legacyNormalized));
+    assert($normalizer->hash($legacy) !== $normalizer->hash($artifact));
     assert($normalizer->hash($artifact) === $normalizer->hash($normalized));
     assert(str_contains($normalizer->encode(layoutArtifactFixture('block.empty', 'block', 'content.notice')), '"parameters":{}'));
 
@@ -48,7 +56,7 @@ function runLayoutArtifactNormalizerTest(): void
 function layoutArtifactFixture(string $id, string $kind, string $component): array
 {
     return [
-        'schema' => 'larena.layout.artifact.v1',
+        'schema' => 'larena.layout.artifact', 'schema_version' => 1,
         'artifact_id' => $id,
         'scope_ref' => 'scope:tenant-alpha',
         'kind' => $kind,

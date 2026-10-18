@@ -56,6 +56,7 @@ final readonly class LegacyPageDescriptorAdapter
 
         return $this->assembly->normalize([
             'schema' => PageAssemblyDescriptorNormalizer::SCHEMA,
+            'schema_version' => PageAssemblyDescriptorNormalizer::SCHEMA_VERSION,
             'site_id' => $siteId,
             'page_id' => $legacy['page_id'],
             'scope_ref' => $legacy['scope_ref'],

@@ -21,7 +21,7 @@ final readonly class NormalizedRenderPlan
     public function toArray(): array
     {
         return [
-            'schema' => 'larena.layout.normalized_render_plan.v1',
+            'schema' => 'larena.layout.normalized_render_plan',
             'site_id' => $this->siteId,
             'page_id' => $this->pageId,
             'scope_ref' => $this->scopeRef,

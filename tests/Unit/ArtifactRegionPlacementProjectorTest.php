@@ -19,7 +19,7 @@ $projectionStore = new PdoLayoutArtifactStore(new PDO('sqlite::memory:'), $proje
 $projectionStore->install();
 $projector = new ArtifactRegionPlacementProjector($projectionStore, $projectionStore);
 foreach (['scope:first', 'scope:second'] as $scope) {
-    $base = ['schema'=>'larena.layout.artifact.v1', 'artifact_id'=>'block.shared', 'scope_ref'=>$scope,
+    $base = ['schema'=>'larena.layout.artifact', 'schema_version'=>1, 'artifact_id'=>'block.shared', 'scope_ref'=>$scope,
         'kind'=>'block', 'component'=>'content.paragraph', 'presentation'=>['view'=>'default','variant'=>null,'modifiers'=>[]],
         'parameters'=>[], 'placements'=>[], 'bindings'=>[], 'asset_refs'=>[], 'extensions'=>[]];
     $child = $projectionStore->create($base, 'actor:projection');

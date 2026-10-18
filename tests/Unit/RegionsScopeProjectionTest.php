@@ -26,7 +26,7 @@ $catalog = new class implements LayoutArtifactCatalog {
     public function children(string $scopeRef, string $artifactId, string $actor): array { return []; }
 };
 $artifact = static fn (string $id, string $component, array $parameters, array $placements = []): array => [
-    'schema' => 'larena.layout.artifact.v1', 'artifact_id' => $id, 'scope_ref' => 'scope:probe', 'kind' => 'block',
+    'schema' => 'larena.layout.artifact', 'schema_version' => 1, 'artifact_id' => $id, 'scope_ref' => 'scope:probe', 'kind' => 'block',
     'component' => $component, 'presentation' => ['view' => 'default', 'variant' => null, 'modifiers' => []],
     'parameters' => $parameters, 'placements' => $placements, 'bindings' => [], 'asset_refs' => [], 'extensions' => []];
 $placement = static fn (string $id, string $ref, string $slot, int $sort): array => [

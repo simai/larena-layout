@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace Larena\Layout\Runtime;
 
 use JsonException;
+use Larena\Core\Support\SchemaName;
 use Larena\Layout\Exceptions\LayoutRejected;
 
 final readonly class PageAssemblyDescriptorNormalizer
 {
-    public const SCHEMA = 'larena.layout.page_assembly.v1';
+    /** Stored (database rows, package files); one written before the names lost their version has no schema_version and labels the schema `….v1`. */
+    public const SCHEMA = 'larena.layout.page_assembly';
+    public const SCHEMA_VERSION = 1;
     public const MAX_BYTES = 262_144;
     public const MAX_DEPTH = 12;
     public const MAX_REGIONS = 12;
@@ -28,8 +31,8 @@ final readonly class PageAssemblyDescriptorNormalizer
     public function normalize(array $input): array
     {
         $this->assertDepth($input, 0);
-        $this->exactKeys($input, ['layout_id', 'page_id', 'regions', 'schema', 'scope_ref', 'site_id']);
-        if (($input['schema'] ?? null) !== self::SCHEMA) {
+        $this->exactKeys($input, array_key_exists('schema_version', $input) ? ['layout_id', 'page_id', 'regions', 'schema', 'schema_version', 'scope_ref', 'site_id'] : ['layout_id', 'page_id', 'regions', 'schema', 'scope_ref', 'site_id']);
+        if (!SchemaName::is($input, self::SCHEMA, self::SCHEMA_VERSION)) {
             throw $this->reject('layout_page_assembly_schema_invalid');
         }
 
@@ -113,7 +116,8 @@ final readonly class PageAssemblyDescriptorNormalizer
         $this->sortNodes($regions);
 
         $normalized = $this->canonicalize([
-            'schema' => self::SCHEMA,
+            // A stored document keeps its form, so the hash stored with it still matches; new documents use the bare name.
+            ...(array_key_exists('schema_version', $input) ? SchemaName::stamp(self::SCHEMA, self::SCHEMA_VERSION) : ['schema' => self::SCHEMA.'.v'.self::SCHEMA_VERSION]),
             'site_id' => $siteId,
             'page_id' => $pageId,
             'scope_ref' => $scopeRef,

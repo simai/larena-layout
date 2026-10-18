@@ -6,7 +6,8 @@
   "additionalProperties": false,
   "required": ["schema", "site_id", "page_id", "scope_ref", "layout_id", "regions"],
   "properties": {
-    "schema": {"const": "larena.layout.page_assembly.v1"},
+    "schema": {"enum": ["larena.layout.page_assembly", "larena.layout.page_assembly.v1"]},
+    "schema_version": {"const": 1},
     "site_id": {"$ref": "#/$defs/stableKey"},
     "page_id": {"$ref": "#/$defs/stableKey"},
     "scope_ref": {"type": "string", "pattern": "^scope:[a-z][a-z0-9_.:-]{1,119}$"},

@@ -15,7 +15,7 @@ $runtime = new MinimalCmsRenderPlanRuntime(new PageAssemblyDescriptorNormalizer(
 ));
 $site = new SiteDescriptor('site.main', 'scope:site.main', ['page.home'], ['region.main']);
 $page = [
-    'schema' => PageAssemblyDescriptorNormalizer::SCHEMA,
+    'schema' => PageAssemblyDescriptorNormalizer::SCHEMA, 'schema_version' => PageAssemblyDescriptorNormalizer::SCHEMA_VERSION,
     'site_id' => 'site.main',
     'page_id' => 'page.home',
     'scope_ref' => 'scope:site.main',

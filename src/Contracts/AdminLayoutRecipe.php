@@ -128,7 +128,7 @@ final readonly class AdminLayoutRecipe
         }
 
         return [
-            'schema' => 'larena.layout.admin_recipe.v1',
+            'schema' => 'larena.layout.admin_recipe',
             'recipe_key' => $this->recipeKey,
             'version' => $this->version,
             'owner_package' => 'larena/layout',

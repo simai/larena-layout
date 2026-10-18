@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace Larena\Layout\Runtime;
 
 use JsonException;
+use Larena\Core\Support\SchemaName;
 use Larena\Layout\Exceptions\LayoutRejected;
 
 final readonly class LayoutArtifactNormalizer
 {
-    public const SCHEMA = 'larena.layout.artifact.v1';
+    /** Stored (database rows, package files); one written before the names lost their version has no schema_version and labels the schema `….v1`. */
+    public const SCHEMA = 'larena.layout.artifact';
+    public const SCHEMA_VERSION = 1;
     public const MAX_BYTES = 262_144;
     public const MAX_DEPTH = 12;
     public const MAX_PLACEMENTS = 500;
@@ -18,8 +21,8 @@ final readonly class LayoutArtifactNormalizer
     /** @param array<string, mixed> $input @return array<string, mixed> */
     public function normalize(array $input): array
     {
-        $this->exactKeys($input, ['artifact_id', 'asset_refs', 'bindings', 'component', 'extensions', 'kind', 'parameters', 'placements', 'presentation', 'schema', 'scope_ref']);
-        if (($input['schema'] ?? null) !== self::SCHEMA) {
+        $this->exactKeys($input, array_key_exists('schema_version', $input) ? ['artifact_id', 'asset_refs', 'bindings', 'component', 'extensions', 'kind', 'parameters', 'placements', 'presentation', 'schema', 'schema_version', 'scope_ref'] : ['artifact_id', 'asset_refs', 'bindings', 'component', 'extensions', 'kind', 'parameters', 'placements', 'presentation', 'schema', 'scope_ref']);
+        if (!SchemaName::is($input, self::SCHEMA, self::SCHEMA_VERSION)) {
             throw $this->reject('layout_artifact_schema_invalid');
         }
         $artifactId = $this->id($input['artifact_id'] ?? null, 'layout_artifact_id_invalid');
@@ -125,7 +128,8 @@ final readonly class LayoutArtifactNormalizer
         }
 
         $normalized = $this->canonicalize([
-            'schema' => self::SCHEMA,
+            // A stored document keeps its form, so the hash stored with it still matches; new documents use the bare name.
+            ...(array_key_exists('schema_version', $input) ? SchemaName::stamp(self::SCHEMA, self::SCHEMA_VERSION) : ['schema' => self::SCHEMA.'.v'.self::SCHEMA_VERSION]),
             'artifact_id' => $artifactId,
             'scope_ref' => $scopeRef,
             'kind' => $kind,

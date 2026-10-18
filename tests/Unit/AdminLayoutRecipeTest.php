@@ -235,7 +235,7 @@ assert(!(new AdminLayoutRecipe(
 ))->validate());
 
 $collectionProjection = $collection->toArray();
-assert($collectionProjection['schema'] === 'larena.layout.admin_recipe.v1');
+assert($collectionProjection['schema'] === 'larena.layout.admin_recipe');
 assert($collectionProjection['owner_package'] === 'larena/layout');
 assert($collectionProjection['profile'] === 'list_page');
 assert($collectionProjection['safety'] === [

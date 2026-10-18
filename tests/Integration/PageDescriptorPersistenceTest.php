@@ -28,7 +28,7 @@ $created = $store->create($descriptor, 'actor:alpha');
 assert($created->revision === 1);
 $reopened = new PdoPageDescriptorStore(new PDO('sqlite:' . $path), $policy);
 assert($reopened->read('scope:tenant-alpha', 'page.home', 'actor:alpha')?->semanticHash === $created->semanticHash);
-assert($created->descriptor['schema'] === 'larena.layout.page_assembly.v1');
+assert($created->descriptor['schema'] === 'larena.layout.page_assembly');
 
 $pdo->beginTransaction();
 $nestedDescriptor = $descriptor;

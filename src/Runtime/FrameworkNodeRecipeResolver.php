@@ -24,7 +24,7 @@ final class FrameworkNodeRecipeResolver
     {
         $this->nodes = 0;
         $this->ids = [];
-        if (($recipe['schema'] ?? null) !== 'simai.composition.recipe.v1'
+        if (!self::isSchema($recipe, 'simai.composition.recipe', 1)
             || !is_string($recipe['id'] ?? null) || preg_match('/^[A-Za-z0-9][A-Za-z0-9._:-]{0,119}$/D', $recipe['id']) !== 1
             || ($recipe['profile'] ?? null) !== 'ui-layout' || !is_array($recipe['root'] ?? null)
             || (isset($recipe['inputs']) && $recipe['inputs'] !== [])) {
@@ -120,5 +120,21 @@ final class FrameworkNodeRecipeResolver
             }
         }
         return $node;
+    }
+
+    /**
+     * A data format by its name and version (owner decision 2026-10-11: format names carry no version). The old form
+     * names the version in the label (`<name>.v1`, with no schema_version or the same one); the new form is the bare
+     * name with `schema_version`. Both are read while the Framework moves its writers.
+     *
+     * @param array<array-key, mixed> $data
+     */
+    private static function isSchema(array $data, string $name, int $version): bool
+    {
+        $schema = $data['schema'] ?? null;
+        $declared = $data['schema_version'] ?? null;
+
+        return ($schema === $name.'.v'.$version && ($declared === null || $declared === $version))
+            || ($schema === $name && $declared === $version);
     }
 }

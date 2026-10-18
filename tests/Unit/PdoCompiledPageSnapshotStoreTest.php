@@ -73,6 +73,32 @@ try {
         throw new RuntimeException('The active snapshot was not persisted across restart.');
     }
     assert($afterRestart->snapshotDigest === $first->snapshotDigest);
+    assert($afterRestart->snapshot['schema'] === 'larena.layout.compiled_page_snapshot' && $afterRestart->snapshot['schema_version'] === 1);
+
+    // A snapshot stored before the names lost their version (`….v1`, no schema_version) is still read.
+    $canonical = static function (mixed $value) use (&$canonical): mixed {
+        if (!is_array($value)) {
+            return $value;
+        }
+        if (!array_is_list($value)) {
+            ksort($value, SORT_STRING);
+        }
+        return array_map($canonical, $value);
+    };
+    $legacy = ['schema' => 'larena.layout.compiled_page_snapshot.v1', 'scope_ref' => 'site:demo', 'page_id' => 'page.legacy',
+        'source_revision' => 'r0', 'document' => ['type' => 'page', 'text' => 'old'], 'html' => '<main>old</main>',
+        'dependency_receipt' => ['documentDigest' => 'sha256:'.hash('sha256', 'old')]];
+    $legacyDigest = 'sha256:'.hash('sha256', json_encode($canonical($legacy), JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRESERVE_ZERO_FRACTION));
+    $legacyPdo = new PDO('sqlite:'.$path);
+    $legacyPdo->prepare('INSERT INTO larena_layout_compiled_snapshots (scope_ref, page_id, snapshot_digest, source_revision, snapshot_json, created_by) VALUES (?, ?, ?, ?, ?, ?)')
+        ->execute(['site:demo', 'page.legacy', $legacyDigest, 'r0', json_encode($legacy + ['snapshot_digest' => $legacyDigest], JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES), 'admin:1']);
+    $legacyPdo->prepare('INSERT INTO larena_layout_active_snapshots (scope_ref, page_id, activation_revision, snapshot_digest, activated_by) VALUES (?, ?, ?, ?, ?)')
+        ->execute(['site:demo', 'page.legacy', 1, $legacyDigest, 'admin:1']);
+    $legacyActive = $restarted->active('site:demo', 'page.legacy', 'admin:1');
+    if ($legacyActive === null || $legacyActive->snapshot['html'] !== '<main>old</main>') {
+        throw new RuntimeException('A snapshot stored in the old form was not read.');
+    }
+    unset($legacyPdo);
     $restarted->uninstall();
 } finally {
     if (is_file($path)) {

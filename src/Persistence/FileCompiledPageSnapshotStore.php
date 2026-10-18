@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Larena\Layout\Persistence;
 
 use JsonException;
+use Larena\Core\Support\SchemaName;
 use Larena\Layout\Contracts\CompiledPageSnapshotStore;
 use Larena\Layout\Contracts\CompiledPageSnapshotCatalog;
 use Larena\Layout\Contracts\PageDescriptorAuthorizationPolicy;
@@ -149,7 +150,7 @@ final readonly class FileCompiledPageSnapshotStore implements CompiledPageSnapsh
         }
 
         return [
-            'schema' => 'larena.layout.compiled_page_snapshot.v1',
+            ...SchemaName::stamp(CompiledPageSnapshot::SCHEMA, CompiledPageSnapshot::SCHEMA_VERSION),
             'scope_ref' => $scopeRef,
             'page_id' => $pageId,
             'source_revision' => $sourceRevision,
@@ -172,7 +173,7 @@ final readonly class FileCompiledPageSnapshotStore implements CompiledPageSnapsh
     private function activateSnapshot(string $directory, array $snapshot, int $revision, string $actor): CompiledPageSnapshot
     {
         $head = [
-            'schema' => 'larena.layout.compiled_page_activation.v1',
+            ...SchemaName::stamp(CompiledPageSnapshot::ACTIVATION_SCHEMA, CompiledPageSnapshot::SCHEMA_VERSION),
             'activation_revision' => $revision,
             'snapshot_digest' => $snapshot['snapshot_digest'],
             'activated_by' => $actor,
@@ -192,7 +193,7 @@ final readonly class FileCompiledPageSnapshotStore implements CompiledPageSnapsh
     /** @param array<string, mixed> $head */
     private function hydrate(string $directory, string $scopeRef, string $pageId, array $head): CompiledPageSnapshot
     {
-        if (($head['schema'] ?? null) !== 'larena.layout.compiled_page_activation.v1'
+        if (!CompiledPageSnapshot::isActivation($head)
             || ! is_int($head['activation_revision'] ?? null)
             || ! is_string($head['snapshot_digest'] ?? null)
             || ! is_string($head['activated_by'] ?? null)
@@ -210,7 +211,7 @@ final readonly class FileCompiledPageSnapshotStore implements CompiledPageSnapsh
     {
         $stored = $snapshot['snapshot_digest'] ?? null;
         unset($snapshot['snapshot_digest']);
-        if ($stored !== $digest || ($snapshot['schema'] ?? null) !== 'larena.layout.compiled_page_snapshot.v1'
+        if ($stored !== $digest || !CompiledPageSnapshot::isSnapshot($snapshot)
             || ($snapshot['scope_ref'] ?? null) !== $scopeRef || ($snapshot['page_id'] ?? null) !== $pageId
             || ! hash_equals($digest, 'sha256:'.hash('sha256', $this->encode($snapshot)))) {
             throw new LayoutRejected('layout_snapshot_integrity_failed');
@@ -225,7 +226,7 @@ final readonly class FileCompiledPageSnapshotStore implements CompiledPageSnapsh
             return null;
         }
         $head = $this->decodeFile($path, 'layout_snapshot_head_invalid');
-        if (($head['schema'] ?? null) !== 'larena.layout.compiled_page_activation.v1'
+        if (!CompiledPageSnapshot::isActivation($head)
             || ! is_int($head['activation_revision'] ?? null)
             || $head['activation_revision'] < 1
             || ! is_string($head['snapshot_digest'] ?? null)

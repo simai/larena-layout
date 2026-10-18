@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Larena\Layout\Persistence;
 
 use JsonException;
+use Larena\Core\Support\SchemaName;
 use Larena\Layout\Contracts\LayoutArtifactCatalog;
 use Larena\Layout\Contracts\PageDescriptorAuthorizationPolicy;
 use Larena\Layout\Exceptions\LayoutRejected;
@@ -13,6 +14,9 @@ use Larena\Layout\ValueObjects\LayoutArtifactRevision;
 
 final class PackageLayoutArtifactCatalog implements LayoutArtifactCatalog
 {
+    public const SCHEMA = 'larena.layout.package_artifact_catalog';
+    public const SCHEMA_VERSION = 1;
+
     /** @var array<string,array<int,LayoutArtifactRevision>> */
     private array $revisions = [];
 
@@ -118,6 +122,19 @@ final class PackageLayoutArtifactCatalog implements LayoutArtifactCatalog
         ], $revision->artifact['placements']);
     }
 
+    /**
+     * A package's catalog of layout artifacts: `{schema, schema_version, owner, artifacts}`. A catalog written before
+     * the names lost their version has no schema_version and labels the schema `….v1`.
+     *
+     * @param array<array-key, mixed> $catalog
+     */
+    public static function isCatalog(array $catalog): bool
+    {
+        $keys = array_key_exists('schema_version', $catalog) ? ['schema', 'schema_version', 'owner', 'artifacts'] : ['schema', 'owner', 'artifacts'];
+
+        return array_keys($catalog) === $keys && SchemaName::is($catalog, self::SCHEMA, self::SCHEMA_VERSION);
+    }
+
     private function load(string $catalogPath): void
     {
         $catalogReal = realpath($catalogPath);
@@ -129,8 +146,7 @@ final class PackageLayoutArtifactCatalog implements LayoutArtifactCatalog
         } catch (JsonException) {
             throw new LayoutRejected('layout_package_catalog_invalid');
         }
-        if (!is_array($catalog) || array_keys($catalog) !== ['schema', 'owner', 'artifacts']
-            || ($catalog['schema'] ?? null) !== 'larena.layout.package_artifact_catalog.v1'
+        if (!is_array($catalog) || !self::isCatalog($catalog)
             || !is_string($catalog['owner'] ?? null) || preg_match('/^[a-z][a-z0-9-]*\/[a-z][a-z0-9-]*$/D', $catalog['owner']) !== 1
             || !is_array($catalog['artifacts'] ?? null) || !array_is_list($catalog['artifacts'])) {
             throw new LayoutRejected('layout_package_catalog_invalid');

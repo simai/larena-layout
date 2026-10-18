@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Larena\Layout\Persistence;
 
 use JsonException;
+use Larena\Core\Support\SchemaName;
 use Larena\Layout\Contracts\CompiledPageSnapshotStore;
 use Larena\Layout\Contracts\CompiledPageSnapshotCatalog;
 use Larena\Layout\Contracts\PageDescriptorAuthorizationPolicy;
@@ -167,7 +168,7 @@ final readonly class PdoCompiledPageSnapshotStore implements CompiledPageSnapsho
             || ($compiled['diagnostics'] ?? null) !== []) {
             throw new LayoutRejected('layout_snapshot_compiled_result_invalid');
         }
-        return ['schema' => 'larena.layout.compiled_page_snapshot.v1', 'scope_ref' => $scopeRef, 'page_id' => $pageId,
+        return [...SchemaName::stamp(CompiledPageSnapshot::SCHEMA, CompiledPageSnapshot::SCHEMA_VERSION), 'scope_ref' => $scopeRef, 'page_id' => $pageId,
             'source_revision' => $sourceRevision, 'document' => $compiled['document'], 'html' => $compiled['html'],
             'dependency_receipt' => $compiled['dependencyReceipt']];
     }
@@ -216,7 +217,7 @@ final readonly class PdoCompiledPageSnapshotStore implements CompiledPageSnapsho
     {
         $stored = $snapshot['snapshot_digest'] ?? null;
         unset($snapshot['snapshot_digest']);
-        if ($stored !== $digest || ($snapshot['schema'] ?? null) !== 'larena.layout.compiled_page_snapshot.v1'
+        if ($stored !== $digest || !CompiledPageSnapshot::isSnapshot($snapshot)
             || ($snapshot['scope_ref'] ?? null) !== $scopeRef || ($snapshot['page_id'] ?? null) !== $pageId
             || !hash_equals($digest, 'sha256:'.hash('sha256', $this->encode($snapshot)))) {
             throw new LayoutRejected('layout_snapshot_integrity_failed');

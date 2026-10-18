@@ -19,7 +19,8 @@ function runPackageLayoutArtifactCatalogTest(): void
     file_put_contents($root.'/artifacts/block.json', json_encode($block, JSON_THROW_ON_ERROR));
     file_put_contents($root.'/artifacts/page.json', json_encode($page, JSON_THROW_ON_ERROR));
     file_put_contents($root.'/catalog.json', json_encode([
-        'schema' => 'larena.layout.package_artifact_catalog.v1',
+        'schema' => 'larena.layout.package_artifact_catalog',
+        'schema_version' => 1,
         'owner' => 'larena/test',
         'artifacts' => [
             ['path' => 'artifacts/block.json', 'revision' => 1, 'published' => true],
@@ -31,6 +32,11 @@ function runPackageLayoutArtifactCatalogTest(): void
     assert($system->published('scope:system', 'page.system', 'guest:login')?->revision === 1);
     assert($system->children('scope:system', 'page.system', 'guest:login')[0]['child_artifact_id'] === 'block.system');
     assert($system->parents('scope:system', 'block.system', 'guest:login')[0]['parent_artifact_id'] === 'page.system');
+    // A catalog written before the names lost their version (`….v1`, no schema_version) is still read.
+    $catalog = json_decode((string) file_get_contents($root.'/catalog.json'), true, 64, JSON_THROW_ON_ERROR);
+    assert(PackageLayoutArtifactCatalog::isCatalog(['schema' => 'larena.layout.package_artifact_catalog.v1', 'owner' => $catalog['owner'], 'artifacts' => $catalog['artifacts']]));
+    assert(!PackageLayoutArtifactCatalog::isCatalog(['schema' => 'larena.layout.package_artifact_catalog', 'owner' => $catalog['owner'], 'artifacts' => $catalog['artifacts']]));
+    assert(!PackageLayoutArtifactCatalog::isCatalog($catalog + ['extra' => true]));
 
     $pdo = new PDO('sqlite::memory:');
     $overrides = new PdoLayoutArtifactStore($pdo, $policy, new Larena\Layout\Runtime\LayoutArtifactNormalizer(), $system);

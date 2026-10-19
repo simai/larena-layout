@@ -29,9 +29,12 @@ const result = await framework.resolveRecipe(request.recipe, {
   },
 });
 if (!result.document) {
+  // The exit code is set and the process ends by itself: process.exit() would end it before a piped stdout is
+  // written out, and the diagnostics at the end of the answer were lost now and then.
   process.stdout.write(JSON.stringify(result));
-  process.exit(1);
+  process.exitCode = 1;
+} else {
+  const rendered = await framework.render(result.document, { registry, options: compositionPorts ? { ports: compositionPorts } : {} });
+  if (rendered.diagnostics.length) throw new Error(rendered.diagnostics[0].message);
+  process.stdout.write(JSON.stringify({ ...result, html: rendered.html, assets: rendered.assets, documentDigest: rendered.digest }));
 }
-const rendered = await framework.render(result.document, { registry, options: compositionPorts ? { ports: compositionPorts } : {} });
-if (rendered.diagnostics.length) throw new Error(rendered.diagnostics[0].message);
-process.stdout.write(JSON.stringify({ ...result, html: rendered.html, assets: rendered.assets, documentDigest: rendered.digest }));

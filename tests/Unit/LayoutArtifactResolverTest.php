@@ -44,7 +44,7 @@ function runLayoutArtifactResolverTest(): void
 
     $resolver = new LayoutArtifactResolver($store, resolverManifests());
     $resolved = $resolver->recipe('scope:tenant-alpha', 'page.home', null, 'actor:alpha', 'ru');
-    assert($resolved['recipe']['schema'] === 'simai.composition.recipe.v1');
+    assert($resolved['recipe']['schema'] === 'simai.composition.recipe' && $resolved['recipe']['schema_version'] === 1);
     assert($resolved['recipe']['root']['node']['type'] === 'layout.page');
     assert($resolved['recipe']['root']['node']['slots']['default'][0]['node']['slots']['default'][0]['node']['type'] === 'layout.columns');
     assert($resolved['recipe']['root']['node']['slots']['default'][0]['node']['slots']['default'][0]['node']['slots']['columns'][0]['node']['type'] === 'content.paragraph');

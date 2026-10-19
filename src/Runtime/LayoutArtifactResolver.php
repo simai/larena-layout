@@ -106,7 +106,7 @@ final readonly class LayoutArtifactResolver
 
         return [
             'recipe' => [
-                'schema' => 'simai.composition.recipe.v1',
+                'schema' => 'simai.composition.recipe', 'schema_version' => 1,
                 'id' => $root->artifactId,
                 'profile' => 'ui-layout',
                 'locale' => $locale,

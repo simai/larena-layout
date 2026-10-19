@@ -38,7 +38,7 @@ final readonly class LayoutArtifactInputResolver
             throw new LayoutRejected('layout_artifact_input_document_limit');
         }
 
-        return ['recipe' => $recipe, 'inputs' => ['schema' => 'simai.composition.inputs.v1', 'scope' => $scope, 'values' => $values], 'ownerReceipt' => array_values($receipt)];
+        return ['recipe' => $recipe, 'inputs' => ['schema' => 'simai.composition.inputs', 'schema_version' => 1, 'scope' => $scope, 'values' => $values], 'ownerReceipt' => array_values($receipt)];
     }
 
     /** @param array<string,mixed> $entry @param array<string,mixed> $values @param array<string,mixed> $definitions @param array<string,mixed> $receipt @return array<string,mixed> */

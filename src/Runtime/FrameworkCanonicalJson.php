@@ -10,7 +10,7 @@ use stdClass;
 
 final class FrameworkCanonicalJson
 {
-    public const PROFILE = 'simai.recipe.canonical-json.v1';
+    public const PROFILE = 'simai.recipe.canonical-json';
     private const MAX_SAFE_INTEGER = 9_007_199_254_740_991;
 
     public function encode(mixed $value): string

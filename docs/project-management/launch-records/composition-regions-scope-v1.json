@@ -39,7 +39,10 @@
     "tests/Integration/PageDescriptorPersistenceTest.php",
     "tests/Unit/ArtifactRegionPlacementProjectorTest.php",
     "tests/Unit/LayoutArtifactNormalizerTest.php",
-    "tests/Unit/MinimalCmsRenderPlanTest.php"
+    "tests/Unit/MinimalCmsRenderPlanTest.php",
+    "src/Runtime/FrameworkCanonicalJson.php",
+    "src/Runtime/FrameworkRecipeRequestFactory.php",
+    "tests/Unit/LayoutArtifactResolverTest.php"
   ],
   "scope": "Project layout.regions artifacts into Framework layout.regions/layout.region nodes, derive layout.scope endpoints from routes and pass product port bindings to the Recipe runtime; no artifact schema, database or Framework change"
 }

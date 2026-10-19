@@ -49,7 +49,7 @@ final class FrameworkNodeRecipeResolver
         return [
             'document' => $document,
             'dependencyReceipt' => [
-                'schema' => 'simai.composition.dependencies.v1',
+                'schema' => 'simai.composition.dependencies', 'schema_version' => 1,
                 'scope' => $scope,
                 'recipeDigest' => $this->canonical->digest($recipe),
                 'documentDigest' => $this->canonical->digest($document),

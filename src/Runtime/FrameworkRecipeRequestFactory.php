@@ -43,7 +43,7 @@ final readonly class FrameworkRecipeRequestFactory
 
         return [
             'recipe' => $this->recipe(),
-            'inputs' => ['schema' => 'simai.composition.inputs.v1', 'scope' => $scope, 'values' => [
+            'inputs' => ['schema' => 'simai.composition.inputs', 'schema_version' => 1, 'scope' => $scope, 'values' => [
                 'headerMode' => ['kind' => 'setting', 'value' => $headerMode, 'valueDigest' => $this->digest($headerMode), 'origin' => $settingOrigin],
                 'body' => ['kind' => 'content', 'value' => $text, 'valueDigest' => $this->digest($text), 'origin' => $contentOrigin],
             ]],
@@ -115,7 +115,7 @@ final readonly class FrameworkRecipeRequestFactory
 
         return [
             'recipe' => [
-                'schema' => 'simai.composition.recipe.v1',
+                'schema' => 'simai.composition.recipe', 'schema_version' => 1,
                 'id' => 'larena.bound-heading-page',
                 'profile' => 'ui-layout',
                 'locale' => 'ru',
@@ -154,7 +154,7 @@ final readonly class FrameworkRecipeRequestFactory
                 ],
             ],
             'inputs' => [
-                'schema' => 'simai.composition.inputs.v1',
+                'schema' => 'simai.composition.inputs', 'schema_version' => 1,
                 'scope' => $scope,
                 'values' => [
                     'heading' => [
@@ -173,7 +173,7 @@ final readonly class FrameworkRecipeRequestFactory
                 'kind' => 'template', 'owner' => 'larena/layout',
                 'ref' => 'bound-heading-page', 'revision' => '1',
                 'source' => [
-                    'schema' => 'simai.composition.recipe-manifest.v1',
+                    'schema' => 'simai.composition.recipe-manifest', 'schema_version' => 1,
                     'id' => 'bound-heading-page',
                     'parameters' => [],
                     'slots' => ['main' => ['min' => 1, 'max' => 1, 'types' => ['layout.section']]],
@@ -193,7 +193,7 @@ final readonly class FrameworkRecipeRequestFactory
     private function recipe(): array
     {
         return [
-            'schema' => 'simai.composition.recipe.v1', 'id' => 'larena.article-demo', 'profile' => 'ui-layout', 'locale' => 'ru',
+            'schema' => 'simai.composition.recipe', 'schema_version' => 1, 'id' => 'larena.article-demo', 'profile' => 'ui-layout', 'locale' => 'ru',
             'inputs' => [
                 'headerMode' => ['kind' => 'setting', 'schema' => ['type' => 'string', 'enum' => ['compact', 'expanded']], 'expectedOrigin' => ['owner' => 'larena/setting', 'ref' => 'header.mode', 'revision' => '1']],
                 'body' => ['kind' => 'content', 'schema' => ['type' => 'array'], 'expectedOrigin' => ['owner' => 'larena/content', 'ref' => 'article.demo', 'revision' => '1']],
@@ -230,7 +230,7 @@ final readonly class FrameworkRecipeRequestFactory
     /** @return array<string,mixed> */
     private function pageTemplate(): array
     {
-        return ['schema' => 'simai.composition.recipe-manifest.v1', 'id' => 'article', 'parameters' => [], 'slots' => [
+        return ['schema' => 'simai.composition.recipe-manifest', 'schema_version' => 1, 'id' => 'article', 'parameters' => [], 'slots' => [
             'header' => ['min' => 1, 'max' => 1, 'types' => ['layout.section']], 'main' => ['min' => 1, 'max' => 1, 'types' => ['content.paragraph']],
         ], 'body' => ['id' => 'shell', 'node' => ['type' => 'layout.page', 'slots' => ['default' => [
             ['id' => 'header-slot', 'insertSlot' => 'header'], ['id' => 'main-slot', 'insertSlot' => 'main'],

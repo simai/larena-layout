@@ -55,7 +55,10 @@
     "tests/Integration/PageDescriptorPersistenceTest.php",
     "tests/Unit/ArtifactRegionPlacementProjectorTest.php",
     "tests/Unit/LayoutArtifactNormalizerTest.php",
-    "tests/Unit/MinimalCmsRenderPlanTest.php"
+    "tests/Unit/MinimalCmsRenderPlanTest.php",
+    "src/Runtime/FrameworkCanonicalJson.php",
+    "src/Runtime/FrameworkRecipeRequestFactory.php",
+    "tests/Unit/LayoutArtifactResolverTest.php"
   ],
   "forbidden_files": [
     "config/*",

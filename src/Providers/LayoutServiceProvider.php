@@ -8,6 +8,7 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Support\ServiceProvider;
 use Larena\Layout\Contracts\CompiledPageSnapshotStore;
+use Larena\Layout\Contracts\PageBindingValidator;
 use Larena\Layout\Contracts\PageDescriptorAuthorizationPolicy;
 use Larena\Layout\Contracts\PageDescriptorStore;
 use Larena\Layout\Exceptions\LayoutRejected;
@@ -39,6 +40,8 @@ final class LayoutServiceProvider extends ServiceProvider
                 $app->make(PageDescriptorNormalizer::class),
                 $app->make(PageAssemblyDescriptorNormalizer::class),
             ),
+            // The host's save-time check of bindings Layout cannot judge (a storage_list query's fields).
+            $app->bound(PageBindingValidator::class) ? $app->make(PageBindingValidator::class) : null,
         ));
         $this->app->scoped(PageDescriptorStore::class, static fn (Container $app): PageDescriptorStore => $app->make(PdoPageDescriptorStore::class));
         $this->app->scoped(CompiledPageSnapshotStore::class, static function (Container $app): CompiledPageSnapshotStore {

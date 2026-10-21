@@ -45,6 +45,21 @@ final readonly class PageBindingResult
         return new self('tree_node', $value);
     }
 
+    /**
+     * One page of a live storage list (`storage_list`): `state` is `ready`, `empty`,
+     * `preparing` (the storage cannot list yet) or `unavailable`; `records` are
+     * `{record_id, values}` with public values only; `continuation` is the signed cursor
+     * of the next page, or null.
+     *
+     * @param array<string, mixed> $value
+     */
+    public static function storageList(array $value): self
+    {
+        self::exactKeys($value, ['continuation', 'locale', 'records', 'state', 'target']);
+
+        return new self('storage_list', $value);
+    }
+
     /** @param array<string,mixed> $value */
     public static function setting(array $value): self
     {

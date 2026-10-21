@@ -62,6 +62,14 @@ four exact result contracts (`content_document`, `storage_record`,
 list order, enforces aggregate bounds and rejects paths, storage locators,
 HTML/code and private fields. Public failures retain no owner exception chain.
 
+A `storage_list` binding (block `larena.list`) lists published records of a
+storage: `{target, selector: "$", query: {filters, sort, limit, search}}`, with
+no expected revision. Layout checks the query's shape; the host checks its
+fields when the page is saved (`PageBindingValidator`). Projection leaves the
+list out, so publishing a record never makes a published page stale; the host
+reads it per request through `PageProjectionResolver::resolveRequestBinding`,
+which drops any record value the projection would refuse.
+
 Schema installation remains an explicit lifecycle step. Rejected first writes
 therefore cannot create tables, and rejected writes against an installed schema
 remain transactionally atomic.

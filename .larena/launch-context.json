@@ -58,7 +58,15 @@
     "tests/Unit/MinimalCmsRenderPlanTest.php",
     "src/Runtime/FrameworkCanonicalJson.php",
     "src/Runtime/FrameworkRecipeRequestFactory.php",
-    "tests/Unit/LayoutArtifactResolverTest.php"
+    "tests/Unit/LayoutArtifactResolverTest.php",
+    "README.md",
+    "src/Persistence/PdoPageDescriptorStore.php",
+    "src/Runtime/PageDescriptorComponentRegistry.php",
+    "src/Runtime/PageProjectionResolver.php",
+    "src/ValueObjects/PageBindingResult.php",
+    "src/Contracts/PageBindingValidator.php",
+    "src/Runtime/StorageListBindingQuery.php",
+    "tests/Unit/StorageListBindingTest.php"
   ],
   "forbidden_files": [
     "config/*",

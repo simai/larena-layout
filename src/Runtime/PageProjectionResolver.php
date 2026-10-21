@@ -39,6 +39,12 @@ final readonly class PageProjectionResolver
             foreach ($region['sections'] as &$section) {
                 foreach ($section['blocks'] as &$block) {
                     foreach ($block['bindings'] as &$binding) {
+                        if (($binding['kind'] ?? null) === StorageListBindingQuery::KIND) {
+                            // A live list is read when the page is shown (resolveRequestBinding); its
+                            // rows never enter the projection, so publishing a record does not make
+                            // the published page stale.
+                            continue;
+                        }
                         try {
                             $result = $this->owners->resolve($binding, $actor, $scopeRef);
                             if ($result->kind !== $binding['kind']) {
@@ -79,6 +85,77 @@ final readonly class PageProjectionResolver
         }
 
         return $projection;
+    }
+
+    /**
+     * One request-time binding of a projected page: a `storage_list` read for this
+     * visitor, locale and page of the list. The host passes the request context
+     * (`locale`, `cursor`) through to its owner resolver as the binding's `request`.
+     *
+     * A record value that the projection would refuse to carry (markup, a path, an
+     * unsafe key) is left out of that record rather than failing the whole list.
+     *
+     * @param array<string, mixed> $binding a `storage_list` binding of the page
+     * @param array<string, mixed> $request `locale` and `cursor`, strings or null
+     * @return array{continuation: ?string, locale: string, records: list<array{record_id: string, values: array<string, mixed>}>, state: string, target: string}
+     */
+    public function resolveRequestBinding(array $binding, string $actor, string $scopeRef, array $request): array
+    {
+        if (($binding['kind'] ?? null) !== StorageListBindingQuery::KIND
+            || !is_string($binding['target'] ?? null)
+            || !is_array($binding['query'] ?? null)) {
+            throw new LayoutRejected('layout_binding_kind_unknown');
+        }
+        $context = [];
+        foreach (['locale', 'cursor'] as $key) {
+            $value = $request[$key] ?? null;
+            if ($value !== null && (!is_string($value) || strlen($value) > 4096)) {
+                throw new LayoutRejected('layout_binding_request_invalid');
+            }
+            $context[$key] = $value;
+        }
+        try {
+            $result = $this->owners->resolve($binding + ['request' => $context], $actor, $scopeRef);
+        } catch (Throwable) {
+            throw new LayoutRejected('layout_binding_unavailable', 'A page binding could not be resolved.');
+        }
+        $value = $result->value;
+        if ($result->kind !== StorageListBindingQuery::KIND
+            || ($value['target'] ?? null) !== $binding['target']
+            || !in_array($value['state'] ?? null, ['ready', 'empty', 'preparing', 'unavailable'], true)
+            || !is_string($value['locale'] ?? null)
+            || !(is_string($value['continuation'] ?? null) || ($value['continuation'] ?? null) === null)
+            || !is_array($value['records'] ?? null) || !array_is_list($value['records'])
+            || count($value['records']) > StorageListBindingQuery::MAX_LIMIT) {
+            throw new LayoutRejected('layout_binding_result_shape_invalid');
+        }
+        $records = [];
+        foreach ($value['records'] as $record) {
+            if (!is_array($record) || !is_string($record['record_id'] ?? null) || $record['record_id'] === ''
+                || !is_array($record['values'] ?? null)) {
+                throw new LayoutRejected('layout_binding_result_shape_invalid');
+            }
+            $values = [];
+            foreach ($record['values'] as $key => $field) {
+                $nodes = 0;
+                try {
+                    $safe = $this->safeValue([(string) $key => $field], 0, $nodes);
+                } catch (LayoutRejected) {
+                    continue;
+                }
+                $values += $safe;
+            }
+            ksort($values, SORT_STRING);
+            $records[] = ['record_id' => $record['record_id'], 'values' => $values];
+        }
+
+        return [
+            'continuation' => $value['continuation'],
+            'locale' => $value['locale'],
+            'records' => $records,
+            'state' => $value['state'],
+            'target' => $value['target'],
+        ];
     }
 
     /** @param array<string, mixed> $value @param array<string, mixed> $binding */

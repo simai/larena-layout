@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Larena\Layout\Persistence;
 
 use JsonException;
+use Larena\Layout\Contracts\PageBindingValidator;
 use Larena\Layout\Contracts\PageDescriptorStore;
 use Larena\Layout\Contracts\PageDescriptorAuthorizationPolicy;
 use Larena\Layout\Exceptions\LayoutRejected;
@@ -23,6 +24,7 @@ final readonly class PdoPageDescriptorStore implements PageDescriptorStore
         private PageAssemblyDescriptorNormalizer $normalizer = new PageAssemblyDescriptorNormalizer(),
         private PageDescriptorNormalizer $legacyNormalizer = new PageDescriptorNormalizer(),
         private LegacyPageDescriptorAdapter $legacyAdapter = new LegacyPageDescriptorAdapter(),
+        private ?PageBindingValidator $bindings = null,
     )
     {
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -115,6 +117,7 @@ final readonly class PdoPageDescriptorStore implements PageDescriptorStore
             $expectedRevision === null ? PageDescriptorAuthorizationPolicy::CREATE : PageDescriptorAuthorizationPolicy::UPDATE,
             $scope,
         );
+        $this->validateBindings($descriptor, $scope, $actor);
         $page = (string) $descriptor['page_id'];
         $json = $this->normalizer->encode($descriptor);
         $hash = $this->normalizer->hash($descriptor);
@@ -205,6 +208,23 @@ final readonly class PdoPageDescriptorStore implements PageDescriptorStore
             throw new LayoutRejected('layout_descriptor_persisted_integrity_failed');
         }
         return new PageDescriptorRevision($page, $scope, $revision, $descriptor, $this->normalizer->hash($descriptor));
+    }
+
+    /** @param array<string, mixed> $descriptor */
+    private function validateBindings(array $descriptor, string $scope, string $actor): void
+    {
+        if ($this->bindings === null) {
+            return;
+        }
+        foreach ($descriptor['regions'] as $region) {
+            foreach ($region['sections'] as $section) {
+                foreach ($section['blocks'] as $block) {
+                    foreach ($block['bindings'] as $binding) {
+                        $this->bindings->validate($binding, $scope, $actor);
+                    }
+                }
+            }
+        }
     }
 
     /** @param array<string, mixed> $descriptor @return array<string, mixed> */

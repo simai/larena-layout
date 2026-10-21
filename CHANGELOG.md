@@ -7,6 +7,7 @@
 
 ## Unreleased
 
+- Add the `storage_list` page binding (block `larena.list`): a live list of published storage records with a validated query, a host save-time `PageBindingValidator`, and request-time resolution outside the page projection.
 - Project layout.regions artifacts into Framework regions, derive layout.scope endpoints from routes and pass product port bindings to the Recipe runtime.
 
 ### Added

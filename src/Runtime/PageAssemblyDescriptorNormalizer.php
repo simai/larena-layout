@@ -14,7 +14,8 @@ final readonly class PageAssemblyDescriptorNormalizer
     public const SCHEMA = 'larena.layout.page_assembly';
     public const SCHEMA_VERSION = 1;
     public const MAX_BYTES = 262_144;
-    public const MAX_DEPTH = 12;
+    /** Deep enough for a storage_list filter's list of values (query.filters.<field>.values[]). */
+    public const MAX_DEPTH = 13;
     public const MAX_REGIONS = 12;
     public const MAX_SECTIONS = 30;
     public const MAX_BLOCKS = 100;
@@ -185,6 +186,9 @@ final readonly class PageAssemblyDescriptorNormalizer
     /** @param array<string, mixed> $input @param array<string, true> $ids @return array<string, mixed> */
     private function binding(array $input, array &$ids): array
     {
+        if (($input['kind'] ?? null) === StorageListBindingQuery::KIND) {
+            return $this->storageListBinding($input, $ids);
+        }
         $this->exactKeys($input, ['expected_revision', 'id', 'kind', 'selector', 'target']);
         $id = $this->uniqueId($input['id'] ?? null, $ids, 'layout_page_assembly_binding_id_invalid');
         $kind = $input['kind'] ?? null;
@@ -210,6 +214,33 @@ final readonly class PageAssemblyDescriptorNormalizer
             'target' => $target,
             'selector' => $selector,
             'expected_revision' => $revision,
+        ];
+    }
+
+    /**
+     * A live list of published storage records (StorageListBindingQuery): a query instead
+     * of an expected revision, read when the page is shown.
+     *
+     * @param array<string, mixed> $input @param array<string, true> $ids @return array<string, mixed>
+     */
+    private function storageListBinding(array $input, array &$ids): array
+    {
+        $this->exactKeys($input, ['id', 'kind', 'query', 'selector', 'target']);
+        $id = $this->uniqueId($input['id'] ?? null, $ids, 'layout_page_assembly_binding_id_invalid');
+        $target = $input['target'] ?? null;
+        if (!is_string($target) || preg_match(StorageListBindingQuery::TARGET_PATTERN, $target) !== 1) {
+            throw $this->reject('layout_page_assembly_binding_target_invalid');
+        }
+        if (($input['selector'] ?? null) !== '$') {
+            throw $this->reject('layout_page_assembly_binding_selector_invalid');
+        }
+
+        return [
+            'id' => $id,
+            'kind' => StorageListBindingQuery::KIND,
+            'target' => $target,
+            'selector' => '$',
+            'query' => StorageListBindingQuery::normalize($input['query'] ?? null),
         ];
     }
 

@@ -14,7 +14,7 @@ final readonly class PageDescriptorComponentRegistry
      */
     public function __construct(
         private array $sectionComponents = ['larena.section'],
-        private array $blockComponents = ['larena.content', 'larena.asset', 'larena.record', 'larena.tree'],
+        private array $blockComponents = ['larena.content', 'larena.asset', 'larena.record', 'larena.tree', 'larena.list'],
     ) {
     }
 

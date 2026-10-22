@@ -15,6 +15,7 @@ $tests = [
     __DIR__ . '/../tests/Unit/FrameworkRecipeCompilerTest.php',
     __DIR__ . '/../tests/Unit/PageAssemblyDescriptorTest.php',
     __DIR__ . '/../tests/Unit/StorageListBindingTest.php',
+    __DIR__ . '/../tests/Unit/StorageListPageBlocksTest.php',
     __DIR__ . '/../tests/Unit/LayoutArtifactNormalizerTest.php',
     __DIR__ . '/../tests/Unit/LayoutArtifactResolverTest.php',
     __DIR__ . '/../tests/Unit/LayoutArtifactInputResolverTest.php',

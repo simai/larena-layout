@@ -69,7 +69,13 @@
     "tests/Unit/StorageListBindingTest.php",
     "src/Contracts/StorageListTargets.php",
     "src/Runtime/StorageListPageBlocks.php",
-    "tests/Unit/StorageListPageBlocksTest.php"
+    "tests/Unit/StorageListPageBlocksTest.php",
+    "LICENSE",
+    "NOTICE",
+    "AUTHORS",
+    "CITATION.cff",
+    "REUSE.toml",
+    "composer.json"
   ],
   "forbidden_files": [
     "config/*",

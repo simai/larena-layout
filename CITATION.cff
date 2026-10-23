@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you refer to Larena Layout, please cite it as below."
+title: "Larena Layout"
+abstract: "Larena Layout: Universal layout and page composition engine for public pages, admin pages, dashboards, forms, lists, detail pages, documentation pages and widgets in Larena."
+type: software
+authors:
+  - family-names: "Zabarov"
+    given-names: "Rim"
+    email: "rim@zabarov.com"
+license: Apache-2.0
+repository-code: "https://github.com/simai/larena-layout"

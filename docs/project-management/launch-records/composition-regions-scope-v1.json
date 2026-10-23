@@ -53,7 +53,13 @@
     "tests/Unit/StorageListBindingTest.php",
     "src/Contracts/StorageListTargets.php",
     "src/Runtime/StorageListPageBlocks.php",
-    "tests/Unit/StorageListPageBlocksTest.php"
+    "tests/Unit/StorageListPageBlocksTest.php",
+    "LICENSE",
+    "NOTICE",
+    "AUTHORS",
+    "CITATION.cff",
+    "REUSE.toml",
+    "composer.json"
   ],
   "scope": "Project layout.regions artifacts into Framework layout.regions/layout.region nodes, derive layout.scope endpoints from routes and pass product port bindings to the Recipe runtime; no artifact schema, database or Framework change"
 }

@@ -17,7 +17,10 @@ use Larena\Layout\Persistence\PdoCompiledPageSnapshotStore;
 use Larena\Layout\Persistence\PdoPageDescriptorStore;
 use Larena\Layout\Runtime\LegacyPageDescriptorAdapter;
 use Larena\Layout\Runtime\PageAssemblyDescriptorNormalizer;
+use Larena\Layout\Runtime\PageContentBlockValidator;
 use Larena\Layout\Runtime\PageDescriptorNormalizer;
+use Larena\Property\Contracts\PropertyContentBlockValidator;
+use Larena\Property\Runtime\PropertyTypeRegistry;
 
 /**
  * Layout's own composition: its tables, the page descriptor store and the compiled page snapshot store.
@@ -26,6 +29,10 @@ use Larena\Layout\Runtime\PageDescriptorNormalizer;
  * the stores do not resolve) and, optionally, the normalizers with its component registry. The snapshot store
  * is chosen by config: larena-layout.snapshots.store is "database" or "file" (the default), and a file store
  * keeps its snapshots under larena-layout.snapshots.root.
+ *
+ * Where Property is installed, the Property type registry checks the blocks of a content@1 value (a site page's
+ * blocks) with Layout's block components (PageContentBlockValidator over the host's PageAssemblyDescriptorNormalizer,
+ * asked on each check): the container's registry is extended, so Property knows nothing of Layout.
  */
 final class LayoutServiceProvider extends ServiceProvider
 {
@@ -57,6 +64,12 @@ final class LayoutServiceProvider extends ServiceProvider
 
             return new FileCompiledPageSnapshotStore($root, $authorization);
         });
+        if (interface_exists(PropertyContentBlockValidator::class)) {
+            $this->app->extend(PropertyTypeRegistry::class, static fn (PropertyTypeRegistry $registry, Container $app): PropertyTypeRegistry =>
+                $registry->withContentBlocks(new PageContentBlockValidator(
+                    static fn (): PageAssemblyDescriptorNormalizer => $app->make(PageAssemblyDescriptorNormalizer::class),
+                )));
+        }
     }
 
     public function boot(): void

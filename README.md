@@ -70,6 +70,14 @@ list out, so publishing a record never makes a published page stale; the host
 reads it per request through `PageProjectionResolver::resolveRequestBinding`,
 which drops any record value the projection would refuse.
 
+A site page's blocks may live in its record instead, as a Property content@1
+value `[{type, version, params}]`. `PageContentBlockValidator` checks them with
+the same rules as an assembly's blocks (where Property is installed the
+provider registers it into the Property type registry), and
+`PageAssemblyContentBlocks::fromAssembly()` converts the content region
+(`region.main`) of a `site.<slug>` assembly into that list: a `larena.list`
+block's params are its props plus its binding's `target` and `query`.
+
 Schema installation remains an explicit lifecycle step. Rejected first writes
 therefore cannot create tables, and rejected writes against an installed schema
 remain transactionally atomic.

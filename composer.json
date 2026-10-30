@@ -27,10 +27,15 @@
     }
   },
   "require-dev": {
+    "larena/property": "dev-main",
     "phpstan/phpstan": "^2.0"
   },
+  "suggest": {
+    "larena/property": "The blocks of a Property content@1 value (a site page's blocks): Layout checks them against its block components (PageContentBlockValidator) and registers the check into the Property type registry. Only where Property is installed; without it Layout runs as before."
+  },
   "repositories": [
-    {"type":"path","url":"../core","options":{"symlink":true}}
+    {"type":"path","url":"../core","options":{"symlink":true}},
+    {"type":"path","url":"../property","options":{"symlink":true}}
   ],
   "scripts": {
     "test": ["@php -d zend.assertions=1 -d assert.exception=1 scripts/run-unit-tests.php","@php tests/Unit/MinimalCmsDependencyContractTest.php"],

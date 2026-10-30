@@ -27,8 +27,14 @@ final readonly class PageDescriptorComponentRegistry
 
     public function assertBlock(string $component): void
     {
-        if (!in_array($component, $this->blockComponents, true)) {
+        if (!$this->hasBlock($component)) {
             throw new LayoutRejected('layout_descriptor_block_component_unknown');
         }
+    }
+
+    /** Whether a page may hold a block of this component (a content@1 block type, PageContentBlockValidator). */
+    public function hasBlock(string $component): bool
+    {
+        return in_array($component, $this->blockComponents, true);
     }
 }

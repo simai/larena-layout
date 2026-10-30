@@ -132,6 +132,32 @@ final readonly class PageAssemblyDescriptorNormalizer
         return $normalized;
     }
 
+    /** The section and block components a page assembly may hold. */
+    public function components(): PageDescriptorComponentRegistry
+    {
+        return $this->components;
+    }
+
+    /**
+     * A block's props as an assembly keeps them, checked by the same rules (safe keys and values, bounded depth and
+     * size) and canonicalized. A refusal names the offending path under $path (`…_prop_key_unsafe:params.html`), so
+     * another holder of block params (a content@1 block, PageContentBlockValidator) checks them exactly as a page
+     * assembly does.
+     *
+     * @return array<string, mixed>
+     */
+    public function props(mixed $props, string $path = 'props'): array
+    {
+        if (!is_array($props) || ($props !== [] && array_is_list($props))) {
+            throw $this->reject('layout_page_assembly_props_invalid');
+        }
+        $this->assertSafeValue($props, $path, 0);
+        /** @var array<string, mixed> $canonical */
+        $canonical = $this->canonicalize($props);
+
+        return $canonical;
+    }
+
     /** @param array<string, mixed> $descriptor */
     public function hash(array $descriptor): string
     {
@@ -167,10 +193,7 @@ final readonly class PageAssemblyDescriptorNormalizer
             $modifiers[] = $key;
         }
         sort($modifiers, SORT_STRING);
-        if (!is_array($input['props'] ?? null) || ($input['props'] !== [] && array_is_list($input['props']))) {
-            throw $this->reject('layout_page_assembly_props_invalid');
-        }
-        $this->assertSafeValue($input['props'], 'props', 0);
+        $props = $this->props($input['props'] ?? null);
 
         return [
             'id' => $id,
@@ -178,7 +201,7 @@ final readonly class PageAssemblyDescriptorNormalizer
             'view' => $view,
             'preset' => $preset,
             'modifiers' => $modifiers,
-            'props' => $this->canonicalize($input['props']),
+            'props' => $props,
             'sort' => $this->sortValue($input['sort'] ?? null),
         ];
     }

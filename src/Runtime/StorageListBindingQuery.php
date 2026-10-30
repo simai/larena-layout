@@ -39,6 +39,11 @@ final class StorageListBindingQuery
     /** A storage role reference (`role@vN`) or a storage schema id. */
     public const TARGET_PATTERN = '/^[a-z][a-z0-9_.:-]{1,119}(?:@v[1-9][0-9]{0,3})?$/D';
 
+    /** A filter value that is the record the page shows: `{"$current":"record_id"}`, a list of what points at it. */
+    public const CURRENT = '$current';
+
+    public const CURRENT_RECORD = 'record_id';
+
     private const FIELD_PATTERN = '/^[a-z][a-z0-9_]{0,63}$/D';
 
     private const SORT_FIELD_PATTERN = '/^_?[a-z][a-z0-9_]{0,63}$/D';
@@ -94,7 +99,7 @@ final class StorageListBindingQuery
                 throw self::reject();
             }
             if ($keys === ['operator', 'value']) {
-                $normalized[$field] = ['operator' => $operator, 'value' => self::scalar($condition['value'])];
+                $normalized[$field] = ['operator' => $operator, 'value' => self::isCurrent($condition['value']) ? [self::CURRENT => self::CURRENT_RECORD] : self::scalar($condition['value'])];
             } elseif ($keys === ['operator', 'values']) {
                 $values = $condition['values'];
                 if (!is_array($values) || !array_is_list($values) || $values === [] || count($values) > 100) {
@@ -110,6 +115,32 @@ final class StorageListBindingQuery
         ksort($normalized, SORT_STRING);
 
         return $normalized;
+    }
+
+    private static function isCurrent(mixed $value): bool
+    {
+        return is_array($value) && count($value) === 1 && ($value[self::CURRENT] ?? null) === self::CURRENT_RECORD;
+    }
+
+    /**
+     * Normalized filters with the current record in place; null when one asks for it and there is none: such a list is
+     * empty, never everything.
+     *
+     * @param array<string, array<string, mixed>> $filters
+     * @return array<string, array<string, mixed>>|null
+     */
+    public static function withCurrent(array $filters, ?string $currentRecord): ?array
+    {
+        foreach ($filters as $field => $condition) {
+            if (self::isCurrent($condition['value'] ?? null)) {
+                if ($currentRecord === null) {
+                    return null;
+                }
+                $filters[$field]['value'] = $currentRecord;
+            }
+        }
+
+        return $filters;
     }
 
     private static function scalar(mixed $value): string|int|float|bool|null

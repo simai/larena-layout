@@ -107,7 +107,7 @@ final readonly class PageProjectionResolver
             throw new LayoutRejected('layout_binding_kind_unknown');
         }
         $context = [];
-        foreach (['locale', 'cursor'] as $key) {
+        foreach (['locale', 'cursor', 'current_record'] as $key) {
             $value = $request[$key] ?? null;
             if ($value !== null && (!is_string($value) || strlen($value) > 4096)) {
                 throw new LayoutRejected('layout_binding_request_invalid');

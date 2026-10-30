@@ -222,7 +222,13 @@ assert($projection === $resolver->project('scope:site.main', 'site.news', 'actor
 // When the page is shown, the list is read with the request context; unsafe values are left out.
 $owner->reset();
 $page = $resolver->resolveRequestBinding($projected, 'actor:editor', 'scope:site.main', ['locale' => 'ru', 'cursor' => 'abc']);
-assert(($owner->calls()[0]['request'] ?? null) === ['locale' => 'ru', 'cursor' => 'abc']);
+assert(($owner->calls()[0]['request'] ?? null) === ['locale' => 'ru', 'cursor' => 'abc', 'current_record' => null]);
+
+// A filter on the record the page shows: kept as it is written, in place once there is a record, and no list at all without one.
+$current = \Larena\Layout\Runtime\StorageListBindingQuery::normalize(['filters' => ['about' => ['operator' => 'eq', 'value' => ['$current' => 'record_id']]]])['filters'];
+assert($current['about']['value'] === ['$current' => 'record_id']);
+assert(\Larena\Layout\Runtime\StorageListBindingQuery::withCurrent($current, 'record-1')['about']['value'] === 'record-1');
+assert(\Larena\Layout\Runtime\StorageListBindingQuery::withCurrent($current, null) === null);
 assert($page['state'] === 'ready' && $page['locale'] === 'ru' && $page['continuation'] === 'next-page-cursor');
 assert($page['records'][0] === ['record_id' => 'news-1', 'values' => ['order_index' => 2, 'title' => 'First']], json_encode($page['records'][0]));
 assert($page['records'][1]['values'] === ['title' => 'Second']);

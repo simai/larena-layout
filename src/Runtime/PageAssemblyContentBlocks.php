@@ -42,6 +42,26 @@ final class PageAssemblyContentBlocks
     public const LIST_BINDING_PARAMS = ['target', 'query'];
 
     /**
+     * How many blocks stand in the assembly outside the content region: fromAssembly() leaves them, and the areas hold what
+     * they held now, so what moves a page says it.
+     *
+     * @param array<string, mixed>|null $assembly
+     */
+    public static function outsideContent(?array $assembly): int
+    {
+        $count = 0;
+        foreach (is_array($assembly['regions'] ?? null) ? $assembly['regions'] : [] as $region) {
+            if (is_array($region) && ($region['id'] ?? null) !== self::CONTENT_REGION) {
+                foreach (self::ordered($region['sections'] ?? null) as $section) {
+                    $count += count(self::ordered($section['blocks'] ?? null));
+                }
+            }
+        }
+
+        return $count;
+    }
+
+    /**
      * @param array<string, mixed>|null $assembly
      * @return list<array{type: string, version: int, params: array<string, mixed>}>
      */

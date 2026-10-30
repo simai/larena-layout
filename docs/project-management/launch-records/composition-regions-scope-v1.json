@@ -64,7 +64,13 @@
     "AUTHORS",
     "CITATION.cff",
     "REUSE.toml",
-    "composer.json"
+    "composer.json",
+    "src/SiteTemplate/SiteTemplateCatalog.php",
+    "src/SiteTemplate/LayoutSettingDefinitions.php",
+    "resources/views/site/default.blade.php",
+    "resources/views/site/sidebar.blade.php",
+    "resources/lang/en/settings.php",
+    "resources/lang/ru/settings.php"
   ],
   "scope": "Project layout.regions artifacts into Framework layout.regions/layout.region nodes, derive layout.scope endpoints from routes and pass product port bindings to the Recipe runtime; no artifact schema, database or Framework change"
 }

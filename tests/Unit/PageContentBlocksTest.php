@@ -14,6 +14,7 @@ use Larena\Layout\Runtime\PageAssemblyDescriptorNormalizer;
 use Larena\Layout\Runtime\PageContentBlockValidator;
 use Larena\Layout\Runtime\PageDescriptorComponentRegistry;
 use Larena\Layout\Runtime\StorageListPageBlocks;
+use Larena\Layout\SiteTemplate\SiteTemplateCatalog;
 use Larena\Property\Contracts\PropertyConstraintValidator;
 use Larena\Property\Runtime\PropertyTypeRegistry;
 
@@ -120,5 +121,32 @@ $refuses($with(['bindings' => []]), 'layout_content_block_binding_unsupported:bl
 $refuses($with(['props' => ['target' => 'other']]), 'layout_content_block_param_conflict:block.list');
 $refuses($with(['component' => 'larena.content', 'bindings' => [['id' => 'binding.doc', 'kind' => 'content_document', 'target' => 'doc.a', 'selector' => '$', 'expected_revision' => 1]]]),
     'layout_content_block_binding_unsupported:block.list');
+
+// Rich text carries markup, which no prop may; a menu says where from and how deep.
+$withBlocks = PageContentBlockValidator::of(new PageAssemblyDescriptorNormalizer(new PageDescriptorComponentRegistry(['layout.section'], ['larena.list', PageDescriptorComponentRegistry::TEXT, PageDescriptorComponentRegistry::MENU])));
+assert($withBlocks->validateBlock(PageDescriptorComponentRegistry::TEXT, 1, ['body' => '<p>Text</p>']) === []);
+assert($withBlocks->validateBlock(PageDescriptorComponentRegistry::TEXT, 1, []) === ['layout_block_param_invalid:body']);
+assert($withBlocks->validateBlock(PageDescriptorComponentRegistry::TEXT, 1, ['body' => '<p>x</p>', 'other' => '<b>y</b>']) !== []);
+assert($withBlocks->validateBlock(PageDescriptorComponentRegistry::MENU, 1, ['root' => 'top', 'depth' => 2, 'title' => 'Menu']) === []);
+assert($withBlocks->validateBlock(PageDescriptorComponentRegistry::MENU, 1, ['root' => 'side']) === ['layout_block_param_invalid:root']);
+assert($withBlocks->validateBlock(PageDescriptorComponentRegistry::MENU, 1, ['depth' => 9]) === ['layout_block_param_invalid:depth']);
+
+// The templates: a package declares one, an unknown key reads as the default, and an area must be a known one.
+$templates = new SiteTemplateCatalog();
+assert($templates->find('no-such')['key'] === SiteTemplateCatalog::DEFAULT);
+assert($templates->find(SiteTemplateCatalog::WITH_SIDEBAR)['areas'] === ['header', 'sidebar', 'footer']);
+$templates->register('acme-wide', 'acme::wide', 'acme::wide', ['footer']);
+assert(count($templates->all()) === 3);
+$refused = false;
+try {
+    $templates->register('acme-wrong', 'acme::wrong', 'acme::wrong', ['middle']);
+} catch (InvalidArgumentException) {
+    $refused = true;
+}
+assert($refused, 'an unknown area is refused');
+
+// What a page's move leaves behind: the blocks outside the content region.
+assert(PageAssemblyContentBlocks::outsideContent(null) === 0);
+assert(PageAssemblyContentBlocks::outsideContent(['regions' => [['id' => 'region.footer', 'sections' => [['id' => 's', 'sort' => 1, 'blocks' => [['id' => 'b', 'sort' => 1]]]]]]]) === 1);
 
 echo "PageContentBlocksTest passed.\n";

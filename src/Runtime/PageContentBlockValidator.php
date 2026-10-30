@@ -20,7 +20,9 @@ use Larena\Property\Contracts\PropertyContentBlockValidator;
  * - `larena.list`: what its `storage_list` binding carries in an assembly, as params: `target` (required, a storage
  *   role or schema, StorageListBindingQuery::TARGET_PATTERN) and `query` (optional, StorageListBindingQuery's shape;
  *   `layout_block_param_invalid:target`, `…:query`); its other params (`title`, `title_field`, `summary_field`) are
- *   props, as in an assembly.
+ *   props, as in an assembly;
+ * - `larena.text`: `body`, a string of rich text within a length (markup is its point, so it is no prop); `larena.menu`:
+ *   `root` (`top` or `current`) and `depth` (1 to 3), both optional.
  *
  * An unknown type is Property's `property_content_block_unknown:<type>`. Whether a list's fields exist and are public
  * is the storage's answer when the page is saved or shown, as for an assembly (PageBindingValidator).
@@ -30,6 +32,8 @@ final readonly class PageContentBlockValidator implements PropertyContentBlockVa
     public const BLOCK_VERSION = PageAssemblyContentBlocks::BLOCK_VERSION;
 
     public const LIST_TYPE = StorageListPageBlocks::COMPONENT;
+
+    private const TEXT_MAX_BYTES = 262_144;
 
     /** @param Closure(): PageAssemblyDescriptorNormalizer $normalizer The host's normalizer, asked on each check. */
     public function __construct(private Closure $normalizer)
@@ -61,6 +65,21 @@ final readonly class PageContentBlockValidator implements PropertyContentBlockVa
 
         $errors = [];
         $props = $params;
+        if ($type === PageDescriptorComponentRegistry::TEXT) {
+            // Rich text carries markup, which a prop may not: only its length is asked here, the site makes it safe.
+            unset($props['body']);
+            if (!is_string($params['body'] ?? null) || strlen($params['body']) > self::TEXT_MAX_BYTES) {
+                $errors[] = 'layout_block_param_invalid:body';
+            }
+        }
+        if ($type === PageDescriptorComponentRegistry::MENU) {
+            if (!in_array($params['root'] ?? 'top', ['top', 'current'], true)) {
+                $errors[] = 'layout_block_param_invalid:root';
+            }
+            if (!in_array($params['depth'] ?? 1, [1, 2, 3], true)) {
+                $errors[] = 'layout_block_param_invalid:depth';
+            }
+        }
         if ($type === self::LIST_TYPE) {
             $props = array_diff_key($params, array_flip(PageAssemblyContentBlocks::LIST_BINDING_PARAMS));
             $target = $params['target'] ?? null;

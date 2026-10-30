@@ -20,7 +20,10 @@ use Larena\Layout\Runtime\PageAssemblyDescriptorNormalizer;
 use Larena\Layout\Runtime\PageContentBlockValidator;
 use Larena\Layout\Runtime\PageDescriptorNormalizer;
 use Larena\Property\Contracts\PropertyContentBlockValidator;
+use Larena\Layout\SiteTemplate\LayoutSettingDefinitions;
+use Larena\Layout\SiteTemplate\SiteTemplateCatalog;
 use Larena\Property\Runtime\PropertyTypeRegistry;
+use Larena\Setting\Runtime\SettingDefinitionRegistry;
 
 /**
  * Layout's own composition: its tables, the page descriptor store and the compiled page snapshot store.
@@ -64,6 +67,16 @@ final class LayoutServiceProvider extends ServiceProvider
 
             return new FileCompiledPageSnapshotStore($root, $authorization);
         });
+        $this->app->singleton(SiteTemplateCatalog::class);
+        // A site's template and areas are settings, where Setting is installed.
+        if (class_exists(SettingDefinitionRegistry::class)) {
+            $this->app->afterResolving(SettingDefinitionRegistry::class, static function (SettingDefinitionRegistry $registry, Container $app): void {
+                if (!$registry->declares(LayoutSettingDefinitions::TEMPLATE)) {
+                    LayoutSettingDefinitions::register($registry, $app->make(SiteTemplateCatalog::class),
+                        static fn (string $key, string $locale): string => (string) $app->make('translator')->get($key, [], $locale));
+                }
+            });
+        }
         if (interface_exists(PropertyContentBlockValidator::class)) {
             $this->app->extend(PropertyTypeRegistry::class, static fn (PropertyTypeRegistry $registry, Container $app): PropertyTypeRegistry =>
                 $registry->withContentBlocks(new PageContentBlockValidator(
@@ -75,5 +88,7 @@ final class LayoutServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
+        $this->loadViewsFrom(__DIR__.'/../../resources/views', 'larena-layout');
+        $this->loadTranslationsFrom(__DIR__.'/../../resources/lang', 'larena-layout');
     }
 }

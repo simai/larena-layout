@@ -27,7 +27,7 @@ features:
   - layout.page_descriptor_scope_authorization
   - layout.typed_safe_owner_projection
   - layout.deterministic_bounded_projection
-  - layout.minimal_cms_site_descriptor
+  - layout.cms_site_descriptor
   - layout.normalized_render_plan
   - layout.page_assembly_descriptor_v1
   - layout.legacy_page_descriptor_adapter

@@ -6,11 +6,11 @@ require_once __DIR__ . '/../bootstrap.php';
 
 use Larena\Layout\Contracts\SiteDescriptor;
 use Larena\Layout\Exceptions\LayoutRejected;
-use Larena\Layout\Runtime\MinimalCmsRenderPlanRuntime;
+use Larena\Layout\Runtime\PageRenderPlanRuntime;
 use Larena\Layout\Runtime\PageDescriptorComponentRegistry;
 use Larena\Layout\Runtime\PageAssemblyDescriptorNormalizer;
 
-$runtime = new MinimalCmsRenderPlanRuntime(new PageAssemblyDescriptorNormalizer(
+$runtime = new PageRenderPlanRuntime(new PageAssemblyDescriptorNormalizer(
     new PageDescriptorComponentRegistry(['layout.section'], ['ui.input']),
 ));
 $site = new SiteDescriptor('site.main', 'scope:site.main', ['page.home'], ['region.main']);
@@ -72,4 +72,4 @@ $reject(static fn () => $runtime->plan($site, $unknownSource), 'layout_page_asse
 $wrongSite = new SiteDescriptor('site.other', 'scope:site.main', ['page.home'], ['region.main']);
 $reject(static fn () => $runtime->plan($wrongSite, $page), 'layout_render_plan_site_mismatch');
 
-echo "MinimalCmsRenderPlanTest passed.\n";
+echo "PageRenderPlanTest passed.\n";

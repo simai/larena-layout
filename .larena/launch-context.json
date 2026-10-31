@@ -55,7 +55,7 @@
     "tests/Integration/PageDescriptorPersistenceTest.php",
     "tests/Unit/ArtifactRegionPlacementProjectorTest.php",
     "tests/Unit/LayoutArtifactNormalizerTest.php",
-    "tests/Unit/MinimalCmsRenderPlanTest.php",
+    "tests/Unit/PageRenderPlanTest.php",
     "src/Runtime/FrameworkCanonicalJson.php",
     "src/Runtime/FrameworkRecipeRequestFactory.php",
     "tests/Unit/LayoutArtifactResolverTest.php",
@@ -74,7 +74,7 @@
     "src/Runtime/PageAssemblyContentBlocks.php",
     "tests/Unit/PageContentBlocksTest.php",
     "composer.lock",
-    "tests/Unit/MinimalCmsDependencyContractTest.php",
+    "tests/Unit/DependencyContractTest.php",
     "LICENSE",
     "NOTICE",
     "AUTHORS",
@@ -86,7 +86,13 @@
     "resources/views/site/default.blade.php",
     "resources/views/site/sidebar.blade.php",
     "resources/lang/en/settings.php",
-    "resources/lang/ru/settings.php"
+    "resources/lang/ru/settings.php",
+    "module.yaml",
+    "scripts/validate-larena-package.php",
+    "src/Runtime/MinimalCmsRenderPlanRuntime.php",
+    "src/Runtime/PageRenderPlanRuntime.php",
+    "tests/Unit/MinimalCmsDependencyContractTest.php",
+    "tests/Unit/MinimalCmsRenderPlanTest.php"
   ],
   "forbidden_files": [
     "config/*",
@@ -120,5 +126,5 @@
   "next_transition": "isolated_slice_review",
   "coding_branch": "codex/composition-regions-layout",
   "goal": "region-inheritance-runtime-v1",
-  "scope_note": "Continue the accepted region-inheritance runtime with Layout-owned per-region inherit, replace and explicit-empty intents plus reset to the registered default. Preserve the existing artifact schema through its namespaced extension, existing resolver, owners and Minimal CMS. No schema, route or live data changes."
+  "scope_note": "Continue the accepted region-inheritance runtime with Layout-owned per-region inherit, replace and explicit-empty intents plus reset to the registered default. Preserve the existing artifact schema through its namespaced extension, existing resolver, owners and Larena CMS. No schema, route or live data changes."
 }

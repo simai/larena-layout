@@ -30,7 +30,7 @@ $tests = [
     __DIR__ . '/../tests/Unit/FrameworkCanonicalJsonTest.php',
     __DIR__ . '/../tests/Unit/PackageLayoutArtifactCatalogTest.php',
     __DIR__ . '/../tests/Unit/FrameworkNodeRecipeResolverTest.php',
-    __DIR__ . '/../tests/Unit/MinimalCmsRenderPlanTest.php',
+    __DIR__ . '/../tests/Unit/PageRenderPlanTest.php',
     __DIR__ . '/../tests/Integration/PageDescriptorPersistenceTest.php',
     __DIR__ . '/../tests/Integration/LayoutArtifactPersistenceTest.php',
     __DIR__ . '/../tests/Integration/FrameworkRecipeSnapshotPersistenceTest.php',

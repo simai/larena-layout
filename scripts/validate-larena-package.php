@@ -96,8 +96,8 @@ if ($codingStarted) {
         'tests/Unit/PageCompositionRuntimeTest.php',
         'src/Contracts/SiteDescriptor.php',
         'src/Contracts/NormalizedRenderPlan.php',
-        'src/Runtime/MinimalCmsRenderPlanRuntime.php',
-        'tests/Unit/MinimalCmsRenderPlanTest.php',
+        'src/Runtime/PageRenderPlanRuntime.php',
+        'tests/Unit/PageRenderPlanTest.php',
     ];
     foreach ($requiredContractFiles as $file) {
         if (!is_file($file)) {

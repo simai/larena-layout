@@ -9,7 +9,7 @@ use Larena\Layout\Contracts\NormalizedRenderPlan;
 use Larena\Layout\Contracts\SiteDescriptor;
 use Larena\Layout\Exceptions\LayoutRejected;
 
-final readonly class MinimalCmsRenderPlanRuntime
+final readonly class PageRenderPlanRuntime
 {
     public function __construct(private PageAssemblyDescriptorNormalizer $normalizer = new PageAssemblyDescriptorNormalizer())
     {

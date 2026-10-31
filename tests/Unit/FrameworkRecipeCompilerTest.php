@@ -42,7 +42,7 @@ assert($expanded['dependencyReceipt']['documentDigest'] !== $compact['dependency
 
 $projection = [
     'schema' => 'larena.layout.page_projection',
-    'scope_ref' => 'scope:minimal-cms',
+    'scope_ref' => 'scope:main',
     'page_id' => 'page.home',
     'regions' => [[
         'id' => 'region.main',
@@ -63,7 +63,7 @@ $projection = [
         ]],
     ]],
 ];
-$boundHeading = $compiler->compile($factory->boundHeading($projection, 'scope:minimal-cms'));
+$boundHeading = $compiler->compile($factory->boundHeading($projection, 'scope:main'));
 assert(str_contains($boundHeading['html'], '<h1'));
 assert(str_contains($boundHeading['html'], 'Настоящая страница Larena'));
 assert(count($boundHeading['dependencyReceipt']['references']) === 1);
@@ -71,7 +71,7 @@ assert(count($boundHeading['dependencyReceipt']['references']) === 1);
 $unsupported = $projection;
 $unsupported['regions'][0]['sections'][0]['blocks'][0]['component'] = 'ui.unknown';
 try {
-    $factory->boundHeading($unsupported, 'scope:minimal-cms');
+    $factory->boundHeading($unsupported, 'scope:main');
     throw new RuntimeException('An unsupported Larena component was accepted.');
 } catch (InvalidArgumentException $exception) {
     assert($exception->getMessage() === 'layout_framework_recipe_projection_component_unsupported');

@@ -92,7 +92,8 @@
     "src/Runtime/MinimalCmsRenderPlanRuntime.php",
     "src/Runtime/PageRenderPlanRuntime.php",
     "tests/Unit/MinimalCmsDependencyContractTest.php",
-    "tests/Unit/MinimalCmsRenderPlanTest.php"
+    "tests/Unit/MinimalCmsRenderPlanTest.php",
+    "tests/Unit/FrameworkRecipeCompilerTest.php"
   ],
   "forbidden_files": [
     "config/*",

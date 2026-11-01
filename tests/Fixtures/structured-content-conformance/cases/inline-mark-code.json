@@ -1,0 +1,46 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "inline-mark-code",
+  "summary": "code.",
+  "covers": [
+    "inline"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "p",
+              "type": "content.paragraph",
+              "data": {
+                "content": [
+                  {
+                    "type": "text",
+                    "value": "x = 1",
+                    "marks": [
+                      "code"
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><p data-sf-composition-id=\"p\"><code>x = 1</code></p></article>",
+    "diagnostics": [],
+    "assets": []
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "tabs-one",
+  "summary": "One tab: selected, its panel shown.",
+  "covers": [
+    "content.tab"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "tb",
+              "type": "content.tabs",
+              "slots": {
+                "tabs": [
+                  {
+                    "id": "t1",
+                    "type": "content.tab",
+                    "data": {
+                      "label": "Only"
+                    },
+                    "slots": {
+                      "default": [
+                        {
+                          "id": "t1p",
+                          "type": "content.paragraph",
+                          "data": {
+                            "content": [
+                              {
+                                "type": "text",
+                                "value": "One."
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><div class=\"sf-tabs sf-tabs--underline flex flex-col\" data-sf-composition-id=\"tb\"><div class=\"sf-tabs-top-container\"><div class=\"sf-tabs-top flex\"><button type=\"button\" class=\"sf-button sf-button--default sf-button--primary sf-button--size-1 selected\"><span class=\"sf-button-text-container\">Only</span></button></div></div><div class=\"sf-tabs-main-container\"><div class=\"sf-tabs-main-tab selected\" data-sf-composition-id=\"t1\"><p data-sf-composition-id=\"t1p\">One.</p></div></div></div></article>",
+    "diagnostics": [],
+    "assets": [
+      "component/tabs"
+    ]
+  }
+}

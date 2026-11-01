@@ -1,0 +1,57 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "figure-caption",
+  "summary": "A caption is inline content in figcaption.",
+  "covers": [
+    "content.figure"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "f",
+              "type": "content.figure",
+              "data": {
+                "src": "/images/a.webp",
+                "alt": "A scene",
+                "caption": [
+                  {
+                    "type": "text",
+                    "value": "Photo by "
+                  },
+                  {
+                    "type": "link",
+                    "href": "https://simai.io",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "SIMAI"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><figure class=\"sf-figure\" data-sf-composition-id=\"f\"><div class=\"sf-figure-media\"><img src=\"/images/a.webp\" alt=\"A scene\" loading=\"lazy\" decoding=\"async\"></div><figcaption class=\"sf-figure-caption\">Photo by <a href=\"https://simai.io\">SIMAI</a></figcaption></figure></article>",
+    "diagnostics": [],
+    "assets": [
+      "component/figure"
+    ]
+  }
+}

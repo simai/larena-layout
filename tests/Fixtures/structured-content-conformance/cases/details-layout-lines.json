@@ -1,0 +1,65 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "details-layout-lines",
+  "summary": "layout lines.",
+  "covers": [
+    "content.details"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "x",
+              "type": "content.details",
+              "data": {
+                "summary": [
+                  {
+                    "type": "text",
+                    "value": "More",
+                    "marks": [
+                      "strong"
+                    ]
+                  }
+                ]
+              },
+              "props": {
+                "layout": "lines"
+              },
+              "slots": {
+                "default": [
+                  {
+                    "id": "xp",
+                    "type": "content.paragraph",
+                    "data": {
+                      "content": [
+                        {
+                          "type": "text",
+                          "value": "Body."
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><details class=\"border-bottom-1 border-bottom-solid border-outline-variant p-y-1\" data-sf-composition-id=\"x\"><summary class=\"weight-5 cursor-pointer\"><strong>More</strong></summary><div class=\"p-top-1\"><p data-sf-composition-id=\"xp\">Body.</p></div></details></article>",
+    "diagnostics": [],
+    "assets": []
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "invalid-forbidden-key-class",
+  "summary": "A class is never content.",
+  "covers": [
+    "document"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "c",
+              "type": "content.card",
+              "props": {
+                "class": "red"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": false,
+    "html": "",
+    "diagnostics": [
+      {
+        "code": "executable_or_secret_field_forbidden",
+        "path": "$.root.slots.default[0].props.class"
+      },
+      {
+        "code": "schema_additional_property",
+        "path": "$.root.slots.default[0].props.class"
+      }
+    ],
+    "assets": []
+  }
+}

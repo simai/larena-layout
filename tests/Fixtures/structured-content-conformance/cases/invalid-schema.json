@@ -1,0 +1,35 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "invalid-schema",
+  "summary": "An unknown schema.",
+  "covers": [
+    "document"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.recipe",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": []
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": false,
+    "html": "",
+    "diagnostics": [
+      {
+        "code": "schema_unknown",
+        "path": "$.schema"
+      }
+    ],
+    "assets": []
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "invalid-code-missing",
+  "summary": "Code needs its code.",
+  "covers": [
+    "content.code"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "k",
+              "type": "content.code",
+              "data": {}
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": false,
+    "html": "",
+    "diagnostics": [
+      {
+        "code": "schema_required",
+        "path": "$.root.slots.default[0].data.code"
+      }
+    ],
+    "assets": []
+  }
+}

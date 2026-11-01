@@ -1,0 +1,46 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "inline-atom-escaped",
+  "summary": "An atom's text props are escaped as attributes.",
+  "covers": [
+    "inline"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "p",
+              "type": "content.paragraph",
+              "data": {
+                "content": [
+                  {
+                    "type": "component",
+                    "name": "badge",
+                    "props": {
+                      "text": "\"><script>alert(1)</script>"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><p data-sf-composition-id=\"p\"><sf-badge text=\"&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;\"></sf-badge></p></article>",
+    "diagnostics": [],
+    "assets": []
+  }
+}

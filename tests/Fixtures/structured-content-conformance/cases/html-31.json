@@ -1,0 +1,38 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "html-31",
+  "summary": "content.html cleans \"<b style=\\\"font-weight:normal;\\\" id=\\\"docs-internal-guid-x\\\"><p dir=\\\"l to the html@1 subset.",
+  "covers": [
+    "content.html"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "h",
+              "type": "content.html",
+              "data": {
+                "markup": "<b style=\"font-weight:normal;\" id=\"docs-internal-guid-x\"><p dir=\"ltr\"><span style=\"font-weight:700;\">Bold</span><span style=\"font-style:italic;\"> italic</span></p><ul><li dir=\"ltr\"><p dir=\"ltr\">item</p></li></ul></b>"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><div data-sf-composition-id=\"h\"><p><strong>Bold</strong><em> italic</em></p><ul><li>item</li></ul></div></article>",
+    "diagnostics": [],
+    "assets": []
+  }
+}

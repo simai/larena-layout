@@ -1,0 +1,38 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "html-21",
+  "summary": "content.html cleans \"<iframe srcdoc=\\\"<script>alert(1)</script>\\\">frame</iframe>kept\" to the html@1 subset.",
+  "covers": [
+    "content.html"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "h",
+              "type": "content.html",
+              "data": {
+                "markup": "<iframe srcdoc=\"<script>alert(1)</script>\">frame</iframe>kept"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><div data-sf-composition-id=\"h\"><p>kept</p></div></article>",
+    "diagnostics": [],
+    "assets": []
+  }
+}

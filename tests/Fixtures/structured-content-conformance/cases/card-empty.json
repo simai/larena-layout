@@ -1,0 +1,37 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "card-empty",
+  "summary": "A card may be empty.",
+  "covers": [
+    "content.card"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "c",
+              "type": "content.card"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><div class=\"sf-card\" data-sf-composition-id=\"c\"></div></article>",
+    "diagnostics": [],
+    "assets": [
+      "component/card"
+    ]
+  }
+}

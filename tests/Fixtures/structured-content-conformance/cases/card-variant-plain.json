@@ -1,0 +1,56 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "card-variant-plain",
+  "summary": "variant plain.",
+  "covers": [
+    "content.card"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "c",
+              "type": "content.card",
+              "props": {
+                "variant": "plain"
+              },
+              "slots": {
+                "default": [
+                  {
+                    "id": "cp",
+                    "type": "content.paragraph",
+                    "data": {
+                      "content": [
+                        {
+                          "type": "text",
+                          "value": "Text."
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><div class=\"sf-card sf-card--plain\" data-sf-composition-id=\"c\"><p data-sf-composition-id=\"cp\">Text.</p></div></article>",
+    "diagnostics": [],
+    "assets": [
+      "component/card"
+    ]
+  }
+}

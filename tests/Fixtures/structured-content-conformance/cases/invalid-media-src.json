@@ -1,0 +1,44 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "invalid-media-src",
+  "summary": "A protocol-relative source leaves the site.",
+  "covers": [
+    "content.media"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "m",
+              "type": "content.media",
+              "data": {
+                "src": "//evil.example/a.png",
+                "alt": ""
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": false,
+    "html": "",
+    "diagnostics": [
+      {
+        "code": "unsafe_url",
+        "path": "$.root.slots.default[0].data.src"
+      }
+    ],
+    "assets": []
+  }
+}

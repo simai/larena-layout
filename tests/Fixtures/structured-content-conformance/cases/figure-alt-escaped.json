@@ -1,0 +1,41 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "figure-alt-escaped",
+  "summary": "The alt is escaped as an attribute.",
+  "covers": [
+    "content.figure"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "f",
+              "type": "content.figure",
+              "data": {
+                "src": "./a.png",
+                "alt": "A \"quoted\" <scene> & more"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><figure class=\"sf-figure\" data-sf-composition-id=\"f\"><div class=\"sf-figure-media\"><img src=\"./a.png\" alt=\"A &quot;quoted&quot; &lt;scene&gt; &amp; more\" loading=\"lazy\" decoding=\"async\"></div></figure></article>",
+    "diagnostics": [],
+    "assets": [
+      "component/figure"
+    ]
+  }
+}

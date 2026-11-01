@@ -1,0 +1,56 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "steps-layout-list",
+  "summary": "layout list.",
+  "covers": [
+    "content.step"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "s",
+              "type": "content.steps",
+              "props": {
+                "layout": "list"
+              },
+              "slots": {
+                "steps": [
+                  {
+                    "id": "s1",
+                    "type": "content.step",
+                    "data": {
+                      "title": [
+                        {
+                          "type": "text",
+                          "value": "One"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><ol class=\"sf-procedure sf-procedure--list\" data-sf-composition-id=\"s\"><li class=\"sf-procedure-step\" data-sf-composition-id=\"s1\"><div class=\"sf-procedure-title\">One</div><div class=\"sf-procedure-content\"></div></li></ol></article>",
+    "diagnostics": [],
+    "assets": [
+      "component/procedure"
+    ]
+  }
+}

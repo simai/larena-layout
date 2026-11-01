@@ -1,0 +1,45 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "code-all",
+  "summary": "Language, title and numbers together.",
+  "covers": [
+    "content.code"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "k",
+              "type": "content.code",
+              "data": {
+                "code": "echo 1"
+              },
+              "props": {
+                "lang": "bash",
+                "title": "install.sh",
+                "numbers": true
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><figure class=\"flex flex-col gap-1/2 m-0\" data-sf-composition-id=\"k\"><figcaption class=\"text-1/2 weight-5 color-on-surface-variant\">install.sh</figcaption><div class=\"sf-highlight\"><pre><code class=\"language-bash\" data-lang=\"bash\" data-lines>echo 1</code></pre></div></figure></article>",
+    "diagnostics": [],
+    "assets": [
+      "component/highlight"
+    ]
+  }
+}

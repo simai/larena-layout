@@ -1,0 +1,49 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "inline-atom-icon",
+  "summary": "The icon atom.",
+  "covers": [
+    "inline"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "p",
+              "type": "content.paragraph",
+              "data": {
+                "content": [
+                  {
+                    "type": "component",
+                    "name": "icon",
+                    "props": {
+                      "icon": "home",
+                      "label": "Home \"page\"",
+                      "size": "2",
+                      "filled": true
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><p data-sf-composition-id=\"p\"><sf-icon icon=\"home\" label=\"Home &quot;page&quot;\" size=\"2\" filled></sf-icon></p></article>",
+    "diagnostics": [],
+    "assets": []
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "inline-link-schemes",
+  "summary": "http, https, mailto and tel links.",
+  "covers": [
+    "inline"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "p",
+              "type": "content.paragraph",
+              "data": {
+                "content": [
+                  {
+                    "type": "link",
+                    "href": "http://example.com",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "http"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "value": " "
+                  },
+                  {
+                    "type": "link",
+                    "href": "https://example.com/a\"b",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "https"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "value": " "
+                  },
+                  {
+                    "type": "link",
+                    "href": "mailto:a@example.com",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "mail"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "value": " "
+                  },
+                  {
+                    "type": "link",
+                    "href": "tel:+70000000000",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "call"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><p data-sf-composition-id=\"p\"><a href=\"http://example.com\">http</a> <a href=\"https://example.com/a&quot;b\">https</a> <a href=\"mailto:a@example.com\">mail</a> <a href=\"tel:+70000000000\">call</a></p></article>",
+    "diagnostics": [],
+    "assets": []
+  }
+}

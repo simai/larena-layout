@@ -1,0 +1,44 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "heading-level-3",
+  "summary": "A heading of level 3 is an h3.",
+  "covers": [
+    "content.heading"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "h",
+              "type": "content.heading",
+              "data": {
+                "level": 3,
+                "content": [
+                  {
+                    "type": "text",
+                    "value": "Level 3"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><h3 data-sf-composition-id=\"h\">Level 3</h3></article>",
+    "diagnostics": [],
+    "assets": []
+  }
+}

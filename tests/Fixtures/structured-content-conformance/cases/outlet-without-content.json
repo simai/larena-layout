@@ -1,0 +1,35 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "outlet-without-content",
+  "summary": "An outlet with no page draws an empty outlet.",
+  "covers": [
+    "content.outlet"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "layout",
+      "profile": "ui-layout",
+      "root": {
+        "id": "frame",
+        "type": "layout.page",
+        "slots": {
+          "default": [
+            {
+              "id": "o",
+              "type": "content.outlet"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<main data-sf-composition-id=\"frame\"><div data-sf-outlet=\"\" data-sf-composition-id=\"o\"></div></main>",
+    "diagnostics": [],
+    "assets": []
+  }
+}

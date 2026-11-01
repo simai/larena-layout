@@ -1,0 +1,66 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "grid-gap-2",
+  "summary": "gap 2.",
+  "covers": [
+    "content.grid"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "g",
+              "type": "content.grid",
+              "props": {
+                "gap": 2
+              },
+              "slots": {
+                "default": [
+                  {
+                    "id": "g1",
+                    "type": "content.paragraph",
+                    "data": {
+                      "content": [
+                        {
+                          "type": "text",
+                          "value": "One."
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "id": "g2",
+                    "type": "content.paragraph",
+                    "data": {
+                      "content": [
+                        {
+                          "type": "text",
+                          "value": "Two."
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><div class=\"grid grid-col-1 md:grid-col-2 lg:grid-col-3 gap-2\" data-sf-composition-id=\"g\"><div class=\"min-w-0\"><p data-sf-composition-id=\"g1\">One.</p></div><div class=\"min-w-0\"><p data-sf-composition-id=\"g2\">Two.</p></div></div></article>",
+    "diagnostics": [],
+    "assets": []
+  }
+}

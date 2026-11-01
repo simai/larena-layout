@@ -1,0 +1,48 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "math-without-renderer",
+  "summary": "Math with no renderer registered: renderer_unavailable, nothing drawn, its assets named.",
+  "covers": [
+    "content.math"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "mt",
+              "type": "content.math",
+              "data": {
+                "source": "e^{i\\pi} + 1 = 0"
+              },
+              "props": {
+                "label": "Euler"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"></article>",
+    "diagnostics": [
+      {
+        "code": "renderer_unavailable",
+        "path": "node:mt"
+      }
+    ],
+    "assets": [
+      "composition/math"
+    ]
+  }
+}

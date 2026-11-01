@@ -1,0 +1,51 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "invalid-forbidden-key-html",
+  "summary": "html is refused anywhere in a Document.",
+  "covers": [
+    "content.html"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "h",
+              "type": "content.html",
+              "data": {
+                "html": "<p>x</p>"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": false,
+    "html": "",
+    "diagnostics": [
+      {
+        "code": "executable_or_secret_field_forbidden",
+        "path": "$.root.slots.default[0].data.html"
+      },
+      {
+        "code": "schema_required",
+        "path": "$.root.slots.default[0].data.markup"
+      },
+      {
+        "code": "schema_additional_property",
+        "path": "$.root.slots.default[0].data.html"
+      }
+    ],
+    "assets": []
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "list-ordered-false",
+  "summary": "ordered false is the default: a ul.",
+  "covers": [
+    "content.list"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "l",
+              "type": "content.list",
+              "props": {
+                "ordered": false
+              },
+              "slots": {
+                "items": [
+                  {
+                    "id": "a",
+                    "type": "content.list-item",
+                    "data": {
+                      "content": [
+                        {
+                          "type": "text",
+                          "value": "One"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><ul data-sf-composition-id=\"l\"><li data-sf-composition-id=\"a\">One</li></ul></article>",
+    "diagnostics": [],
+    "assets": []
+  }
+}

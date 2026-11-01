@@ -1,0 +1,66 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "card-default",
+  "summary": "A card without parameters.",
+  "covers": [
+    "content.card"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "c",
+              "type": "content.card",
+              "slots": {
+                "default": [
+                  {
+                    "id": "ch",
+                    "type": "content.heading",
+                    "data": {
+                      "level": 4,
+                      "content": [
+                        {
+                          "type": "text",
+                          "value": "Title"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "id": "cp",
+                    "type": "content.paragraph",
+                    "data": {
+                      "content": [
+                        {
+                          "type": "text",
+                          "value": "Text."
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><div class=\"sf-card\" data-sf-composition-id=\"c\"><h4 data-sf-composition-id=\"ch\">Title</h4><p data-sf-composition-id=\"cp\">Text.</p></div></article>",
+    "diagnostics": [],
+    "assets": [
+      "component/card"
+    ]
+  }
+}

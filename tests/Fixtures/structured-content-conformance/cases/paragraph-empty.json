@@ -1,0 +1,38 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "paragraph-empty",
+  "summary": "A paragraph with no runs is an empty p.",
+  "covers": [
+    "content.paragraph"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "p",
+              "type": "content.paragraph",
+              "data": {
+                "content": []
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><p data-sf-composition-id=\"p\"></p></article>",
+    "diagnostics": [],
+    "assets": []
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "escape-unicode",
+  "summary": "Text beyond ASCII is written as it is.",
+  "covers": [
+    "escaping"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "p",
+              "type": "content.paragraph",
+              "data": {
+                "content": [
+                  {
+                    "type": "text",
+                    "value": "Привет, мир — «кавычки» 😀"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><p data-sf-composition-id=\"p\">Привет, мир — «кавычки» 😀</p></article>",
+    "diagnostics": [],
+    "assets": []
+  }
+}

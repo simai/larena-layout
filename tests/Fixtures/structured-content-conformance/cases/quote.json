@@ -1,0 +1,63 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "quote",
+  "summary": "A quote is a blockquote of blocks.",
+  "covers": [
+    "content.quote"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "q",
+              "type": "content.quote",
+              "slots": {
+                "default": [
+                  {
+                    "id": "a",
+                    "type": "content.paragraph",
+                    "data": {
+                      "content": [
+                        {
+                          "type": "text",
+                          "value": "Quoted."
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "id": "b",
+                    "type": "content.paragraph",
+                    "data": {
+                      "content": [
+                        {
+                          "type": "text",
+                          "value": "Twice."
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><blockquote data-sf-composition-id=\"q\"><p data-sf-composition-id=\"a\">Quoted.</p><p data-sf-composition-id=\"b\">Twice.</p></blockquote></article>",
+    "diagnostics": [],
+    "assets": []
+  }
+}

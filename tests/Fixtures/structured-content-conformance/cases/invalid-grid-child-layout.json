@@ -1,0 +1,52 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "invalid-grid-child-layout",
+  "summary": "A grid holds content, not a layout section.",
+  "covers": [
+    "content.grid"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "g",
+              "type": "content.grid",
+              "slots": {
+                "default": [
+                  {
+                    "id": "r",
+                    "type": "layout.section"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": false,
+    "html": "",
+    "diagnostics": [
+      {
+        "code": "slot_child_category_forbidden",
+        "path": "$.root.slots.default[0].slots.default[0]"
+      },
+      {
+        "code": "type_profile_unsupported",
+        "path": "$.root.slots.default[0].slots.default[0].type"
+      }
+    ],
+    "assets": []
+  }
+}

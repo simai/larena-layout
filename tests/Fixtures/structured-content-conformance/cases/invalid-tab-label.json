@@ -1,0 +1,54 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "invalid-tab-label",
+  "summary": "A tab label is not empty.",
+  "covers": [
+    "content.tab"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "tb",
+              "type": "content.tabs",
+              "slots": {
+                "tabs": [
+                  {
+                    "id": "t",
+                    "type": "content.tab",
+                    "data": {
+                      "label": ""
+                    },
+                    "slots": {
+                      "default": []
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": false,
+    "html": "",
+    "diagnostics": [
+      {
+        "code": "schema_min_length",
+        "path": "$.root.slots.default[0].slots.tabs[0].data.label"
+      }
+    ],
+    "assets": []
+  }
+}

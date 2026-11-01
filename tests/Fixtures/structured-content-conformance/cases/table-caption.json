@@ -1,0 +1,119 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "table-caption",
+  "summary": "A caption is inline content.",
+  "covers": [
+    "content.table"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "t",
+              "type": "content.table",
+              "data": {
+                "caption": [
+                  {
+                    "type": "text",
+                    "value": "Sizes",
+                    "marks": [
+                      "strong"
+                    ]
+                  }
+                ],
+                "rows": [
+                  [
+                    [
+                      {
+                        "type": "text",
+                        "value": "Name"
+                      }
+                    ],
+                    [
+                      {
+                        "type": "text",
+                        "value": "Size"
+                      }
+                    ],
+                    [
+                      {
+                        "type": "text",
+                        "value": "Note"
+                      }
+                    ]
+                  ],
+                  [
+                    [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ],
+                    [
+                      {
+                        "type": "text",
+                        "value": "1"
+                      }
+                    ],
+                    [
+                      {
+                        "type": "text",
+                        "value": "first",
+                        "marks": [
+                          "em"
+                        ]
+                      }
+                    ]
+                  ],
+                  [
+                    [
+                      {
+                        "type": "text",
+                        "value": "B"
+                      }
+                    ],
+                    [
+                      {
+                        "type": "text",
+                        "value": "2"
+                      }
+                    ],
+                    [
+                      {
+                        "type": "link",
+                        "href": "/b",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "second"
+                          }
+                        ]
+                      }
+                    ]
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><div class=\"table-frame\" data-sf-composition-id=\"t\"><table class=\"table\"><caption><strong>Sizes</strong></caption><thead><tr><th scope=\"col\">Name</th><th scope=\"col\">Size</th><th scope=\"col\">Note</th></tr></thead><tbody><tr><td>A</td><td>1</td><td><em>first</em></td></tr><tr><td>B</td><td>2</td><td><a href=\"/b\">second</a></td></tr></tbody></table></div></article>",
+    "diagnostics": [],
+    "assets": [
+      "utility/table-frame"
+    ]
+  }
+}

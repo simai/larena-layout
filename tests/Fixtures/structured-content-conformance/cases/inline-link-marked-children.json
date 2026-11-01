@@ -1,0 +1,63 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "inline-link-marked-children",
+  "summary": "A link holds marked text runs.",
+  "covers": [
+    "inline"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "p",
+              "type": "content.paragraph",
+              "data": {
+                "content": [
+                  {
+                    "type": "link",
+                    "href": "/a",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "plain "
+                      },
+                      {
+                        "type": "text",
+                        "value": "bold",
+                        "marks": [
+                          "strong"
+                        ]
+                      },
+                      {
+                        "type": "text",
+                        "value": " code",
+                        "marks": [
+                          "code"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><p data-sf-composition-id=\"p\"><a href=\"/a\">plain <strong>bold</strong><code> code</code></a></p></article>",
+    "diagnostics": [],
+    "assets": []
+  }
+}

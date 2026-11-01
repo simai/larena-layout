@@ -1,0 +1,47 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "invalid-figure-ratio",
+  "summary": "A ratio is written with a slash.",
+  "covers": [
+    "content.figure"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "f",
+              "type": "content.figure",
+              "data": {
+                "src": "/images/a.webp",
+                "alt": "A scene"
+              },
+              "props": {
+                "ratio": "16x9"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": false,
+    "html": "",
+    "diagnostics": [
+      {
+        "code": "schema_enum",
+        "path": "$.root.slots.default[0].props.ratio"
+      }
+    ],
+    "assets": []
+  }
+}

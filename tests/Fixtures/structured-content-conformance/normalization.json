@@ -1,0 +1,217 @@
+{
+  "schema": "simai.composition.structured-content-conformance-normalization",
+  "schema_version": 1,
+  "summary": "Pairs of HTML fragments and whether the comparison rule (README.md, \"Comparing HTML\") holds them equal, with the canonical form of each.",
+  "vectors": [
+    {
+      "label": "attribute order",
+      "left": "<a href=\"/x\" class=\"b\" data-sf-composition-id=\"i\">t</a>",
+      "right": "<a data-sf-composition-id=\"i\" class=\"b\" href=\"/x\">t</a>",
+      "equal": true,
+      "canonical": [
+        "<a class=\"b\" data-sf-composition-id=\"i\" href=\"/x\">t</a>",
+        "<a class=\"b\" data-sf-composition-id=\"i\" href=\"/x\">t</a>"
+      ]
+    },
+    {
+      "label": "class order and repeats",
+      "left": "<div class=\"flex sf-card flex\">x</div>",
+      "right": "<div class=\"sf-card  flex\">x</div>",
+      "equal": true,
+      "canonical": [
+        "<div class=\"flex sf-card\">x</div>",
+        "<div class=\"flex sf-card\">x</div>"
+      ]
+    },
+    {
+      "label": "a class added",
+      "left": "<div class=\"sf-card\">x</div>",
+      "right": "<div class=\"sf-card flex\">x</div>",
+      "equal": false,
+      "canonical": [
+        "<div class=\"sf-card\">x</div>",
+        "<div class=\"flex sf-card\">x</div>"
+      ]
+    },
+    {
+      "label": "quotes and references",
+      "left": "<p title=\"a &amp; b\">&#39;x&#39; &lt;y&gt;</p>",
+      "right": "<p title='a &#38; b'>'x' &#x3C;y></p>",
+      "equal": true,
+      "canonical": [
+        "<p title=\"a &amp; b\">'x' &lt;y&gt;</p>",
+        "<p title=\"a &amp; b\">'x' &lt;y&gt;</p>"
+      ]
+    },
+    {
+      "label": "an empty attribute, bare or empty",
+      "left": "<details open><summary>s</summary></details>",
+      "right": "<details open=\"\"><summary>s</summary></details>",
+      "equal": true,
+      "canonical": [
+        "<details open=\"\"><summary>s</summary></details>",
+        "<details open=\"\"><summary>s</summary></details>"
+      ]
+    },
+    {
+      "label": "a boolean attribute with a value is that value",
+      "left": "<details open><summary>s</summary></details>",
+      "right": "<details open=\"open\"><summary>s</summary></details>",
+      "equal": false,
+      "canonical": [
+        "<details open=\"\"><summary>s</summary></details>",
+        "<details open=\"open\"><summary>s</summary></details>"
+      ]
+    },
+    {
+      "label": "void elements",
+      "left": "<hr class=\"sf-divider\"><img src=\"a\" alt=\"\">",
+      "right": "<hr class=\"sf-divider\" /><img alt=\"\" src=\"a\"/>",
+      "equal": true,
+      "canonical": [
+        "<hr class=\"sf-divider\"><img alt=\"\" src=\"a\">",
+        "<hr class=\"sf-divider\"><img alt=\"\" src=\"a\">"
+      ]
+    },
+    {
+      "label": "white space between blocks",
+      "left": "<ol><li>One</li><li>Two</li></ol>",
+      "right": "<ol>\n  <li>One</li>\n  <li>Two</li>\n</ol>\n",
+      "equal": true,
+      "canonical": [
+        "<ol><li>One</li><li>Two</li></ol>",
+        "<ol><li>One</li><li>Two</li></ol>"
+      ]
+    },
+    {
+      "label": "white space at a block edge",
+      "left": "<p>Text</p>",
+      "right": "<p>\n  Text\n</p>",
+      "equal": true,
+      "canonical": [
+        "<p>Text</p>",
+        "<p>Text</p>"
+      ]
+    },
+    {
+      "label": "white space between inline elements is text",
+      "left": "<p><strong>a</strong> <em>b</em></p>",
+      "right": "<p><strong>a</strong><em>b</em></p>",
+      "equal": false,
+      "canonical": [
+        "<p><strong>a</strong> <em>b</em></p>",
+        "<p><strong>a</strong><em>b</em></p>"
+      ]
+    },
+    {
+      "label": "runs of white space fold",
+      "left": "<p>a b</p>",
+      "right": "<p>a \n\t b</p>",
+      "equal": true,
+      "canonical": [
+        "<p>a b</p>",
+        "<p>a b</p>"
+      ]
+    },
+    {
+      "label": "white space inside pre is kept",
+      "left": "<pre><code>a  b</code></pre>",
+      "right": "<pre><code>a b</code></pre>",
+      "equal": false,
+      "canonical": [
+        "<pre><code>a  b</code></pre>",
+        "<pre><code>a b</code></pre>"
+      ]
+    },
+    {
+      "label": "the line feed after pre",
+      "left": "<pre>x</pre>",
+      "right": "<pre>\nx</pre>",
+      "equal": true,
+      "canonical": [
+        "<pre>x</pre>",
+        "<pre>x</pre>"
+      ]
+    },
+    {
+      "label": "comments",
+      "left": "<p>a</p>",
+      "right": "<p>a<!-- note --></p><!-- end -->",
+      "equal": true,
+      "canonical": [
+        "<p>a</p>",
+        "<p>a</p>"
+      ]
+    },
+    {
+      "label": "style declarations",
+      "left": "<td style=\"text-align: end\">1</td>",
+      "right": "<td style=\"TEXT-ALIGN:end;\">1</td>",
+      "equal": true,
+      "canonical": [
+        "<td style=\"text-align: end\">1</td>",
+        "<td style=\"text-align: end\">1</td>"
+      ]
+    },
+    {
+      "label": "text differs",
+      "left": "<p>a</p>",
+      "right": "<p>A</p>",
+      "equal": false,
+      "canonical": [
+        "<p>a</p>",
+        "<p>A</p>"
+      ]
+    },
+    {
+      "label": "element differs",
+      "left": "<p>a</p>",
+      "right": "<div>a</div>",
+      "equal": false,
+      "canonical": [
+        "<p>a</p>",
+        "<div>a</div>"
+      ]
+    },
+    {
+      "label": "order of children",
+      "left": "<p><em>a</em><strong>b</strong></p>",
+      "right": "<p><strong>b</strong><em>a</em></p>",
+      "equal": false,
+      "canonical": [
+        "<p><em>a</em><strong>b</strong></p>",
+        "<p><strong>b</strong><em>a</em></p>"
+      ]
+    },
+    {
+      "label": "an attribute value differs",
+      "left": "<a href=\"/a\">x</a>",
+      "right": "<a href=\"/a/\">x</a>",
+      "equal": false,
+      "canonical": [
+        "<a href=\"/a\">x</a>",
+        "<a href=\"/a/\">x</a>"
+      ]
+    },
+    {
+      "label": "an attribute missing",
+      "left": "<i class=\"sf-icon\" aria-hidden=\"true\">info</i>",
+      "right": "<i class=\"sf-icon\">info</i>",
+      "equal": false,
+      "canonical": [
+        "<i aria-hidden=\"true\" class=\"sf-icon\">info</i>",
+        "<i class=\"sf-icon\">info</i>"
+      ]
+    },
+    {
+      "label": "tag case",
+      "left": "<P CLASS=\"x\">a</P>",
+      "right": "<p class=\"x\">a</p>",
+      "equal": true,
+      "canonical": [
+        "<p class=\"x\">a</p>",
+        "<p class=\"x\">a</p>"
+      ]
+    }
+  ]
+}

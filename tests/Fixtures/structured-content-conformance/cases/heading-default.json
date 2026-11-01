@@ -1,0 +1,43 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "heading-default",
+  "summary": "A heading without a level is an h2.",
+  "covers": [
+    "content.heading"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "h",
+              "type": "content.heading",
+              "data": {
+                "content": [
+                  {
+                    "type": "text",
+                    "value": "Title"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><h2 data-sf-composition-id=\"h\">Title</h2></article>",
+    "diagnostics": [],
+    "assets": []
+  }
+}

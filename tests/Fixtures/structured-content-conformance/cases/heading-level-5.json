@@ -1,0 +1,44 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "heading-level-5",
+  "summary": "A heading of level 5 is an h5.",
+  "covers": [
+    "content.heading"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "h",
+              "type": "content.heading",
+              "data": {
+                "level": 5,
+                "content": [
+                  {
+                    "type": "text",
+                    "value": "Level 5"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><h5 data-sf-composition-id=\"h\">Level 5</h5></article>",
+    "diagnostics": [],
+    "assets": []
+  }
+}

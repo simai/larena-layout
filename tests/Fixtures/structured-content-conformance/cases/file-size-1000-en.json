@@ -1,0 +1,43 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "file-size-1000-en",
+  "summary": "1000 bytes read in en.",
+  "covers": [
+    "content.file"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "locale": "en",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "fl",
+              "type": "content.file",
+              "data": {
+                "href": "/f",
+                "label": "File",
+                "size": 1000
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><a class=\"sf-download-file\" href=\"/f\" download data-sf-composition-id=\"fl\"><span class=\"sf-download-file__body sf-download-file-wrap\"><span class=\"sf-download-file__main sf-download-file-container\"><i class=\"sf-download-file__icon sf-icon\" aria-hidden=\"true\">download</i><span class=\"sf-download-file__name sf-download-file-file-name\">File</span></span><span class=\"sf-download-file__size sf-download-file-file-size\">1,000 B</span></span></a></article>",
+    "diagnostics": [],
+    "assets": [
+      "component/download-file"
+    ]
+  }
+}

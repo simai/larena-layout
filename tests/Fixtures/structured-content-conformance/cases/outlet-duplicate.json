@@ -1,0 +1,44 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "outlet-duplicate",
+  "summary": "A layout holds the page in one place.",
+  "covers": [
+    "content.outlet"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "layout",
+      "profile": "ui-layout",
+      "root": {
+        "id": "frame",
+        "type": "layout.page",
+        "slots": {
+          "default": [
+            {
+              "id": "o1",
+              "type": "content.outlet"
+            },
+            {
+              "id": "o2",
+              "type": "content.outlet"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": false,
+    "html": "",
+    "diagnostics": [
+      {
+        "code": "outlet_duplicate",
+        "path": "$.root.slots.default[1]"
+      }
+    ],
+    "assets": []
+  }
+}

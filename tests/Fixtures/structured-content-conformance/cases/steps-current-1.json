@@ -1,0 +1,104 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "steps-current-1",
+  "summary": "current 1: the steps before it complete.",
+  "covers": [
+    "content.steps"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "s",
+              "type": "content.steps",
+              "props": {
+                "current": 1
+              },
+              "slots": {
+                "steps": [
+                  {
+                    "id": "s1",
+                    "type": "content.step",
+                    "data": {
+                      "title": [
+                        {
+                          "type": "text",
+                          "value": "First"
+                        }
+                      ]
+                    },
+                    "slots": {
+                      "default": [
+                        {
+                          "id": "s1p",
+                          "type": "content.paragraph",
+                          "data": {
+                            "content": [
+                              {
+                                "type": "text",
+                                "value": "Do this."
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "id": "s2",
+                    "type": "content.step",
+                    "data": {
+                      "title": [
+                        {
+                          "type": "text",
+                          "value": "Second"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "id": "s3",
+                    "type": "content.step",
+                    "slots": {
+                      "default": [
+                        {
+                          "id": "s3p",
+                          "type": "content.paragraph",
+                          "data": {
+                            "content": [
+                              {
+                                "type": "text",
+                                "value": "No title."
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><ol class=\"sf-procedure\" data-sf-composition-id=\"s\"><li class=\"sf-procedure-step sf-procedure-step--current\" data-sf-composition-id=\"s1\" aria-current=\"step\"><div class=\"sf-procedure-title\">First</div><div class=\"sf-procedure-content\"><p data-sf-composition-id=\"s1p\">Do this.</p></div></li><li class=\"sf-procedure-step\" data-sf-composition-id=\"s2\"><div class=\"sf-procedure-title\">Second</div><div class=\"sf-procedure-content\"></div></li><li class=\"sf-procedure-step\" data-sf-composition-id=\"s3\"><div class=\"sf-procedure-content\"><p data-sf-composition-id=\"s3p\">No title.</p></div></li></ol></article>",
+    "diagnostics": [],
+    "assets": [
+      "component/procedure"
+    ]
+  }
+}

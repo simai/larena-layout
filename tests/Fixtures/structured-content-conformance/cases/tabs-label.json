@@ -1,0 +1,100 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "tabs-label",
+  "summary": "The row's label is its accessible name; tab labels are escaped; later panels hidden.",
+  "covers": [
+    "content.tabs"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "tb",
+              "type": "content.tabs",
+              "data": {
+                "label": "Install \"it\""
+              },
+              "slots": {
+                "tabs": [
+                  {
+                    "id": "t1",
+                    "type": "content.tab",
+                    "data": {
+                      "label": "npm"
+                    },
+                    "slots": {
+                      "default": [
+                        {
+                          "id": "t1p",
+                          "type": "content.paragraph",
+                          "data": {
+                            "content": [
+                              {
+                                "type": "text",
+                                "value": "One."
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "id": "t2",
+                    "type": "content.tab",
+                    "data": {
+                      "label": "<yarn>"
+                    },
+                    "slots": {
+                      "default": [
+                        {
+                          "id": "t2p",
+                          "type": "content.paragraph",
+                          "data": {
+                            "content": [
+                              {
+                                "type": "text",
+                                "value": "Two."
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "id": "t3",
+                    "type": "content.tab",
+                    "data": {
+                      "label": "pnpm"
+                    },
+                    "slots": {
+                      "default": []
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><div class=\"sf-tabs sf-tabs--underline flex flex-col\" data-sf-composition-id=\"tb\"><div class=\"sf-tabs-top-container\"><div class=\"sf-tabs-top flex\" aria-label=\"Install &quot;it&quot;\"><button type=\"button\" class=\"sf-button sf-button--default sf-button--primary sf-button--size-1 selected\"><span class=\"sf-button-text-container\">npm</span></button><button type=\"button\" class=\"sf-button sf-button--default sf-button--primary sf-button--size-1\"><span class=\"sf-button-text-container\">&lt;yarn&gt;</span></button><button type=\"button\" class=\"sf-button sf-button--default sf-button--primary sf-button--size-1\"><span class=\"sf-button-text-container\">pnpm</span></button></div></div><div class=\"sf-tabs-main-container\"><div class=\"sf-tabs-main-tab selected\" data-sf-composition-id=\"t1\"><p data-sf-composition-id=\"t1p\">One.</p></div><div class=\"sf-tabs-main-tab\" data-sf-composition-id=\"t2\" hidden><p data-sf-composition-id=\"t2p\">Two.</p></div><div class=\"sf-tabs-main-tab\" data-sf-composition-id=\"t3\" hidden></div></div></div></article>",
+    "diagnostics": [],
+    "assets": [
+      "component/tabs"
+    ]
+  }
+}

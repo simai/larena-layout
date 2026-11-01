@@ -1,0 +1,38 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "html-hostile",
+  "summary": "Script, style, handlers, javascript: and data: links, images and frames are removed; text stays.",
+  "covers": [
+    "content.html"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "h",
+              "type": "content.html",
+              "data": {
+                "markup": "<h2 class=\"x\" style=\"color:red\">Raw</h2><p onclick=\"steal()\" onmouseover=\"x()\">Text <a href=\"javascript:alert(1)\">bad</a> <a href=\"https://simai.io/a\" target=\"_blank\" onclick=\"x()\">good</a> <a href=\"data:text/html,x\">data</a></p><script>window.pwned = 1</script><img src=\"x\" onerror=\"window.pwned = 1\"><style>p{}</style><iframe src=\"https://evil.example\"></iframe><svg onload=\"x()\"><circle/></svg>"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><div data-sf-composition-id=\"h\"><h2>Raw</h2><p>Text bad <a href=\"https://simai.io/a\">good</a> data</p></div></article>",
+    "diagnostics": [],
+    "assets": []
+  }
+}

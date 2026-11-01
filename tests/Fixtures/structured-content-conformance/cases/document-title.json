@@ -1,0 +1,46 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "document-title",
+  "summary": "The title is the article's h1, escaped as text.",
+  "covers": [
+    "content.document"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "data": {
+          "title": "Guide & <notes> \"one\""
+        },
+        "slots": {
+          "default": [
+            {
+              "id": "a",
+              "type": "content.paragraph",
+              "data": {
+                "content": [
+                  {
+                    "type": "text",
+                    "value": "Body."
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><h1>Guide &amp; &lt;notes&gt; &quot;one&quot;</h1><p data-sf-composition-id=\"a\">Body.</p></article>",
+    "diagnostics": [],
+    "assets": []
+  }
+}

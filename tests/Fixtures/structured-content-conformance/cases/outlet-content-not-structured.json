@@ -1,0 +1,53 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "outlet-content-not-structured",
+  "summary": "The page must be a structured-content Document: outlet_content_invalid, the outlet empty.",
+  "covers": [
+    "content.outlet"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "layout",
+      "profile": "ui-layout",
+      "root": {
+        "id": "frame",
+        "type": "layout.page",
+        "slots": {
+          "default": [
+            {
+              "id": "o",
+              "type": "content.outlet"
+            }
+          ]
+        }
+      }
+    },
+    "content": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "layout",
+      "profile": "ui-layout",
+      "root": {
+        "id": "frame",
+        "type": "layout.page",
+        "slots": {
+          "default": []
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<main data-sf-composition-id=\"frame\"><div data-sf-outlet=\"\" data-sf-composition-id=\"o\"></div></main>",
+    "diagnostics": [
+      {
+        "code": "outlet_content_invalid",
+        "path": "$.content"
+      }
+    ],
+    "assets": []
+  }
+}

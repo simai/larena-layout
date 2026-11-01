@@ -1,0 +1,62 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "outlet-content-invalid",
+  "summary": "An invalid page draws nothing; its diagnostics are reported under $.content.",
+  "covers": [
+    "content.outlet"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "layout",
+      "profile": "ui-layout",
+      "root": {
+        "id": "frame",
+        "type": "layout.page",
+        "slots": {
+          "default": [
+            {
+              "id": "o",
+              "type": "content.outlet"
+            }
+          ]
+        }
+      }
+    },
+    "content": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "f",
+              "type": "content.figure",
+              "data": {
+                "src": "javascript:alert(1)",
+                "alt": ""
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<main data-sf-composition-id=\"frame\"><div data-sf-outlet=\"\" data-sf-composition-id=\"o\"></div></main>",
+    "diagnostics": [
+      {
+        "code": "unsafe_url",
+        "path": "$.content.root.slots.default[0].data.src"
+      }
+    ],
+    "assets": []
+  }
+}

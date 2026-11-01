@@ -1,0 +1,36 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "invalid-document-field",
+  "summary": "A field a Document does not have.",
+  "covers": [
+    "document"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": []
+        }
+      },
+      "title": "Not here"
+    }
+  },
+  "expect": {
+    "valid": false,
+    "html": "",
+    "diagnostics": [
+      {
+        "code": "unknown_field",
+        "path": "$.title"
+      }
+    ],
+    "assets": []
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "heading-level-2",
+  "summary": "A heading of level 2 is an h2.",
+  "covers": [
+    "content.heading"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "h",
+              "type": "content.heading",
+              "data": {
+                "level": 2,
+                "content": [
+                  {
+                    "type": "text",
+                    "value": "Level 2"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><h2 data-sf-composition-id=\"h\">Level 2</h2></article>",
+    "diagnostics": [],
+    "assets": []
+  }
+}

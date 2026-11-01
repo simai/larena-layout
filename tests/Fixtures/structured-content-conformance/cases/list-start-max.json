@@ -1,0 +1,55 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "list-start-max",
+  "summary": "The largest start is written as it is.",
+  "covers": [
+    "content.list"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "l",
+              "type": "content.list",
+              "props": {
+                "ordered": true,
+                "start": 1000000
+              },
+              "slots": {
+                "items": [
+                  {
+                    "id": "a",
+                    "type": "content.list-item",
+                    "data": {
+                      "content": [
+                        {
+                          "type": "text",
+                          "value": "Last"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><ol start=\"1000000\" data-sf-composition-id=\"l\"><li data-sf-composition-id=\"a\">Last</li></ol></article>",
+    "diagnostics": [],
+    "assets": []
+  }
+}

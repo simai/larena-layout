@@ -1,0 +1,46 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "invalid-code-lang",
+  "summary": "A language name has no spaces.",
+  "covers": [
+    "content.code"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "k",
+              "type": "content.code",
+              "data": {
+                "code": "x"
+              },
+              "props": {
+                "lang": "Java Script"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": false,
+    "html": "",
+    "diagnostics": [
+      {
+        "code": "schema_pattern",
+        "path": "$.root.slots.default[0].props.lang"
+      }
+    ],
+    "assets": []
+  }
+}

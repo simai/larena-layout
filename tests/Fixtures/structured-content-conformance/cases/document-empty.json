@@ -1,0 +1,27 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "document-empty",
+  "summary": "A Document with no blocks draws an empty article.",
+  "covers": [
+    "content.document"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document"
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"></article>",
+    "diagnostics": [],
+    "assets": []
+  }
+}

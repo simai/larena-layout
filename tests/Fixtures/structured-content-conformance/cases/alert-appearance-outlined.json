@@ -1,0 +1,48 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "alert-appearance-outlined",
+  "summary": "appearance outlined.",
+  "covers": [
+    "content.alert"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "w",
+              "type": "content.alert",
+              "data": {
+                "title": [
+                  {
+                    "type": "text",
+                    "value": "Title"
+                  }
+                ]
+              },
+              "props": {
+                "appearance": "outlined"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><div class=\"sf-alert sf-alert--neutral sf-alert--outlined flex items-start\" data-sf-composition-id=\"w\"><i class=\"sf-icon\" aria-hidden=\"true\">info</i><div class=\"sf-alert-wrap flex flex-col flex-1\"><div class=\"sf-alert-content flex flex-col flex-1\"><div class=\"sf-alert-text\">Title</div></div></div></div></article>",
+    "diagnostics": [],
+    "assets": [
+      "component/alerts"
+    ]
+  }
+}

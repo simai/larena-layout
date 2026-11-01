@@ -1,0 +1,296 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "invalid-depth",
+  "summary": "Nesting deeper than 32 levels: the one node past the limit is reported.",
+  "covers": [
+    "document"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "q30",
+              "type": "content.quote",
+              "slots": {
+                "default": [
+                  {
+                    "id": "q29",
+                    "type": "content.quote",
+                    "slots": {
+                      "default": [
+                        {
+                          "id": "q28",
+                          "type": "content.quote",
+                          "slots": {
+                            "default": [
+                              {
+                                "id": "q27",
+                                "type": "content.quote",
+                                "slots": {
+                                  "default": [
+                                    {
+                                      "id": "q26",
+                                      "type": "content.quote",
+                                      "slots": {
+                                        "default": [
+                                          {
+                                            "id": "q25",
+                                            "type": "content.quote",
+                                            "slots": {
+                                              "default": [
+                                                {
+                                                  "id": "q24",
+                                                  "type": "content.quote",
+                                                  "slots": {
+                                                    "default": [
+                                                      {
+                                                        "id": "q23",
+                                                        "type": "content.quote",
+                                                        "slots": {
+                                                          "default": [
+                                                            {
+                                                              "id": "q22",
+                                                              "type": "content.quote",
+                                                              "slots": {
+                                                                "default": [
+                                                                  {
+                                                                    "id": "q21",
+                                                                    "type": "content.quote",
+                                                                    "slots": {
+                                                                      "default": [
+                                                                        {
+                                                                          "id": "q20",
+                                                                          "type": "content.quote",
+                                                                          "slots": {
+                                                                            "default": [
+                                                                              {
+                                                                                "id": "q19",
+                                                                                "type": "content.quote",
+                                                                                "slots": {
+                                                                                  "default": [
+                                                                                    {
+                                                                                      "id": "q18",
+                                                                                      "type": "content.quote",
+                                                                                      "slots": {
+                                                                                        "default": [
+                                                                                          {
+                                                                                            "id": "q17",
+                                                                                            "type": "content.quote",
+                                                                                            "slots": {
+                                                                                              "default": [
+                                                                                                {
+                                                                                                  "id": "q16",
+                                                                                                  "type": "content.quote",
+                                                                                                  "slots": {
+                                                                                                    "default": [
+                                                                                                      {
+                                                                                                        "id": "q15",
+                                                                                                        "type": "content.quote",
+                                                                                                        "slots": {
+                                                                                                          "default": [
+                                                                                                            {
+                                                                                                              "id": "q14",
+                                                                                                              "type": "content.quote",
+                                                                                                              "slots": {
+                                                                                                                "default": [
+                                                                                                                  {
+                                                                                                                    "id": "q13",
+                                                                                                                    "type": "content.quote",
+                                                                                                                    "slots": {
+                                                                                                                      "default": [
+                                                                                                                        {
+                                                                                                                          "id": "q12",
+                                                                                                                          "type": "content.quote",
+                                                                                                                          "slots": {
+                                                                                                                            "default": [
+                                                                                                                              {
+                                                                                                                                "id": "q11",
+                                                                                                                                "type": "content.quote",
+                                                                                                                                "slots": {
+                                                                                                                                  "default": [
+                                                                                                                                    {
+                                                                                                                                      "id": "q10",
+                                                                                                                                      "type": "content.quote",
+                                                                                                                                      "slots": {
+                                                                                                                                        "default": [
+                                                                                                                                          {
+                                                                                                                                            "id": "q9",
+                                                                                                                                            "type": "content.quote",
+                                                                                                                                            "slots": {
+                                                                                                                                              "default": [
+                                                                                                                                                {
+                                                                                                                                                  "id": "q8",
+                                                                                                                                                  "type": "content.quote",
+                                                                                                                                                  "slots": {
+                                                                                                                                                    "default": [
+                                                                                                                                                      {
+                                                                                                                                                        "id": "q7",
+                                                                                                                                                        "type": "content.quote",
+                                                                                                                                                        "slots": {
+                                                                                                                                                          "default": [
+                                                                                                                                                            {
+                                                                                                                                                              "id": "q6",
+                                                                                                                                                              "type": "content.quote",
+                                                                                                                                                              "slots": {
+                                                                                                                                                                "default": [
+                                                                                                                                                                  {
+                                                                                                                                                                    "id": "q5",
+                                                                                                                                                                    "type": "content.quote",
+                                                                                                                                                                    "slots": {
+                                                                                                                                                                      "default": [
+                                                                                                                                                                        {
+                                                                                                                                                                          "id": "q4",
+                                                                                                                                                                          "type": "content.quote",
+                                                                                                                                                                          "slots": {
+                                                                                                                                                                            "default": [
+                                                                                                                                                                              {
+                                                                                                                                                                                "id": "q3",
+                                                                                                                                                                                "type": "content.quote",
+                                                                                                                                                                                "slots": {
+                                                                                                                                                                                  "default": [
+                                                                                                                                                                                    {
+                                                                                                                                                                                      "id": "q2",
+                                                                                                                                                                                      "type": "content.quote",
+                                                                                                                                                                                      "slots": {
+                                                                                                                                                                                        "default": [
+                                                                                                                                                                                          {
+                                                                                                                                                                                            "id": "q1",
+                                                                                                                                                                                            "type": "content.quote",
+                                                                                                                                                                                            "slots": {
+                                                                                                                                                                                              "default": [
+                                                                                                                                                                                                {
+                                                                                                                                                                                                  "id": "q0",
+                                                                                                                                                                                                  "type": "content.quote",
+                                                                                                                                                                                                  "slots": {
+                                                                                                                                                                                                    "default": [
+                                                                                                                                                                                                      {
+                                                                                                                                                                                                        "id": "deep",
+                                                                                                                                                                                                        "type": "content.paragraph",
+                                                                                                                                                                                                        "data": {
+                                                                                                                                                                                                          "content": [
+                                                                                                                                                                                                            {
+                                                                                                                                                                                                              "type": "text",
+                                                                                                                                                                                                              "value": "Deep."
+                                                                                                                                                                                                            }
+                                                                                                                                                                                                          ]
+                                                                                                                                                                                                        }
+                                                                                                                                                                                                      }
+                                                                                                                                                                                                    ]
+                                                                                                                                                                                                  }
+                                                                                                                                                                                                }
+                                                                                                                                                                                              ]
+                                                                                                                                                                                            }
+                                                                                                                                                                                          }
+                                                                                                                                                                                        ]
+                                                                                                                                                                                      }
+                                                                                                                                                                                    }
+                                                                                                                                                                                  ]
+                                                                                                                                                                                }
+                                                                                                                                                                              }
+                                                                                                                                                                            ]
+                                                                                                                                                                          }
+                                                                                                                                                                        }
+                                                                                                                                                                      ]
+                                                                                                                                                                    }
+                                                                                                                                                                  }
+                                                                                                                                                                ]
+                                                                                                                                                              }
+                                                                                                                                                            }
+                                                                                                                                                          ]
+                                                                                                                                                        }
+                                                                                                                                                      }
+                                                                                                                                                    ]
+                                                                                                                                                  }
+                                                                                                                                                }
+                                                                                                                                              ]
+                                                                                                                                            }
+                                                                                                                                          }
+                                                                                                                                        ]
+                                                                                                                                      }
+                                                                                                                                    }
+                                                                                                                                  ]
+                                                                                                                                }
+                                                                                                                              }
+                                                                                                                            ]
+                                                                                                                          }
+                                                                                                                        }
+                                                                                                                      ]
+                                                                                                                    }
+                                                                                                                  }
+                                                                                                                ]
+                                                                                                              }
+                                                                                                            }
+                                                                                                          ]
+                                                                                                        }
+                                                                                                      }
+                                                                                                    ]
+                                                                                                  }
+                                                                                                }
+                                                                                              ]
+                                                                                            }
+                                                                                          }
+                                                                                        ]
+                                                                                      }
+                                                                                    }
+                                                                                  ]
+                                                                                }
+                                                                              }
+                                                                            ]
+                                                                          }
+                                                                        }
+                                                                      ]
+                                                                    }
+                                                                  }
+                                                                ]
+                                                              }
+                                                            }
+                                                          ]
+                                                        }
+                                                      }
+                                                    ]
+                                                  }
+                                                }
+                                              ]
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": false,
+    "html": "",
+    "diagnostics": [
+      {
+        "code": "depth_limit",
+        "path": "$.root.slots.default[0].slots.default[0].slots.default[0].slots.default[0].slots.default[0].slots.default[0].slots.default[0].slots.default[0].slots.default[0].slots.default[0].slots.default[0].slots.default[0].slots.default[0].slots.default[0].slots.default[0].slots.default[0].slots.default[0].slots.default[0].slots.default[0].slots.default[0].slots.default[0].slots.default[0].slots.default[0].slots.default[0].slots.default[0].slots.default[0].slots.default[0].slots.default[0].slots.default[0].slots.default[0].slots.default[0].slots.default[0]"
+      }
+    ],
+    "assets": []
+  }
+}

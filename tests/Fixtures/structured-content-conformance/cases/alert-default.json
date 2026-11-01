@@ -1,0 +1,37 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "alert-default",
+  "summary": "An alert without parameters: neutral, default, its icon, no title, no body.",
+  "covers": [
+    "content.alert"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "w",
+              "type": "content.alert"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><div class=\"sf-alert sf-alert--neutral sf-alert--default flex items-start\" data-sf-composition-id=\"w\"><i class=\"sf-icon\" aria-hidden=\"true\">info</i><div class=\"sf-alert-wrap flex flex-col flex-1\"><div class=\"sf-alert-content flex flex-col flex-1\"></div></div></div></article>",
+    "diagnostics": [],
+    "assets": [
+      "component/alerts"
+    ]
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "list-item-blocks",
+  "summary": "An item holds paragraphs and code under its line.",
+  "covers": [
+    "content.list-item"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "l",
+              "type": "content.list",
+              "slots": {
+                "items": [
+                  {
+                    "id": "a",
+                    "type": "content.list-item",
+                    "data": {
+                      "content": [
+                        {
+                          "type": "text",
+                          "value": "Step"
+                        }
+                      ]
+                    },
+                    "slots": {
+                      "default": [
+                        {
+                          "id": "ap",
+                          "type": "content.paragraph",
+                          "data": {
+                            "content": [
+                              {
+                                "type": "text",
+                                "value": "More about it."
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "id": "ak",
+                          "type": "content.code",
+                          "data": {
+                            "code": "run"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><ul data-sf-composition-id=\"l\"><li data-sf-composition-id=\"a\">Step<p data-sf-composition-id=\"ap\">More about it.</p><div class=\"sf-highlight\" data-sf-composition-id=\"ak\"><pre><code>run</code></pre></div></li></ul></article>",
+    "diagnostics": [],
+    "assets": [
+      "component/highlight"
+    ]
+  }
+}

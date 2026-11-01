@@ -1,0 +1,4034 @@
+{
+  "types": [
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "layout.page",
+      "version": "1.0.0",
+      "category": "layout",
+      "mode": "composite",
+      "profiles": [
+        "ui-layout"
+      ],
+      "data_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "props_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {
+        "default": {
+          "min": 0,
+          "max": 500,
+          "categories": [
+            "layout",
+            "content",
+            "smart"
+          ]
+        }
+      },
+      "renderer": {
+        "kind": "builtin",
+        "name": "layout.page"
+      },
+      "assets": [],
+      "capabilities": [
+        "html"
+      ]
+    },
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "layout.section",
+      "version": "1.0.0",
+      "category": "layout",
+      "mode": "composite",
+      "profiles": [
+        "ui-layout"
+      ],
+      "data_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "props_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [
+          "surface",
+          "contrast"
+        ],
+        "modifiers": [
+          "contained",
+          "spacious"
+        ]
+      },
+      "slots": {
+        "default": {
+          "min": 0,
+          "max": 500,
+          "categories": [
+            "layout",
+            "content",
+            "smart"
+          ]
+        }
+      },
+      "renderer": {
+        "kind": "builtin",
+        "name": "layout.section"
+      },
+      "assets": [],
+      "capabilities": [
+        "html"
+      ]
+    },
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "layout.columns",
+      "version": "1.0.0",
+      "category": "layout",
+      "mode": "composite",
+      "profiles": [
+        "ui-layout"
+      ],
+      "data_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "props_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "columns": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 12
+          }
+        }
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": [
+          "equal",
+          "responsive"
+        ]
+      },
+      "slots": {
+        "columns": {
+          "min": 1,
+          "max": 12,
+          "categories": [
+            "layout",
+            "content",
+            "smart"
+          ]
+        }
+      },
+      "renderer": {
+        "kind": "builtin",
+        "name": "layout.columns"
+      },
+      "assets": [
+        "composition/layout"
+      ],
+      "capabilities": [
+        "html"
+      ]
+    },
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "content.heading",
+      "version": "1.1.0",
+      "category": "content",
+      "mode": "leaf",
+      "profiles": [
+        "ui-layout",
+        "structured-content"
+      ],
+      "data_schema": {
+        "type": "object",
+        "required": [
+          "content"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "level": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 6
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "value"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "text"
+                    },
+                    "value": {
+                      "type": "string",
+                      "maxLength": 100000
+                    },
+                    "marks": {
+                      "type": "array",
+                      "uniqueItems": true,
+                      "items": {
+                        "enum": [
+                          "strong",
+                          "em",
+                          "code"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "href",
+                    "children"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "link"
+                    },
+                    "href": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2048
+                    },
+                    "children": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "type",
+                          "value"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "type": {
+                            "const": "text"
+                          },
+                          "value": {
+                            "type": "string",
+                            "maxLength": 100000
+                          },
+                          "marks": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                              "enum": [
+                                "strong",
+                                "em",
+                                "code"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "badge"
+                    },
+                    "props": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "text": {
+                          "type": "string",
+                          "maxLength": 1000
+                        },
+                        "icon": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "appearance": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "scheme": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "status": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "size": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "compact": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name",
+                    "props"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "kbd"
+                    },
+                    "props": {
+                      "type": "object",
+                      "required": [
+                        "text"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "text": {
+                          "type": "string",
+                          "maxLength": 1000
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name",
+                    "props"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "icon"
+                    },
+                    "props": {
+                      "type": "object",
+                      "required": [
+                        "icon"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "icon": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "label": {
+                          "type": "string",
+                          "maxLength": 1000
+                        },
+                        "size": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "filled": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "button"
+                    },
+                    "props": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "text": {
+                          "type": "string",
+                          "maxLength": 1000
+                        },
+                        "icon": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "appearance": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "scheme": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "size": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "props_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {},
+      "renderer": {
+        "kind": "builtin",
+        "name": "content.heading"
+      },
+      "assets": [],
+      "capabilities": [
+        "html",
+        "rich-text"
+      ]
+    },
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "content.paragraph",
+      "version": "1.1.0",
+      "category": "content",
+      "mode": "leaf",
+      "profiles": [
+        "ui-layout",
+        "structured-content"
+      ],
+      "data_schema": {
+        "type": "object",
+        "required": [
+          "content"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "content": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "value"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "text"
+                    },
+                    "value": {
+                      "type": "string",
+                      "maxLength": 100000
+                    },
+                    "marks": {
+                      "type": "array",
+                      "uniqueItems": true,
+                      "items": {
+                        "enum": [
+                          "strong",
+                          "em",
+                          "code"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "href",
+                    "children"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "link"
+                    },
+                    "href": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2048
+                    },
+                    "children": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "type",
+                          "value"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "type": {
+                            "const": "text"
+                          },
+                          "value": {
+                            "type": "string",
+                            "maxLength": 100000
+                          },
+                          "marks": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                              "enum": [
+                                "strong",
+                                "em",
+                                "code"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "badge"
+                    },
+                    "props": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "text": {
+                          "type": "string",
+                          "maxLength": 1000
+                        },
+                        "icon": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "appearance": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "scheme": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "status": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "size": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "compact": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name",
+                    "props"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "kbd"
+                    },
+                    "props": {
+                      "type": "object",
+                      "required": [
+                        "text"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "text": {
+                          "type": "string",
+                          "maxLength": 1000
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name",
+                    "props"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "icon"
+                    },
+                    "props": {
+                      "type": "object",
+                      "required": [
+                        "icon"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "icon": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "label": {
+                          "type": "string",
+                          "maxLength": 1000
+                        },
+                        "size": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "filled": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "button"
+                    },
+                    "props": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "text": {
+                          "type": "string",
+                          "maxLength": 1000
+                        },
+                        "icon": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "appearance": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "scheme": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "size": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "props_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": [
+          "lead",
+          "muted"
+        ]
+      },
+      "slots": {},
+      "renderer": {
+        "kind": "builtin",
+        "name": "content.paragraph"
+      },
+      "assets": [],
+      "capabilities": [
+        "html",
+        "rich-text"
+      ]
+    },
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "layout.regions",
+      "version": "1.0.0",
+      "category": "layout",
+      "mode": "composite",
+      "profiles": [
+        "ui-layout"
+      ],
+      "data_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "props_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {
+        "regions": {
+          "min": 1,
+          "max": 12,
+          "types": [
+            "layout.region"
+          ]
+        }
+      },
+      "renderer": {
+        "kind": "builtin",
+        "name": "layout.regions"
+      },
+      "assets": [],
+      "capabilities": [
+        "html",
+        "regions"
+      ]
+    },
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "layout.region",
+      "version": "1.0.0",
+      "category": "layout",
+      "mode": "composite",
+      "profiles": [
+        "ui-layout"
+      ],
+      "data_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "props_schema": {
+        "type": "object",
+        "required": [
+          "name",
+          "landmark"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]{0,31}$"
+          },
+          "landmark": {
+            "enum": [
+              "banner",
+              "navigation",
+              "main",
+              "complementary",
+              "contentinfo",
+              "region",
+              "none"
+            ]
+          },
+          "placement": {
+            "enum": [
+              "block",
+              "start",
+              "center",
+              "end"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "sticky": {
+            "type": "boolean"
+          },
+          "accepts": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "layout",
+                "content",
+                "smart"
+              ]
+            }
+          },
+          "min_items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 500
+          },
+          "max_items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 500
+          }
+        }
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {
+        "default": {
+          "min": 0,
+          "max": 500,
+          "categories": [
+            "layout",
+            "content",
+            "smart"
+          ]
+        }
+      },
+      "renderer": {
+        "kind": "builtin",
+        "name": "layout.region"
+      },
+      "assets": [],
+      "capabilities": [
+        "html",
+        "regions"
+      ]
+    },
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "layout.scope",
+      "version": "1.0.0",
+      "category": "layout",
+      "mode": "composite",
+      "profiles": [
+        "ui-layout"
+      ],
+      "data_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "props_schema": {
+        "type": "object",
+        "required": [
+          "routes"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "routes": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 32,
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "from",
+                "to"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9-]{0,63}$"
+                },
+                "from": {
+                  "type": "object",
+                  "required": [
+                    "endpoint",
+                    "port"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "endpoint": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9-]{0,31}$"
+                    },
+                    "port": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9-]{0,31}$"
+                    }
+                  }
+                },
+                "to": {
+                  "type": "object",
+                  "required": [
+                    "endpoint",
+                    "port"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "endpoint": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9-]{0,31}$"
+                    },
+                    "port": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9-]{0,31}$"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {
+        "default": {
+          "min": 1,
+          "max": 500,
+          "categories": [
+            "layout",
+            "content",
+            "smart"
+          ]
+        }
+      },
+      "renderer": {
+        "kind": "builtin",
+        "name": "layout.scope"
+      },
+      "assets": [],
+      "capabilities": [
+        "html",
+        "hydration",
+        "routing"
+      ]
+    },
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "content.document",
+      "version": "1.0.0",
+      "category": "content",
+      "profiles": [
+        "structured-content"
+      ],
+      "data_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string",
+            "maxLength": 300
+          }
+        }
+      },
+      "props_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {
+        "default": {
+          "min": 0,
+          "max": 500,
+          "categories": [
+            "content",
+            "smart"
+          ]
+        }
+      },
+      "renderer": {
+        "kind": "builtin",
+        "name": "content.document"
+      },
+      "assets": [],
+      "capabilities": [
+        "html"
+      ],
+      "mode": "composite"
+    },
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "content.list",
+      "version": "1.0.0",
+      "category": "content",
+      "profiles": [
+        "ui-layout",
+        "structured-content"
+      ],
+      "data_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "props_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "ordered": {
+            "type": "boolean"
+          },
+          "start": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000
+          }
+        }
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {
+        "items": {
+          "min": 1,
+          "max": 500,
+          "types": [
+            "content.list-item"
+          ]
+        }
+      },
+      "renderer": {
+        "kind": "builtin",
+        "name": "content.list"
+      },
+      "assets": [],
+      "capabilities": [
+        "html"
+      ],
+      "mode": "composite"
+    },
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "content.list-item",
+      "version": "1.0.0",
+      "category": "content",
+      "profiles": [
+        "ui-layout",
+        "structured-content"
+      ],
+      "data_schema": {
+        "type": "object",
+        "required": [
+          "content"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "content": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "value"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "text"
+                    },
+                    "value": {
+                      "type": "string",
+                      "maxLength": 100000
+                    },
+                    "marks": {
+                      "type": "array",
+                      "uniqueItems": true,
+                      "items": {
+                        "enum": [
+                          "strong",
+                          "em",
+                          "code"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "href",
+                    "children"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "link"
+                    },
+                    "href": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2048
+                    },
+                    "children": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "type",
+                          "value"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "type": {
+                            "const": "text"
+                          },
+                          "value": {
+                            "type": "string",
+                            "maxLength": 100000
+                          },
+                          "marks": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                              "enum": [
+                                "strong",
+                                "em",
+                                "code"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "badge"
+                    },
+                    "props": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "text": {
+                          "type": "string",
+                          "maxLength": 1000
+                        },
+                        "icon": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "appearance": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "scheme": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "status": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "size": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "compact": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name",
+                    "props"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "kbd"
+                    },
+                    "props": {
+                      "type": "object",
+                      "required": [
+                        "text"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "text": {
+                          "type": "string",
+                          "maxLength": 1000
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name",
+                    "props"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "icon"
+                    },
+                    "props": {
+                      "type": "object",
+                      "required": [
+                        "icon"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "icon": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "label": {
+                          "type": "string",
+                          "maxLength": 1000
+                        },
+                        "size": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "filled": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "button"
+                    },
+                    "props": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "text": {
+                          "type": "string",
+                          "maxLength": 1000
+                        },
+                        "icon": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "appearance": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "scheme": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "size": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "props_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {
+        "default": {
+          "min": 0,
+          "max": 50,
+          "categories": [
+            "content",
+            "smart"
+          ]
+        }
+      },
+      "renderer": {
+        "kind": "builtin",
+        "name": "content.list-item"
+      },
+      "assets": [],
+      "capabilities": [
+        "html",
+        "rich-text"
+      ],
+      "mode": "composite"
+    },
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "content.quote",
+      "version": "1.0.0",
+      "category": "content",
+      "profiles": [
+        "ui-layout",
+        "structured-content"
+      ],
+      "data_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "props_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {
+        "default": {
+          "min": 1,
+          "max": 100,
+          "categories": [
+            "content",
+            "smart"
+          ]
+        }
+      },
+      "renderer": {
+        "kind": "builtin",
+        "name": "content.quote"
+      },
+      "assets": [],
+      "capabilities": [
+        "html"
+      ],
+      "mode": "composite"
+    },
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "content.code",
+      "version": "1.0.0",
+      "category": "content",
+      "profiles": [
+        "ui-layout",
+        "structured-content"
+      ],
+      "data_schema": {
+        "type": "object",
+        "required": [
+          "code"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string",
+            "maxLength": 200000
+          }
+        }
+      },
+      "props_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "lang": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9+#._-]{0,31}$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "numbers": {
+            "type": "boolean"
+          }
+        }
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {},
+      "renderer": {
+        "kind": "builtin",
+        "name": "content.code"
+      },
+      "assets": [
+        "component/highlight"
+      ],
+      "capabilities": [
+        "html"
+      ],
+      "mode": "leaf"
+    },
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "content.divider",
+      "version": "1.0.0",
+      "category": "content",
+      "profiles": [
+        "ui-layout",
+        "structured-content"
+      ],
+      "data_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "props_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {},
+      "renderer": {
+        "kind": "builtin",
+        "name": "content.divider"
+      },
+      "assets": [
+        "component/contentDivider"
+      ],
+      "capabilities": [
+        "html"
+      ],
+      "mode": "leaf"
+    },
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "content.table",
+      "version": "1.0.0",
+      "category": "content",
+      "profiles": [
+        "ui-layout",
+        "structured-content"
+      ],
+      "data_schema": {
+        "type": "object",
+        "required": [
+          "rows"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "caption": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "value"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "text"
+                    },
+                    "value": {
+                      "type": "string",
+                      "maxLength": 100000
+                    },
+                    "marks": {
+                      "type": "array",
+                      "uniqueItems": true,
+                      "items": {
+                        "enum": [
+                          "strong",
+                          "em",
+                          "code"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "href",
+                    "children"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "link"
+                    },
+                    "href": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2048
+                    },
+                    "children": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "type",
+                          "value"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "type": {
+                            "const": "text"
+                          },
+                          "value": {
+                            "type": "string",
+                            "maxLength": 100000
+                          },
+                          "marks": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                              "enum": [
+                                "strong",
+                                "em",
+                                "code"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "badge"
+                    },
+                    "props": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "text": {
+                          "type": "string",
+                          "maxLength": 1000
+                        },
+                        "icon": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "appearance": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "scheme": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "status": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "size": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "compact": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name",
+                    "props"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "kbd"
+                    },
+                    "props": {
+                      "type": "object",
+                      "required": [
+                        "text"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "text": {
+                          "type": "string",
+                          "maxLength": 1000
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name",
+                    "props"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "icon"
+                    },
+                    "props": {
+                      "type": "object",
+                      "required": [
+                        "icon"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "icon": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "label": {
+                          "type": "string",
+                          "maxLength": 1000
+                        },
+                        "size": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "filled": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "button"
+                    },
+                    "props": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "text": {
+                          "type": "string",
+                          "maxLength": 1000
+                        },
+                        "icon": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "appearance": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "scheme": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "size": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "rows": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 1000,
+            "items": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 50,
+              "items": {
+                "type": "array",
+                "items": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "required": [
+                        "type",
+                        "value"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "type": {
+                          "const": "text"
+                        },
+                        "value": {
+                          "type": "string",
+                          "maxLength": 100000
+                        },
+                        "marks": {
+                          "type": "array",
+                          "uniqueItems": true,
+                          "items": {
+                            "enum": [
+                              "strong",
+                              "em",
+                              "code"
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "type",
+                        "href",
+                        "children"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "type": {
+                          "const": "link"
+                        },
+                        "href": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 2048
+                        },
+                        "children": {
+                          "type": "array",
+                          "minItems": 1,
+                          "items": {
+                            "type": "object",
+                            "required": [
+                              "type",
+                              "value"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                              "type": {
+                                "const": "text"
+                              },
+                              "value": {
+                                "type": "string",
+                                "maxLength": 100000
+                              },
+                              "marks": {
+                                "type": "array",
+                                "uniqueItems": true,
+                                "items": {
+                                  "enum": [
+                                    "strong",
+                                    "em",
+                                    "code"
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "type",
+                        "name"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "type": {
+                          "const": "component"
+                        },
+                        "name": {
+                          "const": "badge"
+                        },
+                        "props": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "text": {
+                              "type": "string",
+                              "maxLength": 1000
+                            },
+                            "icon": {
+                              "type": "string",
+                              "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                            },
+                            "appearance": {
+                              "type": "string",
+                              "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                            },
+                            "scheme": {
+                              "type": "string",
+                              "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                            },
+                            "status": {
+                              "type": "string",
+                              "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                            },
+                            "size": {
+                              "type": "string",
+                              "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                            },
+                            "compact": {
+                              "type": "boolean"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "type",
+                        "name",
+                        "props"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "type": {
+                          "const": "component"
+                        },
+                        "name": {
+                          "const": "kbd"
+                        },
+                        "props": {
+                          "type": "object",
+                          "required": [
+                            "text"
+                          ],
+                          "additionalProperties": false,
+                          "properties": {
+                            "text": {
+                              "type": "string",
+                              "maxLength": 1000
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "type",
+                        "name",
+                        "props"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "type": {
+                          "const": "component"
+                        },
+                        "name": {
+                          "const": "icon"
+                        },
+                        "props": {
+                          "type": "object",
+                          "required": [
+                            "icon"
+                          ],
+                          "additionalProperties": false,
+                          "properties": {
+                            "icon": {
+                              "type": "string",
+                              "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                            },
+                            "label": {
+                              "type": "string",
+                              "maxLength": 1000
+                            },
+                            "size": {
+                              "type": "string",
+                              "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                            },
+                            "filled": {
+                              "type": "boolean"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "type",
+                        "name"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "type": {
+                          "const": "component"
+                        },
+                        "name": {
+                          "const": "button"
+                        },
+                        "props": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "text": {
+                              "type": "string",
+                              "maxLength": 1000
+                            },
+                            "icon": {
+                              "type": "string",
+                              "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                            },
+                            "appearance": {
+                              "type": "string",
+                              "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                            },
+                            "scheme": {
+                              "type": "string",
+                              "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                            },
+                            "size": {
+                              "type": "string",
+                              "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "props_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "header": {
+            "enum": [
+              "row",
+              "column",
+              "both",
+              "none"
+            ]
+          },
+          "align": {
+            "type": "array",
+            "maxItems": 50,
+            "items": {
+              "enum": [
+                "start",
+                "center",
+                "end"
+              ]
+            }
+          }
+        }
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {},
+      "renderer": {
+        "kind": "builtin",
+        "name": "content.table"
+      },
+      "assets": [
+        "utility/table-frame"
+      ],
+      "capabilities": [
+        "html",
+        "rich-text"
+      ],
+      "mode": "leaf"
+    },
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "content.figure",
+      "version": "1.0.0",
+      "category": "content",
+      "profiles": [
+        "ui-layout",
+        "structured-content"
+      ],
+      "data_schema": {
+        "type": "object",
+        "required": [
+          "src",
+          "alt"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "src": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          },
+          "alt": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "width": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100000
+          },
+          "height": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100000
+          },
+          "caption": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "value"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "text"
+                    },
+                    "value": {
+                      "type": "string",
+                      "maxLength": 100000
+                    },
+                    "marks": {
+                      "type": "array",
+                      "uniqueItems": true,
+                      "items": {
+                        "enum": [
+                          "strong",
+                          "em",
+                          "code"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "href",
+                    "children"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "link"
+                    },
+                    "href": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2048
+                    },
+                    "children": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "type",
+                          "value"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "type": {
+                            "const": "text"
+                          },
+                          "value": {
+                            "type": "string",
+                            "maxLength": 100000
+                          },
+                          "marks": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                              "enum": [
+                                "strong",
+                                "em",
+                                "code"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "badge"
+                    },
+                    "props": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "text": {
+                          "type": "string",
+                          "maxLength": 1000
+                        },
+                        "icon": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "appearance": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "scheme": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "status": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "size": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "compact": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name",
+                    "props"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "kbd"
+                    },
+                    "props": {
+                      "type": "object",
+                      "required": [
+                        "text"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "text": {
+                          "type": "string",
+                          "maxLength": 1000
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name",
+                    "props"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "icon"
+                    },
+                    "props": {
+                      "type": "object",
+                      "required": [
+                        "icon"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "icon": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "label": {
+                          "type": "string",
+                          "maxLength": 1000
+                        },
+                        "size": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "filled": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "button"
+                    },
+                    "props": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "text": {
+                          "type": "string",
+                          "maxLength": 1000
+                        },
+                        "icon": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "appearance": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "scheme": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "size": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "props_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "ratio": {
+            "enum": [
+              "auto",
+              "1/1",
+              "4/3",
+              "3/2",
+              "16/9",
+              "21/9"
+            ]
+          },
+          "fit": {
+            "enum": [
+              "cover",
+              "contain"
+            ]
+          }
+        }
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {},
+      "renderer": {
+        "kind": "builtin",
+        "name": "content.figure"
+      },
+      "assets": [
+        "component/figure"
+      ],
+      "capabilities": [
+        "html",
+        "rich-text"
+      ],
+      "mode": "leaf"
+    },
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "content.alert",
+      "version": "1.0.0",
+      "category": "content",
+      "profiles": [
+        "ui-layout",
+        "structured-content"
+      ],
+      "data_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "value"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "text"
+                    },
+                    "value": {
+                      "type": "string",
+                      "maxLength": 100000
+                    },
+                    "marks": {
+                      "type": "array",
+                      "uniqueItems": true,
+                      "items": {
+                        "enum": [
+                          "strong",
+                          "em",
+                          "code"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "href",
+                    "children"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "link"
+                    },
+                    "href": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2048
+                    },
+                    "children": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "type",
+                          "value"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "type": {
+                            "const": "text"
+                          },
+                          "value": {
+                            "type": "string",
+                            "maxLength": 100000
+                          },
+                          "marks": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                              "enum": [
+                                "strong",
+                                "em",
+                                "code"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "badge"
+                    },
+                    "props": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "text": {
+                          "type": "string",
+                          "maxLength": 1000
+                        },
+                        "icon": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "appearance": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "scheme": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "status": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "size": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "compact": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name",
+                    "props"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "kbd"
+                    },
+                    "props": {
+                      "type": "object",
+                      "required": [
+                        "text"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "text": {
+                          "type": "string",
+                          "maxLength": 1000
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name",
+                    "props"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "icon"
+                    },
+                    "props": {
+                      "type": "object",
+                      "required": [
+                        "icon"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "icon": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "label": {
+                          "type": "string",
+                          "maxLength": 1000
+                        },
+                        "size": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "filled": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "button"
+                    },
+                    "props": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "text": {
+                          "type": "string",
+                          "maxLength": 1000
+                        },
+                        "icon": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "appearance": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "scheme": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "size": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "props_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "enum": [
+              "neutral",
+              "info",
+              "success",
+              "warning",
+              "error"
+            ]
+          },
+          "appearance": {
+            "enum": [
+              "default",
+              "outlined",
+              "flat"
+            ]
+          }
+        }
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {
+        "default": {
+          "min": 0,
+          "max": 100,
+          "categories": [
+            "content",
+            "smart"
+          ]
+        }
+      },
+      "renderer": {
+        "kind": "builtin",
+        "name": "content.alert"
+      },
+      "assets": [
+        "component/alerts"
+      ],
+      "capabilities": [
+        "html",
+        "rich-text"
+      ],
+      "mode": "composite"
+    },
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "content.details",
+      "version": "1.0.0",
+      "category": "content",
+      "profiles": [
+        "ui-layout",
+        "structured-content"
+      ],
+      "data_schema": {
+        "type": "object",
+        "required": [
+          "summary"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "summary": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "value"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "text"
+                    },
+                    "value": {
+                      "type": "string",
+                      "maxLength": 100000
+                    },
+                    "marks": {
+                      "type": "array",
+                      "uniqueItems": true,
+                      "items": {
+                        "enum": [
+                          "strong",
+                          "em",
+                          "code"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "href",
+                    "children"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "link"
+                    },
+                    "href": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2048
+                    },
+                    "children": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "type",
+                          "value"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "type": {
+                            "const": "text"
+                          },
+                          "value": {
+                            "type": "string",
+                            "maxLength": 100000
+                          },
+                          "marks": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                              "enum": [
+                                "strong",
+                                "em",
+                                "code"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "badge"
+                    },
+                    "props": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "text": {
+                          "type": "string",
+                          "maxLength": 1000
+                        },
+                        "icon": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "appearance": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "scheme": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "status": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "size": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "compact": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name",
+                    "props"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "kbd"
+                    },
+                    "props": {
+                      "type": "object",
+                      "required": [
+                        "text"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "text": {
+                          "type": "string",
+                          "maxLength": 1000
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name",
+                    "props"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "icon"
+                    },
+                    "props": {
+                      "type": "object",
+                      "required": [
+                        "icon"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "icon": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "label": {
+                          "type": "string",
+                          "maxLength": 1000
+                        },
+                        "size": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "filled": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "button"
+                    },
+                    "props": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "text": {
+                          "type": "string",
+                          "maxLength": 1000
+                        },
+                        "icon": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "appearance": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "scheme": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "size": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "props_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "open": {
+            "type": "boolean"
+          },
+          "layout": {
+            "enum": [
+              "surface",
+              "lines"
+            ]
+          }
+        }
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {
+        "default": {
+          "min": 0,
+          "max": 100,
+          "categories": [
+            "content",
+            "smart"
+          ]
+        }
+      },
+      "renderer": {
+        "kind": "builtin",
+        "name": "content.details"
+      },
+      "assets": [],
+      "capabilities": [
+        "html",
+        "rich-text"
+      ],
+      "mode": "composite"
+    },
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "content.tabs",
+      "version": "1.0.0",
+      "category": "content",
+      "profiles": [
+        "ui-layout",
+        "structured-content"
+      ],
+      "data_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          }
+        }
+      },
+      "props_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {
+        "tabs": {
+          "min": 1,
+          "max": 20,
+          "types": [
+            "content.tab"
+          ]
+        }
+      },
+      "renderer": {
+        "kind": "builtin",
+        "name": "content.tabs"
+      },
+      "assets": [
+        "component/tabs"
+      ],
+      "capabilities": [
+        "html"
+      ],
+      "mode": "composite"
+    },
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "content.tab",
+      "version": "1.0.0",
+      "category": "content",
+      "profiles": [
+        "ui-layout",
+        "structured-content"
+      ],
+      "data_schema": {
+        "type": "object",
+        "required": [
+          "label"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          }
+        }
+      },
+      "props_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {
+        "default": {
+          "min": 0,
+          "max": 100,
+          "categories": [
+            "content",
+            "smart"
+          ]
+        }
+      },
+      "renderer": {
+        "kind": "builtin",
+        "name": "content.tab"
+      },
+      "assets": [],
+      "capabilities": [
+        "html"
+      ],
+      "mode": "composite"
+    },
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "content.steps",
+      "version": "1.0.0",
+      "category": "content",
+      "profiles": [
+        "ui-layout",
+        "structured-content"
+      ],
+      "data_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "props_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "current": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "layout": {
+            "enum": [
+              "timeline",
+              "list"
+            ]
+          }
+        }
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {
+        "steps": {
+          "min": 1,
+          "max": 100,
+          "types": [
+            "content.step"
+          ]
+        }
+      },
+      "renderer": {
+        "kind": "builtin",
+        "name": "content.steps"
+      },
+      "assets": [
+        "component/procedure"
+      ],
+      "capabilities": [
+        "html"
+      ],
+      "mode": "composite"
+    },
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "content.step",
+      "version": "1.0.0",
+      "category": "content",
+      "profiles": [
+        "ui-layout",
+        "structured-content"
+      ],
+      "data_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "value"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "text"
+                    },
+                    "value": {
+                      "type": "string",
+                      "maxLength": 100000
+                    },
+                    "marks": {
+                      "type": "array",
+                      "uniqueItems": true,
+                      "items": {
+                        "enum": [
+                          "strong",
+                          "em",
+                          "code"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "href",
+                    "children"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "link"
+                    },
+                    "href": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2048
+                    },
+                    "children": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "type",
+                          "value"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "type": {
+                            "const": "text"
+                          },
+                          "value": {
+                            "type": "string",
+                            "maxLength": 100000
+                          },
+                          "marks": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                              "enum": [
+                                "strong",
+                                "em",
+                                "code"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "badge"
+                    },
+                    "props": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "text": {
+                          "type": "string",
+                          "maxLength": 1000
+                        },
+                        "icon": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "appearance": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "scheme": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "status": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "size": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "compact": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name",
+                    "props"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "kbd"
+                    },
+                    "props": {
+                      "type": "object",
+                      "required": [
+                        "text"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "text": {
+                          "type": "string",
+                          "maxLength": 1000
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name",
+                    "props"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "icon"
+                    },
+                    "props": {
+                      "type": "object",
+                      "required": [
+                        "icon"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "icon": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "label": {
+                          "type": "string",
+                          "maxLength": 1000
+                        },
+                        "size": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "filled": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "name"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "component"
+                    },
+                    "name": {
+                      "const": "button"
+                    },
+                    "props": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "text": {
+                          "type": "string",
+                          "maxLength": 1000
+                        },
+                        "icon": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "appearance": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "scheme": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        },
+                        "size": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_/-]{0,63}$"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "props_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {
+        "default": {
+          "min": 0,
+          "max": 100,
+          "categories": [
+            "content",
+            "smart"
+          ]
+        }
+      },
+      "renderer": {
+        "kind": "builtin",
+        "name": "content.step"
+      },
+      "assets": [],
+      "capabilities": [
+        "html",
+        "rich-text"
+      ],
+      "mode": "composite"
+    },
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "content.grid",
+      "version": "1.0.0",
+      "category": "content",
+      "profiles": [
+        "ui-layout",
+        "structured-content"
+      ],
+      "data_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "props_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "columns": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4
+          },
+          "gap": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4
+          }
+        }
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {
+        "default": {
+          "min": 1,
+          "max": 48,
+          "categories": [
+            "content",
+            "smart"
+          ]
+        }
+      },
+      "renderer": {
+        "kind": "builtin",
+        "name": "content.grid"
+      },
+      "assets": [],
+      "capabilities": [
+        "html"
+      ],
+      "mode": "composite"
+    },
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "content.card",
+      "version": "1.0.0",
+      "category": "content",
+      "profiles": [
+        "ui-layout",
+        "structured-content"
+      ],
+      "data_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "props_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "variant": {
+            "enum": [
+              "default",
+              "plain"
+            ]
+          }
+        }
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {
+        "default": {
+          "min": 0,
+          "max": 100,
+          "categories": [
+            "content",
+            "smart"
+          ]
+        }
+      },
+      "renderer": {
+        "kind": "builtin",
+        "name": "content.card"
+      },
+      "assets": [
+        "component/card"
+      ],
+      "capabilities": [
+        "html"
+      ],
+      "mode": "composite"
+    },
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "content.media",
+      "version": "1.0.0",
+      "category": "content",
+      "profiles": [
+        "ui-layout",
+        "structured-content"
+      ],
+      "data_schema": {
+        "type": "object",
+        "required": [
+          "src",
+          "alt"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "src": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          },
+          "alt": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "width": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100000
+          },
+          "height": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100000
+          }
+        }
+      },
+      "props_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "side": {
+            "enum": [
+              "left",
+              "right"
+            ]
+          },
+          "ratio": {
+            "enum": [
+              "1/1",
+              "4/3",
+              "3/2",
+              "16/9",
+              "21/9"
+            ]
+          }
+        }
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {
+        "default": {
+          "min": 0,
+          "max": 100,
+          "categories": [
+            "content",
+            "smart"
+          ]
+        }
+      },
+      "renderer": {
+        "kind": "builtin",
+        "name": "content.media"
+      },
+      "assets": [
+        "component/figure"
+      ],
+      "capabilities": [
+        "html"
+      ],
+      "mode": "composite"
+    },
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "content.file",
+      "version": "1.0.0",
+      "category": "content",
+      "profiles": [
+        "ui-layout",
+        "structured-content"
+      ],
+      "data_schema": {
+        "type": "object",
+        "required": [
+          "href"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          },
+          "href": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          },
+          "mime": {
+            "type": "string",
+            "maxLength": 255,
+            "pattern": "^[a-z0-9][a-z0-9!#$&^_.+-]{0,126}/[a-z0-9][a-z0-9!#$&^_.+-]{0,126}$"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        }
+      },
+      "props_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {},
+      "renderer": {
+        "kind": "builtin",
+        "name": "content.file"
+      },
+      "assets": [
+        "component/download-file"
+      ],
+      "capabilities": [
+        "html"
+      ],
+      "mode": "leaf"
+    },
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "content.html",
+      "version": "1.0.0",
+      "category": "content",
+      "profiles": [
+        "ui-layout",
+        "structured-content"
+      ],
+      "data_schema": {
+        "type": "object",
+        "required": [
+          "markup"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "markup": {
+            "type": "string",
+            "maxLength": 200000
+          }
+        }
+      },
+      "props_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {},
+      "renderer": {
+        "kind": "builtin",
+        "name": "content.html"
+      },
+      "assets": [],
+      "capabilities": [
+        "html"
+      ],
+      "mode": "leaf"
+    },
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "content.diagram",
+      "version": "1.0.0",
+      "category": "content",
+      "profiles": [
+        "ui-layout",
+        "structured-content"
+      ],
+      "data_schema": {
+        "type": "object",
+        "required": [
+          "source"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "source": {
+            "type": "string",
+            "maxLength": 200000
+          }
+        }
+      },
+      "props_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "engine": {
+            "enum": [
+              "mermaid"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {},
+      "renderer": {
+        "kind": "registered",
+        "name": "content.diagram"
+      },
+      "assets": [
+        "composition/diagram"
+      ],
+      "capabilities": [
+        "html"
+      ],
+      "mode": "leaf"
+    },
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "content.math",
+      "version": "1.0.0",
+      "category": "content",
+      "profiles": [
+        "ui-layout",
+        "structured-content"
+      ],
+      "data_schema": {
+        "type": "object",
+        "required": [
+          "source"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "source": {
+            "type": "string",
+            "maxLength": 200000
+          }
+        }
+      },
+      "props_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {},
+      "renderer": {
+        "kind": "registered",
+        "name": "content.math"
+      },
+      "assets": [
+        "composition/math"
+      ],
+      "capabilities": [
+        "html"
+      ],
+      "mode": "leaf"
+    },
+    {
+      "schema": "simai.composition.type-manifest",
+      "schema_version": 1,
+      "type": "content.outlet",
+      "version": "1.0.0",
+      "category": "content",
+      "profiles": [
+        "ui-layout"
+      ],
+      "data_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "props_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {},
+      "renderer": {
+        "kind": "builtin",
+        "name": "content.outlet"
+      },
+      "assets": [],
+      "capabilities": [
+        "html"
+      ],
+      "mode": "leaf"
+    }
+  ],
+  "content_item_parents": {
+    "content.list-item": "content.list",
+    "content.tab": "content.tabs",
+    "content.step": "content.steps"
+  }
+}

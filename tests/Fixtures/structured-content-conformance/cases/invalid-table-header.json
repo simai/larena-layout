@@ -1,0 +1,116 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "invalid-table-header",
+  "summary": "header is one of row, column, both, none.",
+  "covers": [
+    "content.table"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "t",
+              "type": "content.table",
+              "data": {
+                "rows": [
+                  [
+                    [
+                      {
+                        "type": "text",
+                        "value": "Name"
+                      }
+                    ],
+                    [
+                      {
+                        "type": "text",
+                        "value": "Size"
+                      }
+                    ],
+                    [
+                      {
+                        "type": "text",
+                        "value": "Note"
+                      }
+                    ]
+                  ],
+                  [
+                    [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ],
+                    [
+                      {
+                        "type": "text",
+                        "value": "1"
+                      }
+                    ],
+                    [
+                      {
+                        "type": "text",
+                        "value": "first",
+                        "marks": [
+                          "em"
+                        ]
+                      }
+                    ]
+                  ],
+                  [
+                    [
+                      {
+                        "type": "text",
+                        "value": "B"
+                      }
+                    ],
+                    [
+                      {
+                        "type": "text",
+                        "value": "2"
+                      }
+                    ],
+                    [
+                      {
+                        "type": "link",
+                        "href": "/b",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "second"
+                          }
+                        ]
+                      }
+                    ]
+                  ]
+                ]
+              },
+              "props": {
+                "header": "top"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": false,
+    "html": "",
+    "diagnostics": [
+      {
+        "code": "schema_enum",
+        "path": "$.root.slots.default[0].props.header"
+      }
+    ],
+    "assets": []
+  }
+}

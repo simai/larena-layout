@@ -1,0 +1,75 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "list-item-inline",
+  "summary": "An item's line is inline content.",
+  "covers": [
+    "content.list-item"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "l",
+              "type": "content.list",
+              "slots": {
+                "items": [
+                  {
+                    "id": "a",
+                    "type": "content.list-item",
+                    "data": {
+                      "content": [
+                        {
+                          "type": "text",
+                          "value": "Press "
+                        },
+                        {
+                          "type": "component",
+                          "name": "kbd",
+                          "props": {
+                            "text": "Enter"
+                          }
+                        },
+                        {
+                          "type": "text",
+                          "value": " then ",
+                          "marks": [
+                            "em"
+                          ]
+                        },
+                        {
+                          "type": "link",
+                          "href": "#next",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "go on"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><ul data-sf-composition-id=\"l\"><li data-sf-composition-id=\"a\">Press <kbd>Enter</kbd><em> then </em><a href=\"#next\">go on</a></li></ul></article>",
+    "diagnostics": [],
+    "assets": []
+  }
+}

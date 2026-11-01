@@ -1,0 +1,117 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "table-align",
+  "summary": "Alignment start writes nothing; center and end are styles on their cells.",
+  "covers": [
+    "content.table"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "t",
+              "type": "content.table",
+              "data": {
+                "rows": [
+                  [
+                    [
+                      {
+                        "type": "text",
+                        "value": "Name"
+                      }
+                    ],
+                    [
+                      {
+                        "type": "text",
+                        "value": "Size"
+                      }
+                    ],
+                    [
+                      {
+                        "type": "text",
+                        "value": "Note"
+                      }
+                    ]
+                  ],
+                  [
+                    [
+                      {
+                        "type": "text",
+                        "value": "A"
+                      }
+                    ],
+                    [
+                      {
+                        "type": "text",
+                        "value": "1"
+                      }
+                    ],
+                    [
+                      {
+                        "type": "text",
+                        "value": "first",
+                        "marks": [
+                          "em"
+                        ]
+                      }
+                    ]
+                  ],
+                  [
+                    [
+                      {
+                        "type": "text",
+                        "value": "B"
+                      }
+                    ],
+                    [
+                      {
+                        "type": "text",
+                        "value": "2"
+                      }
+                    ],
+                    [
+                      {
+                        "type": "link",
+                        "href": "/b",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "second"
+                          }
+                        ]
+                      }
+                    ]
+                  ]
+                ]
+              },
+              "props": {
+                "align": [
+                  "start",
+                  "center",
+                  "end"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><div class=\"table-frame\" data-sf-composition-id=\"t\"><table class=\"table\"><thead><tr><th scope=\"col\">Name</th><th scope=\"col\" style=\"text-align: center\">Size</th><th scope=\"col\" style=\"text-align: end\">Note</th></tr></thead><tbody><tr><td>A</td><td style=\"text-align: center\">1</td><td style=\"text-align: end\"><em>first</em></td></tr><tr><td>B</td><td style=\"text-align: center\">2</td><td style=\"text-align: end\"><a href=\"/b\">second</a></td></tr></tbody></table></div></article>",
+    "diagnostics": [],
+    "assets": [
+      "utility/table-frame"
+    ]
+  }
+}

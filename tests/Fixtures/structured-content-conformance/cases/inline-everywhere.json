@@ -1,0 +1,191 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "inline-everywhere",
+  "summary": "Inline content reads the same in every place that holds it: item, alert title, details summary, step title, table cell and caption, figure caption.",
+  "covers": [
+    "inline"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "g",
+              "type": "content.grid",
+              "props": {
+                "columns": 1
+              },
+              "slots": {
+                "default": [
+                  {
+                    "id": "l",
+                    "type": "content.list",
+                    "slots": {
+                      "items": [
+                        {
+                          "id": "li",
+                          "type": "content.list-item",
+                          "data": {
+                            "content": [
+                              {
+                                "type": "text",
+                                "value": "i",
+                                "marks": [
+                                  "em"
+                                ]
+                              },
+                              {
+                                "type": "component",
+                                "name": "kbd",
+                                "props": {
+                                  "text": "K"
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "id": "w",
+                    "type": "content.alert",
+                    "data": {
+                      "title": [
+                        {
+                          "type": "link",
+                          "href": "#a",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "alert",
+                              "marks": [
+                                "strong"
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "id": "x",
+                    "type": "content.details",
+                    "data": {
+                      "summary": [
+                        {
+                          "type": "text",
+                          "value": "sum",
+                          "marks": [
+                            "code"
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "id": "s",
+                    "type": "content.steps",
+                    "slots": {
+                      "steps": [
+                        {
+                          "id": "s1",
+                          "type": "content.step",
+                          "data": {
+                            "title": [
+                              {
+                                "type": "component",
+                                "name": "icon",
+                                "props": {
+                                  "icon": "check"
+                                }
+                              },
+                              {
+                                "type": "text",
+                                "value": " done"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "id": "t",
+                    "type": "content.table",
+                    "data": {
+                      "caption": [
+                        {
+                          "type": "text",
+                          "value": "cap",
+                          "marks": [
+                            "em"
+                          ]
+                        }
+                      ],
+                      "rows": [
+                        [
+                          [
+                            {
+                              "type": "link",
+                              "href": "/c",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "value": "cell"
+                                }
+                              ]
+                            }
+                          ]
+                        ]
+                      ]
+                    },
+                    "props": {
+                      "header": "none"
+                    }
+                  },
+                  {
+                    "id": "f",
+                    "type": "content.figure",
+                    "data": {
+                      "src": "/a.png",
+                      "alt": "",
+                      "caption": [
+                        {
+                          "type": "text",
+                          "value": "fig",
+                          "marks": [
+                            "strong"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><div class=\"grid grid-col-1 gap-2\" data-sf-composition-id=\"g\"><div class=\"min-w-0\"><ul data-sf-composition-id=\"l\"><li data-sf-composition-id=\"li\"><em>i</em><kbd>K</kbd></li></ul></div><div class=\"min-w-0\"><div class=\"sf-alert sf-alert--neutral sf-alert--default flex items-start\" data-sf-composition-id=\"w\"><i class=\"sf-icon\" aria-hidden=\"true\">info</i><div class=\"sf-alert-wrap flex flex-col flex-1\"><div class=\"sf-alert-content flex flex-col flex-1\"><div class=\"sf-alert-text\"><a href=\"#a\"><strong>alert</strong></a></div></div></div></div></div><div class=\"min-w-0\"><details class=\"bg-surface-0 border-1 border-solid border-outline-variant radius-2 p-2\" data-sf-composition-id=\"x\"><summary class=\"weight-5 cursor-pointer\"><code>sum</code></summary><div class=\"p-top-1\"></div></details></div><div class=\"min-w-0\"><ol class=\"sf-procedure\" data-sf-composition-id=\"s\"><li class=\"sf-procedure-step\" data-sf-composition-id=\"s1\"><div class=\"sf-procedure-title\"><sf-icon icon=\"check\"></sf-icon> done</div><div class=\"sf-procedure-content\"></div></li></ol></div><div class=\"min-w-0\"><div class=\"table-frame\" data-sf-composition-id=\"t\"><table class=\"table\"><caption><em>cap</em></caption><tbody><tr><td><a href=\"/c\">cell</a></td></tr></tbody></table></div></div><div class=\"min-w-0\"><figure class=\"sf-figure\" data-sf-composition-id=\"f\"><div class=\"sf-figure-media\"><img src=\"/a.png\" alt=\"\" loading=\"lazy\" decoding=\"async\"></div><figcaption class=\"sf-figure-caption\"><strong>fig</strong></figcaption></figure></div></div></article>",
+    "diagnostics": [],
+    "assets": [
+      "component/alerts",
+      "component/figure",
+      "component/procedure",
+      "utility/table-frame"
+    ]
+  }
+}

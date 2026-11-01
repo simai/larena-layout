@@ -1,0 +1,44 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "heading-level-4",
+  "summary": "A heading of level 4 is an h4.",
+  "covers": [
+    "content.heading"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "h",
+              "type": "content.heading",
+              "data": {
+                "level": 4,
+                "content": [
+                  {
+                    "type": "text",
+                    "value": "Level 4"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><h4 data-sf-composition-id=\"h\">Level 4</h4></article>",
+    "diagnostics": [],
+    "assets": []
+  }
+}

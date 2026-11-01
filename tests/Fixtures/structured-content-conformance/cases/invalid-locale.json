@@ -1,0 +1,36 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "invalid-locale",
+  "summary": "A locale that is not a language tag.",
+  "covers": [
+    "document"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "locale": "english please",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": []
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": false,
+    "html": "",
+    "diagnostics": [
+      {
+        "code": "locale_invalid",
+        "path": "$.locale"
+      }
+    ],
+    "assets": []
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "html-07",
+  "summary": "content.html cleans \"<a href=\\\"javascript:alert(1)\\\">js</a>\" to the html@1 subset.",
+  "covers": [
+    "content.html"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "h",
+              "type": "content.html",
+              "data": {
+                "markup": "<a href=\"javascript:alert(1)\">js</a>"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><div data-sf-composition-id=\"h\"><p>js</p></div></article>",
+    "diagnostics": [],
+    "assets": []
+  }
+}

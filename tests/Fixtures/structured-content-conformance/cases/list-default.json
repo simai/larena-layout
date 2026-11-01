@@ -1,0 +1,63 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "list-default",
+  "summary": "A list without parameters is unordered.",
+  "covers": [
+    "content.list"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "l",
+              "type": "content.list",
+              "slots": {
+                "items": [
+                  {
+                    "id": "a",
+                    "type": "content.list-item",
+                    "data": {
+                      "content": [
+                        {
+                          "type": "text",
+                          "value": "One"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "id": "b",
+                    "type": "content.list-item",
+                    "data": {
+                      "content": [
+                        {
+                          "type": "text",
+                          "value": "Two"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><ul data-sf-composition-id=\"l\"><li data-sf-composition-id=\"a\">One</li><li data-sf-composition-id=\"b\">Two</li></ul></article>",
+    "diagnostics": [],
+    "assets": []
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "inline-link-dot-relative",
+  "summary": "A ./ and ../ link.",
+  "covers": [
+    "inline"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "p",
+              "type": "content.paragraph",
+              "data": {
+                "content": [
+                  {
+                    "type": "link",
+                    "href": "./a",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "here"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "value": " "
+                  },
+                  {
+                    "type": "link",
+                    "href": "../b",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "up"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><p data-sf-composition-id=\"p\"><a href=\"./a\">here</a> <a href=\"../b\">up</a></p></article>",
+    "diagnostics": [],
+    "assets": []
+  }
+}

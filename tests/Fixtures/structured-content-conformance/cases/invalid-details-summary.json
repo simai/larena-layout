@@ -1,0 +1,41 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "invalid-details-summary",
+  "summary": "Details need their summary.",
+  "covers": [
+    "content.details"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "x",
+              "type": "content.details",
+              "data": {}
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": false,
+    "html": "",
+    "diagnostics": [
+      {
+        "code": "schema_required",
+        "path": "$.root.slots.default[0].data.summary"
+      }
+    ],
+    "assets": []
+  }
+}

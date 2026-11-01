@@ -1,0 +1,53 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "table-empty-cell",
+  "summary": "A cell may be empty.",
+  "covers": [
+    "content.table"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "t",
+              "type": "content.table",
+              "data": {
+                "rows": [
+                  [
+                    [
+                      {
+                        "type": "text",
+                        "value": "a"
+                      }
+                    ],
+                    []
+                  ]
+                ]
+              },
+              "props": {
+                "header": "none"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><div class=\"table-frame\" data-sf-composition-id=\"t\"><table class=\"table\"><tbody><tr><td>a</td><td></td></tr></tbody></table></div></article>",
+    "diagnostics": [],
+    "assets": [
+      "utility/table-frame"
+    ]
+  }
+}

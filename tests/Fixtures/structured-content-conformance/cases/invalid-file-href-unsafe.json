@@ -1,0 +1,43 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "invalid-file-href-unsafe",
+  "summary": "A file address follows the URL rule.",
+  "covers": [
+    "content.file"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "fl",
+              "type": "content.file",
+              "data": {
+                "href": "javascript:alert(1)"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": false,
+    "html": "",
+    "diagnostics": [
+      {
+        "code": "unsafe_url",
+        "path": "$.root.slots.default[0].data.href"
+      }
+    ],
+    "assets": []
+  }
+}

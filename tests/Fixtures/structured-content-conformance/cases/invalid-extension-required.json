@@ -1,0 +1,40 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "invalid-extension-required",
+  "summary": "A required extension this renderer does not know.",
+  "covers": [
+    "document"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "extensions": {
+        "vendor.example:feature": {
+          "required": true
+        }
+      },
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": []
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": false,
+    "html": "",
+    "diagnostics": [
+      {
+        "code": "extension_required_unknown",
+        "path": "$.extensions.vendor.example:feature"
+      }
+    ],
+    "assets": []
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "code-escaped",
+  "summary": "Code is text: markup in it is escaped, white space kept.",
+  "covers": [
+    "content.code"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "k",
+              "type": "content.code",
+              "data": {
+                "code": "<script>alert(\"x\")</script>\n  if (a < b && c > d) {}\n"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><div class=\"sf-highlight\" data-sf-composition-id=\"k\"><pre><code>&lt;script&gt;alert(&quot;x&quot;)&lt;/script&gt;\n  if (a &lt; b &amp;&amp; c &gt; d) {}\n</code></pre></div></article>",
+    "diagnostics": [],
+    "assets": [
+      "component/highlight"
+    ]
+  }
+}

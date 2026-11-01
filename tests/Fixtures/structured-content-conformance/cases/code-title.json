@@ -1,0 +1,43 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "code-title",
+  "summary": "A title makes a figure with a caption, escaped.",
+  "covers": [
+    "content.code"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "k",
+              "type": "content.code",
+              "data": {
+                "code": "x"
+              },
+              "props": {
+                "title": "a <b> & \"c\""
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><figure class=\"flex flex-col gap-1/2 m-0\" data-sf-composition-id=\"k\"><figcaption class=\"text-1/2 weight-5 color-on-surface-variant\">a &lt;b&gt; &amp; &quot;c&quot;</figcaption><div class=\"sf-highlight\"><pre><code>x</code></pre></div></figure></article>",
+    "diagnostics": [],
+    "assets": [
+      "component/highlight"
+    ]
+  }
+}

@@ -32,6 +32,7 @@
     "phpstan/phpstan": "^2.0"
   },
   "suggest": {
+    "ext-intl": "File sizes in structured content read in the page's language (CLDR grouping and decimal marks) through ICU; without it they read as plain numbers.",
     "larena/setting": "A site's template and areas as settings (LayoutSettingDefinitions), registered only where Setting is installed.",
     "larena/property": "The blocks of a Property content@1 value (a site page's blocks): Layout checks them against its block components (PageContentBlockValidator) and registers the check into the Property type registry. Only where Property is installed; without it Layout runs as before."
   },

@@ -1,0 +1,57 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "invalid-slot-unknown",
+  "summary": "A slot the type does not have.",
+  "covers": [
+    "document"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "q",
+              "type": "content.quote",
+              "slots": {
+                "default": [
+                  {
+                    "id": "a",
+                    "type": "content.paragraph",
+                    "data": {
+                      "content": [
+                        {
+                          "type": "text",
+                          "value": "x"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "aside": []
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": false,
+    "html": "",
+    "diagnostics": [
+      {
+        "code": "slot_unknown",
+        "path": "$.root.slots.default[0].slots.aside"
+      }
+    ],
+    "assets": []
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "invalid-profile",
+  "summary": "An unknown profile.",
+  "covers": [
+    "document"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "markdown",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": []
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": false,
+    "html": "",
+    "diagnostics": [
+      {
+        "code": "profile_unknown",
+        "path": "$.profile"
+      },
+      {
+        "code": "type_profile_unsupported",
+        "path": "$.root.type"
+      }
+    ],
+    "assets": []
+  }
+}

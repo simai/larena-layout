@@ -1,0 +1,46 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "invalid-tab-parent",
+  "summary": "A tab stands only in tabs.",
+  "covers": [
+    "content.tab"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "t",
+              "type": "content.tab",
+              "data": {
+                "label": "x"
+              },
+              "slots": {
+                "default": []
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": false,
+    "html": "",
+    "diagnostics": [
+      {
+        "code": "content_parent_invalid",
+        "path": "$.root.slots.default[0]"
+      }
+    ],
+    "assets": []
+  }
+}

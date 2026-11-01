@@ -1,0 +1,40 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "code-default",
+  "summary": "Code without parameters: pre and code, no language.",
+  "covers": [
+    "content.code"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "k",
+              "type": "content.code",
+              "data": {
+                "code": "plain text"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><div class=\"sf-highlight\" data-sf-composition-id=\"k\"><pre><code>plain text</code></pre></div></article>",
+    "diagnostics": [],
+    "assets": [
+      "component/highlight"
+    ]
+  }
+}

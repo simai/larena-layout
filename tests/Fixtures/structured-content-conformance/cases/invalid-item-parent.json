@@ -1,0 +1,48 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "invalid-item-parent",
+  "summary": "An item stands only in a list.",
+  "covers": [
+    "content.list-item"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "i",
+              "type": "content.list-item",
+              "data": {
+                "content": [
+                  {
+                    "type": "text",
+                    "value": "x"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": false,
+    "html": "",
+    "diagnostics": [
+      {
+        "code": "content_parent_invalid",
+        "path": "$.root.slots.default[0]"
+      }
+    ],
+    "assets": []
+  }
+}

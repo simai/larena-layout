@@ -1,0 +1,68 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "inline-atom-badge",
+  "summary": "The badge atom draws sf-badge with its props; true is a bare attribute, false is left out.",
+  "covers": [
+    "inline"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "p",
+              "type": "content.paragraph",
+              "data": {
+                "content": [
+                  {
+                    "type": "text",
+                    "value": "New "
+                  },
+                  {
+                    "type": "component",
+                    "name": "badge",
+                    "props": {
+                      "text": "beta",
+                      "icon": "star",
+                      "appearance": "outlined",
+                      "scheme": "primary",
+                      "status": "info",
+                      "size": "1/2",
+                      "compact": true
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": " "
+                  },
+                  {
+                    "type": "component",
+                    "name": "badge",
+                    "props": {
+                      "text": "off",
+                      "compact": false
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><p data-sf-composition-id=\"p\">New <sf-badge text=\"beta\" icon=\"star\" appearance=\"outlined\" scheme=\"primary\" status=\"info\" size=\"1/2\" compact></sf-badge> <sf-badge text=\"off\"></sf-badge></p></article>",
+    "diagnostics": [],
+    "assets": []
+  }
+}

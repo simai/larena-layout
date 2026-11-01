@@ -1,0 +1,42 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "file-icon-archive",
+  "summary": "The icon of application/zip.",
+  "covers": [
+    "content.file"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "fl",
+              "type": "content.file",
+              "data": {
+                "href": "/f",
+                "label": "File",
+                "mime": "application/zip"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><a class=\"sf-download-file\" href=\"/f\" download type=\"application/zip\" data-sf-composition-id=\"fl\"><span class=\"sf-download-file__body sf-download-file-wrap\"><span class=\"sf-download-file__main sf-download-file-container\"><i class=\"sf-download-file__icon sf-icon\" aria-hidden=\"true\">folder_zip</i><span class=\"sf-download-file__name sf-download-file-file-name\">File</span></span></span></a></article>",
+    "diagnostics": [],
+    "assets": [
+      "component/download-file"
+    ]
+  }
+}

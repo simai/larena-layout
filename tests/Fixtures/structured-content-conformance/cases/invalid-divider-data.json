@@ -1,0 +1,43 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "invalid-divider-data",
+  "summary": "A divider has no data.",
+  "covers": [
+    "content.divider"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "d",
+              "type": "content.divider",
+              "data": {
+                "label": "x"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": false,
+    "html": "",
+    "diagnostics": [
+      {
+        "code": "schema_additional_property",
+        "path": "$.root.slots.default[0].data.label"
+      }
+    ],
+    "assets": []
+  }
+}

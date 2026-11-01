@@ -1,0 +1,50 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "inline-atom-button",
+  "summary": "The button atom.",
+  "covers": [
+    "inline"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "p",
+              "type": "content.paragraph",
+              "data": {
+                "content": [
+                  {
+                    "type": "component",
+                    "name": "button",
+                    "props": {
+                      "text": "Open",
+                      "icon": "open_in_new",
+                      "appearance": "outlined",
+                      "scheme": "primary",
+                      "size": "1"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><p data-sf-composition-id=\"p\"><sf-button text=\"Open\" icon=\"open_in_new\" appearance=\"outlined\" scheme=\"primary\" size=\"1\"></sf-button></p></article>",
+    "diagnostics": [],
+    "assets": []
+  }
+}

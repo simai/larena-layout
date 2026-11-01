@@ -1,0 +1,44 @@
+{
+  "schema": "simai.composition.structured-content-conformance-case",
+  "schema_version": 1,
+  "id": "figure-ratio-1x1",
+  "summary": "ratio 1/1.",
+  "covers": [
+    "content.figure"
+  ],
+  "input": {
+    "document": {
+      "schema": "simai.composition.document",
+      "schema_version": 1,
+      "id": "page",
+      "profile": "structured-content",
+      "root": {
+        "id": "root",
+        "type": "content.document",
+        "slots": {
+          "default": [
+            {
+              "id": "f",
+              "type": "content.figure",
+              "data": {
+                "src": "/images/a.webp",
+                "alt": "A scene"
+              },
+              "props": {
+                "ratio": "1/1"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "html": "<article data-sf-composition-id=\"root\"><figure class=\"sf-figure sf-figure--ratio-1x1\" data-sf-composition-id=\"f\"><div class=\"sf-figure-media\"><img src=\"/images/a.webp\" alt=\"A scene\" loading=\"lazy\" decoding=\"async\"></div></figure></article>",
+    "diagnostics": [],
+    "assets": [
+      "component/figure"
+    ]
+  }
+}

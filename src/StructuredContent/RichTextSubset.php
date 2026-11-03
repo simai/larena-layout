@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Larena\Layout\StructuredContent;
 
 /**
- * The html@1 subset of sf-rich-text, the rule content.html is cleaned by at render: the SIMAI Framework's
+ * The html@1 subset of sf-input-rich, the rule content.html is cleaned by at render: the SIMAI Framework's
  * html-subset.mjs (its string reader `parseHtml`, the cleaner and the writer) read the same way on a server.
  *
  *   p  h2  h3  h4  strong  em  a[href]  ul  ol  li  blockquote  br

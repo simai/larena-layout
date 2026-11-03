@@ -28,7 +28,7 @@ final class Renderer
         4 => 'grid-col-1 md:grid-col-2 lg:grid-col-4',
     ];
 
-    // The icon of a file's kind, by its media type: sf-download-file's own glyph when the type says nothing.
+    // The icon of a file's kind, by its media type: sf-file-download's own glyph when the type says nothing.
     private const FILE_ICONS = [
         ['~^application/pdf$~D', 'picture_as_pdf'],
         ['~^image/~', 'image'],
@@ -387,7 +387,7 @@ final class Renderer
         return 'download';
     }
 
-    // sf-download-file's row, drawn as a plain link: it downloads with no script, the name falls back to the
+    // sf-file-download's row, drawn as a plain link: it downloads with no script, the name falls back to the
     // address's last part, and the size reads in the Document's language.
     private function file(stdClass $node): string
     {

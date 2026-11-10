@@ -9,7 +9,9 @@ use InvalidArgumentException;
 /**
  * The templates a site page may stand in (sites plan, stage 6, decision by recommendation: Blade templates a package
  * declares): each a view with the areas it shows. Layout declares two; another package adds its own with register().
- * A template receives `areas` (an HtmlString by area, empty ones left out) and `main`, the page's own part.
+ * A template receives `areas` (an HtmlString by area, empty ones left out) and `main`, the page's own part; it stands them
+ * in the SIMAI Framework's declared regions (layout.region with its landmark: banner, main, complementary, contentinfo),
+ * marked up as the structured-content Renderer draws them, the page's own part in the one `main` landmark.
  *
  * The chosen template is the setting `layout.template`; what stands in an area is its setting `layout.area.<area>`.
  */

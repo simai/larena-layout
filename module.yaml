@@ -45,3 +45,15 @@ evidence:
     - docs/project-management/evidence/larena-minimal-cms-v1-b11
     - docs/project-management/evidence/frontend-composition/batch-0/layout-clean-baseline/
     - docs/project-management/evidence/frontend-composition/batch-1/layout-current/
+delivery:
+  publisher: simai
+  distribution: open
+  license: Apache-2.0
+  requires:
+    larena: dev-main
+    packages: {}
+  capabilities:
+    - larena.capability.layout.base
+  requires_capabilities: []
+  data_on_removal: kept_read_only
+  migrations_reversible: true

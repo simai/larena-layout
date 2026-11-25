@@ -377,7 +377,8 @@
     "tests/Fixtures/structured-content-conformance/cases/tabs-one.json",
     "tests/Fixtures/structured-content-conformance/manifest.json",
     "tests/Fixtures/structured-content-conformance/normalization.json",
-    "tests/Fixtures/structured-content-conformance/normalize-html.mjs"
+    "tests/Fixtures/structured-content-conformance/normalize-html.mjs",
+    "scripts/check-delivery-manifest.php"
   ],
   "forbidden_files": [
     "config/*",
